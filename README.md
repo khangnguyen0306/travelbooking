@@ -23,7 +23,6 @@ This project leverages a variety of technologies to deliver a robust hotel booki
 - **Frontend**:
   - ![ReactJS](https://img.icons8.com/color/48/000000/react-native.png) ReactJS
   - ![Redux](https://img.icons8.com/color/48/000000/redux.png) Redux
-  - ![Redux Toolkit](https://img.icons8.com/color/48/000000/redux.png) Redux Toolkit
   - ![Ant Design](https://img.icons8.com/color/48/000000/ant-design.png) Ant Design
   - ![SCSS](https://img.icons8.com/color/48/000000/sass.png) SCSS
 
