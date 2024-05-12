@@ -44,7 +44,7 @@ Ready to explore our project? Follow these simple steps to get started:
 1. Clone the repository: `git clone <repository_url>`
 2. Navigate to the frontend directory: `cd frontend`
 3. Install dependencies: `npm install`
-4. Start the frontend server: `npm start`
+4. Start the frontend server: `npm run dev`
 5. Navigate to the backend directory: `cd backend`
 6. Install dependencies: `mvn install`
 7. Start the backend server: `mvn spring-boot:run`
