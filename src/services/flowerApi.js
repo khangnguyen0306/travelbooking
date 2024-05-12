@@ -12,46 +12,46 @@ export const flowerApi = createApi({
     // and the expected query argument. If there is no argument, use `void`
     // for the argument type instead.
     getFlowers: builder.query({
-      query: () => `flowerManagement`,
+      query: () => `flower`,
       // `providesTags` determines which 'tag' is attached to the
       // cached data returned by the query.
       providesTags: (result, _error, _arg) =>
         result
           ? [
-              ...result.map(({ id }) => ({ type: "flowerManagement", id })),
-              { type: "FlowerList", id: "LIST" },
+              ...result.map(({ id }) => ({ type: "flower", id })),
+              { type: "flower", id: "LIST" },
             ]
-          : [{ type: "FlowerList", id: "LIST" }],
+          : [{ type: "flower", id: "LIST" }],
     }),
     addFlower: builder.mutation({
       query: (body) => {
         return {
           method: "POST",
-          url: `flowerManagement`,
+          url: `flower`,
           body,
         };
       },
-      invalidatesTags: [{ type: "FlowerList", id: "LIST" }],
+      invalidatesTags: [{ type: "flower", id: "LIST" }],
     }),
     editFlower: builder.mutation({
       query: (payload) => {
         return {
           method: "PUT",
-          url: `flowerManagement/` + payload.id,
+          url: `flower/` + payload.id,
           body: payload.body,
         };
       },
-      invalidatesTags: (res, err, arg) => [{ type: "FlowerList", id: arg.id }],
+      invalidatesTags: (res, err, arg) => [{ type: "flower", id: arg.id }],
     }),
     deleteFlower: builder.mutation({
       query: (payload) => {
         return {
           method: "DELETE",
-          url: `flowerManagement/` + payload.id,
+          url: `flower/` + payload.id,
         };
       },
       invalidatesTags: (_res, _err, _arg) => [
-        { type: "FlowerList", id: "LIST" },
+        { type: "flower", id: "LIST" },
       ],
     }),
   }),
