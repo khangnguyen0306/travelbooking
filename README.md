@@ -2,8 +2,6 @@
 
 Welcome to our Hotel Booking Website project! This application is designed to provide users with a seamless experience in searching, booking, and managing hotel reservations. Built with modern technologies, it offers a responsive and user-friendly interface.
 
-![Hotel Booking Website]([https://your-website.com/preview.png](https://demo.goodlayers.com/traveltour/homepages/main5/))
-
 ## Table of Contents
 - [Team Members](#team-members)
 - [Technologies Used](#technologies-used)
@@ -23,14 +21,14 @@ Meet the talented individuals behind this project:
 ## Technologies Used
 This project leverages a variety of technologies to deliver a robust hotel booking experience:
 - **Frontend**:
-  - ReactJS
-  - Redux
-  - Redux Toolkit
-  - Ant Design
-  - SCSS
+  - ![ReactJS](https://img.icons8.com/color/48/000000/react-native.png) ReactJS
+  - ![Redux](https://img.icons8.com/color/48/000000/redux.png) Redux
+  - ![Redux Toolkit](https://img.icons8.com/color/48/000000/redux.png) Redux Toolkit
+  - ![Ant Design](https://img.icons8.com/color/48/000000/ant-design.png) Ant Design
+  - ![SCSS](https://img.icons8.com/color/48/000000/sass.png) SCSS
 
 - **Backend**:
-  - Spring Boot
+  - ![Spring Boot](https://img.icons8.com/color/48/000000/spring-logo.png) Spring Boot
 
 ## Features
 Our hotel booking website offers the following features:
