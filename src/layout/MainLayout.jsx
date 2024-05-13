@@ -18,6 +18,7 @@ import {
 } from "antd";
 import useSider from "@/hooks/useSider";
 import { Link, useLocation } from "react-router-dom";
+import CustomHeader from "../components/Header/CustomHeader";
 
 const { Header, Sider, Content } = Layout;
 
@@ -32,11 +33,9 @@ const MainLayout = () => {
   const siderList = useSider();
   return (
     <Layout
-      style={{
-        height: "100vh",
-      }}
+
     >
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      {/* <Sider trigger={null} collapsible collapsed={collapsed}>
         <div
           style={{
             height: "100%",
@@ -66,9 +65,9 @@ const MainLayout = () => {
             ]}
           />
         </div>
-      </Sider>
-      <Layout>
-        <Header
+      </Sider> */}
+
+      {/* <Header
           style={{
             padding: 0,
             background: colorBgContainer,
@@ -77,8 +76,8 @@ const MainLayout = () => {
             alignItems: "center",
             paddingRight: 20,
           }}
-        >
-          <Button
+        > */}
+      {/* <Button
             type="text"
             icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
             onClick={() => setCollapsed(!collapsed)}
@@ -87,8 +86,8 @@ const MainLayout = () => {
               width: 64,
               height: 64,
             }}
-          />
-          <Badge.Ribbon
+          /> */}
+      {/* <Badge.Ribbon
             color={"pink"}
             text={
               <span
@@ -131,22 +130,23 @@ const MainLayout = () => {
                 }}
               />
             </Dropdown>
-          </Badge.Ribbon>
-        </Header>
-        <Content
-          style={{
-            display: "flex",
-            margin: "16px 16px",
-            padding: 12,
-            minHeight: 280,
-            background: other.colorBorderSecondary,
-            borderRadius: borderRadiusLG,
-          }}
-        >
-          <Outlet />
-        </Content>
-      </Layout>
+          </Badge.Ribbon> */}
+      {/* </Header> */}
+      <CustomHeader />
+      <Content
+        style={{
+          display: "flex",
+          margin: "75px 16px",
+          padding: 50,
+          minHeight: 500,
+          background: other.colorBorderSecondary,
+          borderRadius: borderRadiusLG,
+        }}
+      >
+        <Outlet />
+      </Content>
     </Layout>
+
   );
 };
 

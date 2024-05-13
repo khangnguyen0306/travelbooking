@@ -71,6 +71,7 @@ function Dashboard() {
       <br />
       <h1>List of Flower: </h1>
       {data && data.map((el) => <div key={el.id}>{el.name}</div>)}
+      <div style={{height:'400px'}}></div>
     </div>
   );
 }
