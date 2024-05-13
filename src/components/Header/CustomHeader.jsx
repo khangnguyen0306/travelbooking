@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Layout, Menu } from "antd";
+import { Button, Layout, Menu } from "antd";
 import "./CustomHeader.scss"; // Import SCSS file
 
 const { Header } = Layout;
@@ -25,7 +25,7 @@ const CustomHeader = () => {
 
     return (
         <Header id="header" className={visible ? "show" : "hidden"}>
-            {/* <div className="logo" /> */}
+            {/* <div className="logo" style={{ backgroundColor: 'red' }} /> */}
             <Menu mode="horizontal" defaultSelectedKeys={["1"]}>
                 <Menu.Item key="1">
                     <Link to="/"> Dashboard</Link>
@@ -37,6 +37,7 @@ const CustomHeader = () => {
                     <Link to="admin">Admin</Link>
                 </Menu.Item>
             </Menu>
+       
         </Header>
     );
 };
