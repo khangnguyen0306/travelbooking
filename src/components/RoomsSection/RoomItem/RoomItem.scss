@@ -1,0 +1,65 @@
+.room-item {
+  position: relative;
+  margin: 0 40px 0 0;
+
+  .room-name {
+    color: black;
+    font-size: 23px;
+    font-weight: bold;
+  }
+
+  .feedback {
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    font-size: 11px;
+
+    .rate {
+      font-size: 11px;
+      margin-right: 12px;
+    }
+
+    .review {
+      color: #8c8c8c;
+    }
+  }
+
+  .type {
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    color: #848484;
+
+    .icon {
+      margin-right: 12px;
+      font-size: 28px;
+    }
+
+    .type-name {
+      font-size: 14px;
+    }
+  }
+
+  .price {
+    color: #282828;
+    font-size: 23px;
+    font-weight: bold;
+
+    .old {
+      font-size: 14px;
+      font-weight: 400;
+      text-decoration: line-through;
+    }
+  }
+
+  .discount {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 8px 12px;
+    background-color: #5c98f2;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+  }
+}
