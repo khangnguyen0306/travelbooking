@@ -10,6 +10,8 @@ import "./Dashboard.scss"
 import IMG from '../../assets/img-home.jpg';
 import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import Rental from "../../components/HomePage/Rental/Rental";
+import RoomsSection from "../../components/RoomsSection";
 function Dashboard() {
   const VietnameseProvinces = [
     "An Giang",
@@ -183,6 +185,8 @@ function Dashboard() {
         </div>
       </Row>
 
+      <RoomsSection />
+      <Rental />
       {/* <h1>Create Flower: </h1>
       <Form
         labelCol={{ span: 5 }}
