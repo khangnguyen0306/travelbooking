@@ -1,3 +1,4 @@
+import Rental from "../../components/HomePage/Rental/Rental";
 import { Input } from 'antd'
 import FormItem from 'antd/es/form/FormItem'
 import React from 'react'
@@ -47,6 +48,7 @@ const Home = () => {
       <br />
       <h1>List of Flower: </h1>
       <RoomsSection />
+      <Rental />
     </div>
   )
 }
