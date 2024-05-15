@@ -1,0 +1,32 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+
+#Logo-footer {
+    color: #fff;
+    font-size: 27px;
+    padding-left: 3rem;
+    font-family: $font-title;
+    font-weight: 300;
+
+    span {
+        color: $blue-main-color;
+    }
+}
+
+.Footer-container-content {
+
+    .Footer-title-container {
+        color: #fff;
+        font-size: 27px;
+        font-family: $font-title;
+        font-weight: 300;
+       
+    }
+
+    .Footer-content-container {
+        font-size: 16px;
+        color: #9a9a9a;
+        padding: 10px 0;
+    }
+}
