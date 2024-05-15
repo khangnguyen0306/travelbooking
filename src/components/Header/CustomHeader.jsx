@@ -30,7 +30,7 @@ const CustomHeader = () => {
         <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1' }}>
             <Link to={"/"}>
                 <div className="header-logo">
-                    <p><span style={{ color: 'black' }}>Travel</span> <span st>Tour</span></p>
+                    <p><span style={{ color: 'black' }}>Travel</span> <span >Tour</span></p>
                 </div>
             </Link>
             {screens.md ? (

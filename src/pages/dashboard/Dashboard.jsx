@@ -3,79 +3,16 @@ import {
   useGetFlowersQuery,
   useAddFlowerMutation,
 } from "../../services/flowerApi";
-import FormItem from "antd/es/form/FormItem";
-import Meta from "antd/es/card/Meta";
-import { ImportFile } from "../../assets/importSVG";
 import "./Dashboard.scss"
 import IMG from '../../assets/img-home.jpg';
 import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
+import Rental from "../../components/HomePage/Rental/Rental";
+import GetContact from "../../components/HomePage/Getcontact/GetContact";
+import RoomsSection from "../../components/RoomsSection";
+import { VietnameseProvinces } from "../../utils/utils";
 function Dashboard() {
-  const VietnameseProvinces = [
-    "An Giang",
-    "Bà Rịa - Vũng Tàu",
-    "Bắc Giang",
-    "Bắc Kạn",
-    "Bạc Liêu",
-    "Bắc Ninh",
-    "Bến Tre",
-    "Bình Định",
-    "Bình Dương",
-    "Bình Phước",
-    "Bình Thuận",
-    "Cà Mau",
-    "Cao Bằng",
-    "Đắk Lắk",
-    "Đắk Nông",
-    "Điện Biên",
-    "Đồng Nai",
-    "Đồng Tháp",
-    "Gia Lai",
-    "Hà Giang",
-    "Hà Nam",
-    "Hà Tĩnh",
-    "Hải Dương",
-    "Hậu Giang",
-    "Hòa Bình",
-    "Hưng Yên",
-    "Khánh Hòa",
-    "Kiên Giang",
-    "Kon Tum",
-    "Lai Châu",
-    "Lâm Đồng",
-    "Lạng Sơn",
-    "Lào Cai",
-    "Long An",
-    "Nam Định",
-    "Nghệ An",
-    "Ninh Bình",
-    "Ninh Thuận",
-    "Phú Thọ",
-    "Quảng Bình",
-    "Quảng Nam",
-    "Quảng Ngãi",
-    "Quảng Ninh",
-    "Quảng Trị",
-    "Sóc Trăng",
-    "Sơn La",
-    "Tây Ninh",
-    "Thái Bình",
-    "Thái Nguyên",
-    "Thanh Hóa",
-    "Thừa Thiên Huế",
-    "Tiền Giang",
-    "Trà Vinh",
-    "Tuyên Quang",
-    "Vĩnh Long",
-    "Vĩnh Phúc",
-    "Yên Bái",
-    "Phú Yên",
-    "Cần Thơ",
-    "Đà Nẵng",
-    "Hải Phòng",
-    "Hà Nội",
-    "TP Hồ Chí Minh"
-  ];
+
   const { data, isLoading } = useGetFlowersQuery();
   const [keywords, setKeywords] = useState('');
   const [destination, setDestination] = useState('');
@@ -183,43 +120,9 @@ function Dashboard() {
         </div>
       </Row>
 
-      {/* <h1>Create Flower: </h1>
-      <Form
-        labelCol={{ span: 5 }}
-        wrapperCol={{ flex: 1 }}
-        layout="horizontal"
-        style={{
-          marginTop: 20,
-          maxHeight: "400px",
-          overflowY: "auto",
-          padding: "4px 0",
-        }}
-        onFinish={onSubmit}
-      >
-        <FormItem
-          key={"nam_1"}
-          // control={control}
-          name={"name"}
-          label={
-            <span
-              style={{
-                textTransform: "capitalize",
-                fontWeight: 500,
-              }}
-            >
-              name
-            </span>
-          }
-        >
-          <Input onChange={onChange} placeholder={`Type name here . . .`} />
-        </FormItem>
-        <button type="submit">Create</button>
-      </Form>
-
-      <br />
-      <h1>List of Flower: </h1>
-      {data && data.map((el) => <div key={el.id}>{el.name}</div>)}
-      <div style={{ height: '400px' }}></div>*/}
+      <RoomsSection />
+      <Rental />
+      <GetContact />
     </div>
   );
 }
