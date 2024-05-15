@@ -11,6 +11,7 @@ import Rental from "../../components/HomePage/Rental/Rental";
 import GetContact from "../../components/HomePage/Getcontact/GetContact";
 import RoomsSection from "../../components/RoomsSection";
 import { VietnameseProvinces } from "../../utils/utils";
+
 function Dashboard() {
 
   const { data, isLoading } = useGetFlowersQuery();
@@ -123,6 +124,7 @@ function Dashboard() {
       <RoomsSection />
       <Rental />
       <GetContact />
+
     </div>
   );
 }
