@@ -6,7 +6,8 @@ const RoomList = () => {
     console.log(roomdata);
     return (
         <div>
-            hi
+            <h1>Room List</h1>
+            {isLoading ? <div>Rooms are loading</div> : <div>{roomdata.map(room => <div>{room.name}</div>)}</div>}
         </div>
     )
 }

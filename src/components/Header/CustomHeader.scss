@@ -7,7 +7,7 @@ $blue-main-color: #5c98f2;
     top: 0;
     width: 100%;
     transition: top 0.3s;
-    background-color: rgba($color: #f5f5f5, $alpha: 0.6);
+    background-color: rgba($color: #f5f5f5, $alpha: 0.9);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -16,7 +16,7 @@ $blue-main-color: #5c98f2;
     .ant-menu-overflow {
         font-size: 16px;
         font-family: $font-content;
-        background-color: rgba($color: #f5f5f5, $alpha: 0.6);
+        background-color: rgba($color: #f5f5f5, $alpha: 0.9);
     }
 
     &.hidden {

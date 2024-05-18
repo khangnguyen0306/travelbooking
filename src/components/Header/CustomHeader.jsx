@@ -30,7 +30,7 @@ const CustomHeader = () => {
         <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1' }}>
             <Link to={"/"}>
                 <div className="header-logo">
-                    <p><span style={{ color: 'black' }}>Travel</span> <span st>Tour</span></p>
+                    <p><span style={{ color: 'black' }}>Travel</span> <span >Tour</span></p>
                 </div>
             </Link>
             {screens.md ? (
@@ -51,7 +51,7 @@ const CustomHeader = () => {
                             <Link to="admin">Tour List</Link>
                         </Menu.Item>
                         <Menu.Item key="4">
-                            <Link to="/"> Room List </Link>
+                            <Link to="/room-list"> Room List </Link>
                         </Menu.Item>
                         <Menu.Item key="5">
                             <Link to="home">Tour Search</Link>
