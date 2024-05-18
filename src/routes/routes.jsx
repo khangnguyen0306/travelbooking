@@ -18,39 +18,40 @@ export const router = createBrowserRouter([
     element: Login,
   },
   {
-    path: "/",
-    element: <AuthGuard />,
-
+    element: <MainLayout />,
     children: [
       {
-        element: <MainLayout />,
+        path: "/",
+        element: <AuthGuard />,
         children: [
           {
-            index: true,
-            element: Dashboard,
-          },
-          {
-            path: "home",
-            element: Home,
-          },
-          {
-            path: "admin",
-            element: Admin,
+            children: [
+              {
+                index: true,
+                element: Dashboard,
+              },
+              {
+                path: "home",
+                element: Home,
+              },
+              {
+                path: "admin",
+                element: Admin,
+              },
+
+            ],
           },
 
         ],
+
+      },
+      {
+        path: "/hotel-list",
+        element: HotelList,
       },
 
-    ],
-
-  },
-  {
-    path: "/hotel-list",
-    element: HotelList,
-  },
-
-  {
-    path: "*",
-    element: errorPage,
-  },
-]);
+      {
+        path: "*",
+        element: errorPage,
+      },
+    ]);
