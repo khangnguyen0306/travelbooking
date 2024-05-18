@@ -4,12 +4,14 @@ import {
   useAddFlowerMutation,
 } from "../../services/flowerApi";
 import "./Dashboard.scss"
-import IMG from '../../assets/img-home.jpg';
+import IMG from '../../assets/photo-3-1485152074061.jpg';
+import IMG2 from '../../assets/gym3.png';
 import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Rental from "../../components/HomePage/Rental/Rental";
 import GetContact from "../../components/HomePage/Getcontact/GetContact";
 import RoomsSection from "../../components/RoomsSection";
+import Feedback from "../../components/HomePage/Customer-feedback/Feedback";
 import { VietnameseProvinces } from "../../utils/utils";
 
 function Dashboard() {
@@ -120,9 +122,14 @@ function Dashboard() {
           </div>
         </div>
       </Row>
+      <br></br>
+      <br></br>
 
+      <br></br>
+      <img src={IMG2} />
       <RoomsSection />
       <Rental />
+      <Feedback></Feedback>
       <GetContact />
 
     </div>

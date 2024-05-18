@@ -1,13 +1,15 @@
 #rooms-section {
   padding: 60px 0 0 0;
-  background-color: azure;
+  // background-color: azure;
 
   .title {
     text-align: center;
+
     span {
       color: #5c98f2;
     }
   }
+
   .list-rooms {
     margin: 60px 0 60px 0;
     display: flex;

@@ -1,0 +1,63 @@
+.container-home-feedback {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e1e1e1;
+
+    .title {
+
+        font-size: 3.5rem;
+        font-weight: bold;
+        width: 50%;
+        text-align: center;
+    }
+
+
+}
+
+.feedback-container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.feedback-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.feedback-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.feedback-image {
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    margin-right: 20px;
+}
+
+.feedback-details {
+    text-align: left;
+}
+
+.feedback-details h3 {
+    margin: 0;
+    color: #333;
+}
+
+.feedback-details .role {
+    color: #999;
+    margin-bottom: 10px;
+}
+
+.feedback-details .rating {
+    color: #FFD700;
+    /* Màu vàng cho các ngôi sao */
+    font-size: 1.2rem;
+}
