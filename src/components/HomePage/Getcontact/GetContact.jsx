@@ -6,14 +6,14 @@ const getContact = () => {
     return (
         <Row justify={"center"} align={'middle'} className="Home-getcontact-layout" >
             <div style={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-                <Col xs={24} md={9}>
+                <Col xs={24} md={10}>
                     <div className='left-getcontact'>
                         <p className='left-getcontact-title'>Discover Special Deals!</p>
                         <p className='left-getcontact-content'>Make sure to check out these special promotions</p>
                         <button className='left-getcontact-btn'>See Tours</button>
                     </div>
                 </Col>
-                <Col xs={24} md={9}>
+                <Col xs={24} md={10}>
                     <div className='right-getcontact' >
                         <p className='right-getcontact-title'>Don’t miss a thing</p>
                         <div className='right-getcontact-content'>
