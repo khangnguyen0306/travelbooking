@@ -3,7 +3,7 @@ $font-title: DM Serif Display, sans-serif;
 $blue-main-color: #5c98f2;
 
 .Home-layout {
-    width: 80%;
+    width: 90%;
     height: 100vh;
     margin: 0 auto;
     margin-top: -4rem;
@@ -12,7 +12,7 @@ $blue-main-color: #5c98f2;
 
     .Card-container-home {
         background-color: #f5f5f5;
-        width: 90%;
+        width: 100%;
         border: none;
         .Bagde-card-container-home {
             background-color: #fff;
@@ -49,13 +49,13 @@ $blue-main-color: #5c98f2;
     }
 
     .search-layout-home {
-        -webkit-box-shadow: 0 20px 35px rgba(20, 20, 20, 0.08);
+        -webkit-box-shadow: 0 20px 35px rgba(14, 13, 13, 0.08);
         font-size: 16px;
         font-weight: 500;
         display: flex;
         align-items: center;
         position: absolute;
-        bottom: 12%;
+        bottom: 5%;
         left: 5%;
         background-color: #fff;
         // padding: 30px 0px;
