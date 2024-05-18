@@ -12,6 +12,7 @@ import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Rental from "../../components/HomePage/Rental/Rental";
 import RoomsSection from "../../components/RoomsSection";
+import Feedback from "../../components/HomePage/Customer-feedback/Feedback";
 function Dashboard() {
   const VietnameseProvinces = [
     "An Giang",
@@ -184,9 +185,14 @@ function Dashboard() {
           </div>
         </div>
       </Row>
+      <br></br>
+      <br></br>
+
+      <br></br>
 
       <RoomsSection />
       <Rental />
+      <Feedback />
       {/* <h1>Create Flower: </h1>
       <Form
         labelCol={{ span: 5 }}
