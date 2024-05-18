@@ -12,7 +12,7 @@ export const roomApi = createApi({
         // and the expected query argument. If there is no argument, use `void`
         // for the argument type instead.
         getrooms: builder.query({
-            query: () => `roomlist`,
+            query: () => `hotellist`,
             // `providesTags` determines which 'tag' is attached to the
             // cached data returned by the query.
             providesTags: (result, _error, _arg) =>
