@@ -6,6 +6,7 @@ const Login = Loadable({ loader: () => import("../pages/login/Login") });
 const Home = Loadable({ loader: () => import("../pages/home/Home") });
 const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
 const RoomList = Loadable({ loader: () => import("../pages/roomLisst/RoomList") });
+const Test = Loadable({ loader: () => import("../pages/roomLisst/Test") });
 const Dashboard = Loadable({
   loader: () => import("../pages/dashboard/Dashboard"),
 });
@@ -18,35 +19,37 @@ export const router = createBrowserRouter([
     element: Login,
   },
   {
-    path: "/",
-    element: <AuthGuard />,
-
+    element: <MainLayout />,
     children: [
       {
-        element: <MainLayout />,
+        path: "/",
+        element: <AuthGuard />,
         children: [
           {
-            index: true,
-            element: Dashboard,
-          },
-          {
-            path: "home",
-            element: Home,
-          },
-          {
-            path: "admin",
-            element: Admin,
-          },
+            children: [
+              {
+                index: true,
+                element: Dashboard,
+              },
+              {
+                path: "home",
+                element: Home,
+              },
+              {
+                path: "admin",
+                element: Admin,
+              },
 
+            ],
+          },
         ],
       },
-
-    ],
-
-  },
-  {
-    path: "/room-list",
-    element: RoomList,
+      {
+        path: "/room-list",
+        element: RoomList,
+      },
+ ////////////// add for more no login
+    ]
   },
 
   {
