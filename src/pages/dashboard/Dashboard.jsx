@@ -129,7 +129,7 @@ function Dashboard() {
       <img src={IMG2} />
       <RoomsSection />
       <Rental />
-      <Feedback></Feedback>
+      <Feedback/>
       <GetContact />
 
     </div>
