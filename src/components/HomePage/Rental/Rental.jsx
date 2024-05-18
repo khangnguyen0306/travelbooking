@@ -4,7 +4,7 @@ import { Col, Row } from "antd";
 
 const Rental = () => {
     return (
-        <div className='container-rental'>
+        <div className='container-home-rental'>
             <Row>
                 <Col xs={24} md={12}>
                     <div className="info-rental">

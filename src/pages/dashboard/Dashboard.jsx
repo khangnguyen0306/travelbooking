@@ -7,7 +7,8 @@ import FormItem from "antd/es/form/FormItem";
 import Meta from "antd/es/card/Meta";
 import { ImportFile } from "../../assets/importSVG";
 import "./Dashboard.scss"
-import IMG from '../../assets/img-home.jpg';
+import IMG from '../../assets/photo-3-1485152074061.jpg';
+import IMG2 from '../../assets/gym3.png';
 import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Rental from "../../components/HomePage/Rental/Rental";
@@ -189,7 +190,7 @@ function Dashboard() {
       <br></br>
 
       <br></br>
-
+      <img src={IMG2} />
       <RoomsSection />
       <Rental />
       <Feedback />

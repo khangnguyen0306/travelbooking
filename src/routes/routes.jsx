@@ -5,6 +5,7 @@ import AuthGuard from "./AuthGuard";
 
 const Login = Loadable({ loader: () => import("../pages/login/Login") });
 const Home = Loadable({ loader: () => import("../pages/home/Home") });
+const RoomList = Loadable({ loader: () => import("../pages/roomLisst/RoomList") });
 const Dashboard = Loadable({
   loader: () => import("../pages/dashboard/Dashboard"),
 });
@@ -39,8 +40,15 @@ export const router = createBrowserRouter([
 
         ],
       },
+
     ],
+
   },
+  {
+    path: "/room-list",
+    element: RoomList,
+  },
+
   {
     path: "*",
     element: <div>ERROR</div>,

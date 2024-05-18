@@ -1,10 +1,13 @@
-import { flowerApi } from "../services/flowerApi";
+
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 // ...import { persistStore, persistReducer } from 'redux-persist';
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Sử dụng localStorage
 import flowerReducer from "../slices/flower.slice";
+import { flowerApi } from "../services/flowerApi";
+import roomReducer from "../slices/room.slice";
+import { roomApi } from "../services/roomAPI";
 const persistConfig = {
   key: "root",
   storage,
@@ -15,13 +18,20 @@ const staticReducers = {
 };
 
 const persistedReducer = persistReducer(persistConfig, flowerReducer);
+const roompersistedReducer = persistReducer(persistConfig, roomReducer);
+
 export const store = configureStore({
   reducer: {
     [flowerApi.reducerPath]: flowerApi.reducer,
     flower: persistedReducer,
+    [roomApi.reducerPath]: roomApi.reducer,
+    room: roompersistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(flowerApi.middleware),
+    getDefaultMiddleware().concat(
+      flowerApi.middleware,
+      roomApi.middleware
+    ),
 });
 
 // Add a dictionary to keep track of the registered async reducers
