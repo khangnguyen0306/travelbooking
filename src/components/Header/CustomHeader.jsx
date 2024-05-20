@@ -51,7 +51,7 @@ const CustomHeader = () => {
                             <Link to="admin">Tour List</Link>
                         </Menu.Item>
                         <Menu.Item key="4">
-                            <Link to="/room-list"> Room List </Link>
+                            <Link to="/hotel"> Room List </Link>
                         </Menu.Item>
                         <Menu.Item key="5">
                             <Link to="home">Tour Search</Link>

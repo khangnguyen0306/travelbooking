@@ -38,7 +38,7 @@ const MainLayout = () => {
       <Content
         style={{
           display: "flex",
-          margin: "0px 16px",
+          // margin: "0px 16px",
           // padding: 50,
           minHeight: 500,
           // background: other.colorBorderSecondary,
