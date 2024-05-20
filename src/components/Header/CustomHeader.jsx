@@ -72,7 +72,7 @@ const CustomHeader = () => {
                 placement="right"
                 closable={false}
                 onClose={() => setDrawerVisible(false)}
-                visible={drawerVisible}
+                open={drawerVisible}
             >
                 <Menu
                     mode="vertical"
