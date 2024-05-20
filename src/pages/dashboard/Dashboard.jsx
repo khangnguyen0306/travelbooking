@@ -126,10 +126,9 @@ function Dashboard() {
       <br></br>
 
       <br></br>
-      <img src={IMG2} />
       <RoomsSection />
       <Rental />
-      <Feedback/>
+      <Feedback />
       <GetContact />
 
     </div>

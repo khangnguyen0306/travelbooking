@@ -1,63 +1,66 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+$blue-main-color-hover: #87b1f0;
+
 .container-home-feedback {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
     background-color: #e1e1e1;
+    // padding: 50px;
 
     .title {
-
+        margin-left: 25%;
         font-size: 3.5rem;
-        font-weight: bold;
+        font-weight: 400;
         width: 50%;
         text-align: center;
+        font-family: $font-title;
+        line-height: 1.2;
+        margin-bottom: 50px;
     }
 
+    .feedback {
+        padding-bottom: 50px;
 
-}
+        .feedback-item {
 
-.feedback-container {
-    width: 80%;
-    margin: 0 auto;
-}
+            margin-left: 25%;
+            margin-top: 20px;
+            padding-bottom: 50px;
+            background-color: white;
+            border-radius: 20px;
+            width: 50%;
+            height: 85%;
 
-.feedback-item {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f9f9f9;
-    padding: 20px;
-    border-radius: 10px;
-}
+            .feedback-item__image {
+                padding: 20px;
+            }
 
-.feedback-content {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
+            .feedback-item__content {
+                padding: 20px;
 
-.feedback-image {
-    border-radius: 50%;
-    width: 80px;
-    height: 80px;
-    margin-right: 20px;
-}
+                .feedback-item__content__name {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                }
 
-.feedback-details {
-    text-align: left;
-}
+                .feedback-item__content__rating {
+                    text-align: right;
+                }
 
-.feedback-details h3 {
-    margin: 0;
-    color: #333;
-}
+                .feedback-item__content__role {
+                    font-size: 1rem;
+                    color: #8c8c8c;
+                }
 
-.feedback-details .role {
-    color: #999;
-    margin-bottom: 10px;
-}
+                .feedback-item__content__text {
+                    font-size: 1.2rem;
+                    margin-top: 10px;
+                    color: #000;
+                }
+            }
+        }
 
-.feedback-details .rating {
-    color: #FFD700;
-    /* Màu vàng cho các ngôi sao */
-    font-size: 1.2rem;
+    }
+
 }

@@ -11,7 +11,7 @@ export const roomApi = createApi({
         // Supply generics for the return type (in this case `roomApiResponse`)
         // and the expected query argument. If there is no argument, use `void`
         // for the argument type instead.
-        getHotels: builder.query({
+        getrooms: builder.query({
             query: () => `hotellist`,
             // `providesTags` determines which 'tag' is attached to the
             // cached data returned by the query.
@@ -79,9 +79,10 @@ export const roomApi = createApi({
 export const {
     useGetHotelsQuery,
     useGetHotelDetailQuery,
-    useGetHotelByIdQuery
-    // useGetRoomByIdQuery
-    // useAddroomMutation,
-    // useEditroomMutation,
-    // useDeleteroomMutation,
+    useGetHotelByIdQuery,
+    useGetroomsQuery,
+    useGetRoomByIdQuery,
+    useAddroomMutation,
+    useEditroomMutation,
+    useDeleteroomMutation,
 } = roomApi;
