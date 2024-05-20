@@ -79,9 +79,10 @@ export const roomApi = createApi({
 export const {
     useGetHotelsQuery,
     useGetHotelDetailQuery,
-    useGetHotelByIdQuery
-    // useGetRoomByIdQuery
-    // useAddroomMutation,
-    // useEditroomMutation,
-    // useDeleteroomMutation,
+    useGetHotelByIdQuery,
+    useGetroomsQuery,
+    useGetRoomByIdQuery,
+    useAddroomMutation,
+    useEditroomMutation,
+    useDeleteroomMutation,
 } = roomApi;

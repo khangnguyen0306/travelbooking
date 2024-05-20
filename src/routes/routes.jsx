@@ -57,11 +57,9 @@ export const router = createBrowserRouter([
       ////////////// add for more no login
     ]
   },
+  {
+    path: "*",
+    element: errorPage,
+  }
 
-      {
-        path: "*",
-        element: errorPage,
-      }
-    ]
-  },
 ]);

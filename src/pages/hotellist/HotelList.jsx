@@ -1,7 +1,7 @@
 import React from 'react'
 import { useGetroomsQuery } from '../../services/roomAPI'
 import { TinyColor } from '@ctrl/tinycolor';
-
+import { Link } from 'react-router-dom';
 import './HotelList.scss'
 import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, ConfigProvider } from "antd";
 const HotelList = () => {
@@ -204,7 +204,9 @@ const HotelList = () => {
                                         </div>
                                         <Row>
                                             <Col xs={24} md={14}>
-                                                <a href="/hotel-detail/${hotel.id}" className="hotel-book-now">DETAIL</a>
+                                                <Link to={`/hotel-detail/${hotel.id}`}>
+                                                    <div className="hotel-book-now">DETAIL</div>
+                                                </Link>
                                             </Col>
                                             <Col xs={24} md={10}>
                                                 <div className="hotel-price">
