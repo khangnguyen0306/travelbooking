@@ -5,11 +5,7 @@ import AuthGuard from "./AuthGuard";
 const Login = Loadable({ loader: () => import("../pages/login/Login") });
 const Home = Loadable({ loader: () => import("../pages/home/Home") });
 const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
-
-const RoomList = Loadable({ loader: () => import("../pages/roomLisst/RoomList") });
 const RoomDetailsPage = Loadable({ loader: () => import("../pages/roomDetailsPage") });
-const Test = Loadable({ loader: () => import("../pages/roomLisst/Test") });
-
 const HotelList = Loadable({ loader: () => import("../pages/hotellist/HotelList") });
 const HotelDetail = Loadable({ loader: () => import("../pages/roomLisst/HotelDetail") });
 
