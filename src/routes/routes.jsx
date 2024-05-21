@@ -6,6 +6,7 @@ const Login = Loadable({ loader: () => import("../pages/login/Login") });
 const Home = Loadable({ loader: () => import("../pages/home/Home") });
 const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
 const RoomList = Loadable({ loader: () => import("../pages/roomLisst/RoomList") });
+const RoomDetailsPage = Loadable({ loader: () => import("../pages/roomDetailsPage") });
 const Test = Loadable({ loader: () => import("../pages/roomLisst/Test") });
 const Dashboard = Loadable({
   loader: () => import("../pages/dashboard/Dashboard"),
@@ -48,7 +49,11 @@ export const router = createBrowserRouter([
         path: "/room-list",
         element: RoomList,
       },
- ////////////// add for more no login
+      {
+        path: "/room-details/:1",
+        element: RoomDetailsPage,
+      },
+      ////////////// add for more no login
     ]
   },
 

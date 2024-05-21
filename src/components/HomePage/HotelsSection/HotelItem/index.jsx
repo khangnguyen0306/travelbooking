@@ -1,10 +1,10 @@
-import "./RoomItem.scss"
+import "./HotelItem.scss"
 import { Card } from 'antd';
 import { Rate } from 'antd';
 import { CrownOutlined } from "@ant-design/icons";
 const { Meta } = Card;
 
-function RoomItem() {
+function HotelItem() {
     return (
         <Card
             className='room-item'
@@ -17,7 +17,7 @@ function RoomItem() {
             }
         >
             <div>
-                <a className="room-name">The Penthouse</a>
+                <a className="room-name">The Hotel</a>
                 <div className="feedback">
                     <Rate className="rate" allowHalf value={5} disabled />
                     <span className="review">(1 review)</span>
@@ -33,4 +33,4 @@ function RoomItem() {
     );
 }
 
-export default RoomItem;
+export default HotelItem;
