@@ -51,7 +51,7 @@ const CustomHeader = () => {
                             <Link to="admin">Tour List</Link>
                         </Menu.Item>
                         <Menu.Item key="4">
-                            <Link to="/room-list"> Room List </Link>
+                            <Link to="/hotel-list"> Search Hotel </Link>
                         </Menu.Item>
                         <Menu.Item key="5">
                             <Link to="home">Tour Search</Link>
@@ -72,7 +72,7 @@ const CustomHeader = () => {
                 placement="right"
                 closable={false}
                 onClose={() => setDrawerVisible(false)}
-                visible={drawerVisible}
+                open={drawerVisible}
             >
                 <Menu
                     mode="vertical"

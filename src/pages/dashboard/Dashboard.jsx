@@ -126,8 +126,11 @@ function Dashboard() {
       <br></br>
 
       <br></br>
+
       <img src={IMG2} />
       <HotelsSection />
+      <RoomsSection />
+
       <Rental />
       <Feedback />
       <GetContact />
