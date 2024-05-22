@@ -27,7 +27,7 @@ const CustomHeader = () => {
     }, [prevScrollPos]);
 
     return (
-        <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1' }}>
+        <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1100' }}>
             <Link to={"/"}>
                 <div className="header-logo">
                     <p><span style={{ color: 'black' }}>Travel</span> <span >Tour</span></p>

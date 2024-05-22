@@ -8,12 +8,14 @@ import "slick-carousel/slick/slick-theme.css";
 import HeaderHotel from './component/jsx/HeaderHotel';
 import SlideShow from './component/jsx/SlideShow';
 import IntroductionHotel from './component/jsx/IntroductionHotel';
+import Roomlist from './component/jsx/Roomlist';
 
 const RoomlistDetail = () => {
     const { hotelId } = useParams('hotelId');
     const { data: hotelDetail, isLoading } = useGetHotelByIdQuery(hotelId);
     const bigImages = hotelDetail?.image.slice(0, 6);
-    const smallImages = hotelDetail?.image.slice(2, 6);
+    const smallImages = hotelDetail?.image.slice(0, 4);
+
 
 
 
@@ -22,10 +24,24 @@ const RoomlistDetail = () => {
         rate: hotelDetail?.rate,
         location: hotelDetail?.location,
     };
+
     const SlideParams = {
         bigImages: bigImages,
         smallImages: smallImages,
+
+    };
+
+    const IntroductionParams = {
+        description: hotelDetail?.description,
+        amenities: hotelDetail?.amenities,
+        address: hotelDetail?.address,
+        name: hotelDetail?.name,
     }
+
+    const RoomListParams = {
+        hotelId: hotelId
+    }
+
 
 
 
@@ -38,7 +54,8 @@ const RoomlistDetail = () => {
             <Row style={{ marginTop: '6rem', width: "100%" }}>
                 <HeaderHotel {...HeaderParams} />
                 <SlideShow {...SlideParams} />
-                <IntroductionHotel />
+                <IntroductionHotel {...IntroductionParams} />
+                <Roomlist {...RoomListParams} />
             </Row>
         </>
     );
