@@ -1,11 +1,11 @@
 import React from 'react'
-import { useGetroomsQuery } from '../../services/roomAPI'
+import { useGetHotelListQuery } from '../../services/roomAPI'
 import { TinyColor } from '@ctrl/tinycolor';
 import { Link } from 'react-router-dom';
 import './HotelList.scss'
 import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, ConfigProvider, Rate } from "antd";
 const HotelList = () => {
-    const { data: hoteldata, isLoading } = useGetroomsQuery();
+    const { data: hoteldata, isLoading } = useGetHotelListQuery();
     const colors2 = ['#ddd', '#8c8c8c', '#8c8c8c', '#343333'];
     const getHoverColors = (colors) =>
         colors.map((color) => new TinyColor(color).lighten(5).toString());

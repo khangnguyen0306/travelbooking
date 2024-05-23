@@ -10,7 +10,7 @@ import { useState } from "react";
 import { SearchOutlined } from "@ant-design/icons";
 import Rental from "../../components/HomePage/Rental/Rental";
 import GetContact from "../../components/HomePage/Getcontact/GetContact";
-import RoomsSection from "../../components/RoomsSection";
+import HotelsSection from "../../components/HomePage/HotelsSection";
 import Feedback from "../../components/HomePage/Customer-feedback/Feedback";
 import { VietnameseProvinces } from "../../utils/utils";
 
@@ -126,7 +126,9 @@ function Dashboard() {
       <br></br>
 
       <br></br>
-      <RoomsSection />
+
+      <img src={IMG2} />
+      <HotelsSection />
       <Rental />
       <Feedback />
       <GetContact />

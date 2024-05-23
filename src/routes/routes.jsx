@@ -5,8 +5,10 @@ import AuthGuard from "./AuthGuard";
 const Login = Loadable({ loader: () => import("../pages/login/Login") });
 const Home = Loadable({ loader: () => import("../pages/home/Home") });
 const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
+const RoomDetailsPage = Loadable({ loader: () => import("../pages/roomDetailsPage") });
 const HotelList = Loadable({ loader: () => import("../pages/hotellist/HotelList") });
 const HotelDetail = Loadable({ loader: () => import("../pages/roomLisst/HotelDetail") });
+
 const Dashboard = Loadable({
   loader: () => import("../pages/dashboard/Dashboard"),
 });
@@ -54,6 +56,11 @@ export const router = createBrowserRouter([
         path: "/hotel-detail/:hotelId",
         element: HotelDetail,
       },
+      {
+        path: "/room-details/:1",
+        element: RoomDetailsPage,
+      },
+
       ////////////// add for more no login
     ]
   },
