@@ -3,7 +3,7 @@ import { useGetroomsQuery } from '../../services/roomAPI'
 import { TinyColor } from '@ctrl/tinycolor';
 import { Link } from 'react-router-dom';
 import './HotelList.scss'
-import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, ConfigProvider } from "antd";
+import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, ConfigProvider, Rate } from "antd";
 const HotelList = () => {
     const { data: hoteldata, isLoading } = useGetroomsQuery();
     const colors2 = ['#ddd', '#8c8c8c', '#8c8c8c', '#343333'];
@@ -190,7 +190,7 @@ const HotelList = () => {
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            {hotels.map((hotel) => (
+                            {hoteldata?.map((hotel) => (
                                 <div key={hotel.id} className="hotel-item">
                                     {hotel.discount && <div className="hotel-discount">{hotel.discount}</div>}
                                     <img src={hotel.imgUrl} alt={hotel.name} className="hotel-img" />
@@ -198,8 +198,7 @@ const HotelList = () => {
                                         <h2 className="hotel-name">{hotel.name}</h2>
                                         <p className="hotel-description">{hotel.description}</p>
                                         <div className="hotel-rating">
-                                            {'⭐'.repeat(Math.floor(hotel.rating))}
-                                            {(hotel.rating % 1 !== 0) && '⭐'}
+                                            <Rate allowHalf value={hotel.rating} disabled />
                                             <span>({hotel.reviews} Review{hotel.reviews > 1 && 's'})</span>
                                         </div>
                                         <Row>
