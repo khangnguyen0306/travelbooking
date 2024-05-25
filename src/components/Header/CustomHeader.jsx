@@ -54,7 +54,7 @@ const CustomHeader = () => {
                             <Link to="/hotel-list"> Search Hotel </Link>
                         </Menu.Item>
                         <Menu.Item key="5">
-                            <Link to="home">Tour Search</Link>
+                            {/* <Link to="home">Tour Search</Link> */}
                         </Menu.Item>
                         <Menu.Item key="6">
                             <Link to="admin">Blog</Link>
