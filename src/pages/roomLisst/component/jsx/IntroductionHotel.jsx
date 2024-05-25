@@ -23,9 +23,9 @@ const IntroductionHotel = (
         price
     }) => {
 
-    const amenitiesToDisplay = amenities?.main.slice(0, 10) || [];
-    const firstColumn = amenitiesToDisplay.slice(0, 5);
-    const secondColumn = amenitiesToDisplay.slice(5, 10);
+    const amenitiesToDisplay = amenities?.main?.slice(0, 10) || [];
+    const firstColumn = amenitiesToDisplay?.slice(0, 5);
+    const secondColumn = amenitiesToDisplay?.slice(5, 10);
 
     const displayAmentites = {
         "conditioner":
