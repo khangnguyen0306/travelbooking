@@ -17,10 +17,7 @@ const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
 });
 export const router = createBrowserRouter([
-  {
-    path: "/login",
-    element: Login,
-  },
+
   {
     element: <MainLayout />,
     children: [
@@ -64,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: "/register",
         element: RegisterPage,
+      },
+      {
+        path: "/login",
+        element: Login,
       },
       ////////////// add for more no login
     ]
