@@ -8,6 +8,7 @@ const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
 const RoomDetailsPage = Loadable({ loader: () => import("../pages/roomDetailsPage") });
 const HotelList = Loadable({ loader: () => import("../pages/hotellist/HotelList") });
 const HotelDetail = Loadable({ loader: () => import("../pages/roomLisst/HotelDetail") });
+const RegisterPage = Loadable({ loader: () => import("../pages/registerPage") });
 
 const Dashboard = Loadable({
   loader: () => import("../pages/dashboard/Dashboard"),
@@ -60,7 +61,10 @@ export const router = createBrowserRouter([
         path: "/room-details/:1",
         element: RoomDetailsPage,
       },
-
+      {
+        path: "/register",
+        element: RegisterPage,
+      },
       ////////////// add for more no login
     ]
   },

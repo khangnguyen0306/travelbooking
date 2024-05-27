@@ -1,7 +1,6 @@
 import "./RoomDetailsPage.scss";
 import { DatePicker, InputNumber, Rate, Avatar } from "antd";
 import { UserOutlined } from '@ant-design/icons';
-import { useGetroomsQuery } from "../../services/roomAPI";
 
 function RoomDetailsPage() {
     return (
