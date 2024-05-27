@@ -1,0 +1,55 @@
+.login-title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 4rem;
+    height: 45vh;
+    font-family: "DM Serif Display", serif;
+    background-color: #f6f4f4;
+
+}
+
+.login-content {
+    .login-content__form {
+
+
+        .login-content__form__input {
+            margin: 2rem 3rem;
+
+        }
+
+        button {
+            width: 93.5%;
+            margin: 2rem 3rem;
+            height: 40px;
+
+        }
+
+        .login-content-forget {
+            text-align: right;
+            margin-right: 3rem;
+            margin-left: 3rem;
+            padding-bottom: 3rem;
+            border-bottom-width: 1px;
+            border-bottom-style: solid;
+        }
+
+        .login-content-ask {
+            text-align: center;
+            margin-right: 3rem;
+            margin-left: 3.5rem;
+            padding-top: 3rem;
+            font-family: "DM Serif Display", serif;
+            font-weight: bold;
+        }
+
+        .login-content-signup {
+            text-align: center;
+            margin-right: 3rem;
+            margin-left: 3.5rem;
+            padding-top: 1rem;
+            padding-bottom: 4rem;
+            font-size: smaller;
+        }
+    }
+}

@@ -40,7 +40,7 @@ const HotelList = () => {
             rating: 4,
             reviews: 1,
             price: 90,
-            imgUrl: 'https://source.unsplash.com/600x400/?hotel,room',
+            imgUrl: 'https://source.unsplash.com/600x402/?hotel,room',
         }, {
             id: 4,
             name: 'Luxury Suite',
@@ -49,7 +49,7 @@ const HotelList = () => {
             reviews: 1,
             originalPrice: 90,
             discountPrice: 75,
-            imgUrl: 'https://source.unsplash.com/600x400/?hotel,room',
+            imgUrl: 'https://source.unsplash.com/600x403/?hotel,room',
             discount: '17% OFF'
         }, {
             id: 5,
@@ -58,7 +58,7 @@ const HotelList = () => {
             rating: 5,
             reviews: 1,
             price: 90,
-            imgUrl: 'https://source.unsplash.com/600x400/?hotel,room',
+            imgUrl: 'https://source.unsplash.com/600x404/?hotel,room',
         }, {
             id: 6,
             name: 'Luxury Suite',
@@ -66,7 +66,7 @@ const HotelList = () => {
             rating: 5,
             reviews: 1,
             price: 90,
-            imgUrl: 'https://source.unsplash.com/600x400/?hotel,room',
+            imgUrl: 'https://source.unsplash.com/600x405/?hotel,room',
             discount: '17% OFF'
         }, {
             id: 7,
@@ -75,7 +75,7 @@ const HotelList = () => {
             rating: 5,
             reviews: 1,
             price: 90,
-            imgUrl: 'https://source.unsplash.com/600x400/?hotel,room',
+            imgUrl: 'https://source.unsplash.com/600x406/?hotel,room',
         },
     ];
     return (
@@ -190,26 +190,26 @@ const HotelList = () => {
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            {hoteldata?.map((hotel) => (
-                                <div key={hotel.id} className="hotel-item">
-                                    {hotel.discount && <div className="hotel-discount">{hotel.discount}</div>}
-                                    <img src={hotel.imgUrl} alt={hotel.name} className="hotel-img" />
+                            {hotels?.map((hotel) => (
+                                <div key={hotel?.id} className="hotel-item">
+                                    {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
+                                    <img src={hotel?.imgUrl} alt={hotel?.name} className="hotel-img" />
                                     <div className="hotel-info">
-                                        <h2 className="hotel-name">{hotel.name}</h2>
-                                        <p className="hotel-description">{hotel.description}</p>
+                                        <h2 className="hotel-name">{hotel?.name}</h2>
+                                        <p className="hotel-description">{hotel?.description}</p>
                                         <div className="hotel-rating">
-                                            <Rate allowHalf value={hotel.rating} disabled />
-                                            <span>({hotel.reviews} Review{hotel.reviews > 1 && 's'})</span>
+                                            <Rate allowHalf value={hotel?.rating} disabled />
+                                            <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
                                         </div>
                                         <Row>
                                             <Col xs={24} md={14}>
-                                                <Link to={`/hotel-detail/${hotel.id}`}>
+                                                <Link to={`/hotel-detail/${hotel?.id}`}>
                                                     <div className="hotel-book-now">DETAIL</div>
                                                 </Link>
                                             </Col>
                                             <Col xs={24} md={10}>
                                                 <div className="hotel-price">
-                                                    From <span className="hotel-original-price">{hotel.originalPrice && `$${hotel.originalPrice}`}</span> <span className="hotel-current-price">${hotel.price ? hotel.price : hotel.discountPrice}</span>
+                                                    From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
                                                 </div>
                                             </Col>
                                         </Row>
