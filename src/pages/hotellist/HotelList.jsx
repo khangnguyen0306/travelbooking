@@ -190,7 +190,7 @@ const HotelList = () => {
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            {hotels?.map((hotel) => (
+                            {hoteldata?.map((hotel) => (
                                 <div key={hotel?.id} className="hotel-item">
                                     {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
                                     <img src={hotel?.imgUrl} alt={hotel?.name} className="hotel-img" />
