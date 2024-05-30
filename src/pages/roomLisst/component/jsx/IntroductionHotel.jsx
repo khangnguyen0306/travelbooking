@@ -20,7 +20,9 @@ const IntroductionHotel = (
         amenities,
         address,
         name,
-        price
+        price,
+        scrollToHotelAbout,
+        scrollToAmentites
     }) => {
 
     const amenitiesToDisplay = amenities?.main?.slice(0, 10) || [];
@@ -69,17 +71,17 @@ const IntroductionHotel = (
                     <div className="card-container">
                         <div className="card-header" >
                             <p>Giới thiệu cơ sở lưu trú </p>
-                            <Link to={"/"}>
+                            <Link onClick={scrollToHotelAbout}>
                                 <p>Xem thêm <RightOutlined /> </p>
                             </Link>
                         </div>
                         <p>{limitWords(description, 50)}</p>
-                    </div>
+                    </div> 
 
                     <div className="card-container">
                         <div className="card-header" >
-                            <p>Giới thiệu cơ sở lưu trú </p>
-                            <Link to={"/"}>
+                            <p>Tiện ích chính</p>
+                            <Link onClick={scrollToAmentites}>
                                 <p>Xem thêm <RightOutlined /> </p>
                             </Link>
                         </div>
