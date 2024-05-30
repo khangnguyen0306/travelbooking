@@ -39,3 +39,13 @@ $blue-main-color: #5c98f2;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-size: 1rem;
   }
+  .amenities-card{
+    margin-bottom: 1rem;
+  }
+  .exclammation-footer{
+    width: 70%;
+    padding: 10px;
+    border-left: 3px solid $blue-main-color;
+    background-color: #ecf8ff;
+    margin: 0.5rem 0 2rem 0;
+  }

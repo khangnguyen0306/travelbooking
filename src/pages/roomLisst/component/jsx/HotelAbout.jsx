@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { Button, Card, Col, Row } from 'antd';
 import '../scss/HotelAbout.scss';
+import { ExclamationCircleFilled } from '@ant-design/icons';
 
 const hotelImages = [
     'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
@@ -48,7 +49,7 @@ const HotelAbout = () => {
         if (words.length <= 70) {
             return description;
         }
-        return words.slice(0, 100).join(' ') + '...';
+        return words.slice(0, 70).join(' ') + '...';
     };
     return (
         <Row gutter={[16, 16]} style={{ width: '100%', height: 'fit-content' }} justify={'center'} className='introduction-hotel-layout'>
@@ -66,7 +67,7 @@ const HotelAbout = () => {
                     <Button
                         type="link"
                         onClick={toggleExpand}
-                        style={{marginLeft:'-15px',fontSize:'1.1rem'}}
+                        style={{ marginLeft: '-15px', fontSize: '1.1rem' }}
                     >
                         {isExpanded ? 'Show Less' : 'Show More'}
                     </Button>
