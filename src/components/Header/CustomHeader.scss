@@ -27,12 +27,22 @@ $blue-main-color: #5c98f2;
         top: 0;
     }
 
+    .menu {
+        margin-left: 28%;
+    }
+
     .header-logo {
         font-size: 27px;
         padding-left: 3rem;
         font-weight: 600;
         font-family: $font-title;
 
+    }
+
+    .profile-btn {
+        z-index: 1;
+        margin-left: auto;
+        margin-right: 3rem;
     }
 
     .login-btn {
