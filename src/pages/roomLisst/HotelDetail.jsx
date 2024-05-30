@@ -13,8 +13,8 @@ import Roomlist from './component/jsx/Roomlist';
 const RoomlistDetail = () => {
     const { hotelId } = useParams('hotelId');
     const { data: hotelDetail, isLoading } = useGetHotelByIdQuery(hotelId);
-    const bigImages = hotelDetail?.image.slice(0, 6);
-    const smallImages = hotelDetail?.image.slice(0, 4);
+    const bigImages = hotelDetail?.image?.slice(0, 6);
+    const smallImages = hotelDetail?.image?.slice(0, 4);
 
 
 
