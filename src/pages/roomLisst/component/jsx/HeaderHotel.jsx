@@ -9,7 +9,7 @@ const HeaderHotel = ({ name, rate, location }) => {
                 {name}
             </p>
             <p className='hotelDetail-rate'>
-                <Rate allowHalf value={rate} />
+                <Rate disabled allowHalf value={rate} />
             </p>
             <p className='hotelDetail-location'>
                 <EnvironmentFilled /> {location}

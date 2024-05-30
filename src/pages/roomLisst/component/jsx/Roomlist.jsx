@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useGetRoomQuery } from '../../../../services/roomAPI';
 import "../scss/roomlist.scss"
 import { Rate, Row, Checkbox, Tooltip } from 'antd';
-import { QuestionCircleFilled, RightOutlined } from '@ant-design/icons';
+import { QuestionCircleFilled, RightOutlined, SafetyCertificateFilled } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
 
 const RoomList = ({ hotelId }) => {
@@ -24,10 +24,15 @@ const RoomList = ({ hotelId }) => {
   });
 
   return (
-    <Row gutter={[16, 16]} style={{ width: '100%', height: 'fit-content',backgroundColor:'#fff' }} justify={'center'}>
+    <Row gutter={[16, 16]} style={{ width: '100%', height: 'fit-content', backgroundColor: '#fff' }} justify={'center'}>
       <div className="room-list-hotel-page">
         <div className='room-list-hotel-title'>
           <p>Room List</p>
+
+        </div>
+        <div className="toggle-roomlist" >
+          <p><SafetyCertificateFilled style={{ color: 'green', fontSize: '20px',marginRight:'0.5rem' }} /></p>
+          <p>  Phải đặt phòng trong thời điểm không chắc chắn này? Hãy chọn phòng có thể hủy miễn phí!</p>
         </div>
         <div className="filter-options-layout-room-list">
           <p>Tìm kiếm nhanh hơn bằng cách chọn những tiện nghi bạn cần</p>
@@ -50,7 +55,7 @@ const RoomList = ({ hotelId }) => {
             >
               Free to Go Out
               <Tooltip title={<p>Bạn có thể hủy phòng mà không mất phí.</p>}>
-                <span><QuestionCircleFilled style={{ color: '#5c98f2',marginLeft:'10px' }} /></span>
+                <span><QuestionCircleFilled style={{ color: '#5c98f2', marginLeft: '10px' }} /></span>
               </Tooltip>
 
             </Checkbox>
@@ -60,7 +65,7 @@ const RoomList = ({ hotelId }) => {
             >
               Normal Bed Type
               <Tooltip title={<p>Giường lớn có thể bao gồm giường đôi/queen/King phù hợp cho 2 người lớn.</p>}>
-                <span><QuestionCircleFilled style={{ color: '#5c98f2',marginLeft:'10px' }} /></span>
+                <span><QuestionCircleFilled style={{ color: '#5c98f2', marginLeft: '10px' }} /></span>
               </Tooltip>
             </Checkbox>
           </div>
