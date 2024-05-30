@@ -1,0 +1,23 @@
+.dashboard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    .dashboard-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 4rem;
+        height: 50vh;
+        font-family: "DM Serif Display", serif;
+        background-color: #f6f4f4;
+        width: 100%;
+    }
+
+    .dashboard-content {
+        background-color: white;
+        width: 100%;
+    }
+}

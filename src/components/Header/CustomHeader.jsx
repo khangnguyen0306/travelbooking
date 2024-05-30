@@ -1,13 +1,38 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Layout, Menu, Drawer, Grid } from "antd";
+import { Button, Layout, Menu, Drawer, Grid, Dropdown, Space } from "antd";
 import "./CustomHeader.scss"; // Import SCSS file
 import { MenuOutlined } from "@ant-design/icons";
 import SubMenu from "antd/es/menu/SubMenu";
+import { DownOutlined } from '@ant-design/icons';
 // import Imame from "../../../src/assets/icons/laudry-icon.png"
 const { Header } = Layout;
 const { useBreakpoint } = Grid;
 
+const items = [
+    {
+        label: <a>-----</a>,
+        key: '0',
+    },
+    {
+        label: <a href="/dashboard">Dashboard</a>,
+        key: '1',
+    },
+    {
+        type: 'divider',
+    },
+    {
+        label: <a href="https://www.aliyun.com">Edit Profile</a>,
+        key: '3',
+    },
+    {
+        type: 'divider',
+    },
+    {
+        label: <a href="https://www.aliyun.com">Change Password</a>,
+        key: '4',
+    },
+];
 const CustomHeader = () => {
     const screens = useBreakpoint();
     const [prevScrollPos, setPrevScrollPos] = useState(0);
@@ -35,7 +60,7 @@ const CustomHeader = () => {
             </Link>
             {screens.md ? (
                 <>
-                    <Menu mode="horizontal" defaultSelectedKeys={["1"]} style={{ width: 'fit-content', backgroundColor: 'none' }}>
+                    <Menu className="menu" mode="horizontal" defaultSelectedKeys={["1"]} style={{ width: 'fit-content', backgroundColor: 'none' }}>
                         <Menu.Item key="1">
                             <Link to="/">Home</Link>
                         </Menu.Item>
@@ -60,6 +85,22 @@ const CustomHeader = () => {
                             <Link to="admin">Blog</Link>
                         </Menu.Item>
                     </Menu>
+                    <div className="profile-btn">
+                        <Dropdown
+                            menu={{
+                                items,
+                            }}
+                            trigger={['click']}
+
+                        >
+                            <a onClick={(e) => e.preventDefault()}>
+                                <Space >
+                                    Click me
+                                    <DownOutlined />
+                                </Space>
+                            </a>
+                        </Dropdown>
+                    </div>
                     <Link to='/login'>
                         <Button type="primary" className="login-btn">Login</Button>
                     </Link>
