@@ -1,0 +1,121 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+
+.form-booking {
+  .title {
+    padding: 0 0 40px 0;
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: underline;
+    text-underline-offset: 8px;
+    text-align: center;
+  }
+
+  .btn {
+    padding: 20px 24px;
+    width: 100%;
+    border: 1px solid $blue-main-color;
+    background-color: $blue-main-color;
+    color: white;
+    border-radius: 4px;
+    font-weight: bolder;
+    font-size: 14px;
+    transition: all ease-in-out 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+
+  .add-to-cart {
+    margin: 0 0 12px 0;
+    background-color: white;
+    color: $blue-main-color;
+  }
+}
+
+.modal {
+  font-family: $font-content;
+
+  .title {
+    padding: 0 0 20px 0;
+    font-size: 14px;
+    font-family: $font-title;
+    text-align: center;
+  }
+
+  .member {
+    padding: 20px 0 40px 0;
+
+    .item {
+      padding: 20px 0 0 0;
+
+      .sub-title {
+        padding: 0 0 10px 0;
+        font-size: 14px;
+        font-family: $font-title;
+        text-align: center;
+      }
+
+      .btn {
+        display: block;
+        margin: 0 10%;
+        padding: 16px 30px;
+        width: 80%;
+        border-radius: 4px;
+        background-color: $blue-main-color;
+        color: white;
+        text-align: center;
+        font-weight: bold;
+        transition: all ease-in-out 0.2s;
+
+        &:hover {
+          transform: scale(1.02);
+        }
+      }
+
+      .sign-up {
+        border: 1px solid $blue-main-color;
+        background-color: white;
+        color: $blue-main-color;
+      }
+    }
+  }
+
+  .guest {
+    padding: 40px 0;
+
+    .sub-title {
+      padding: 0 0 10px 0;
+      font-size: 14px;
+      font-family: $font-title;
+      text-align: center;
+    }
+
+    .btn {
+      display: block;
+      margin: 0 10%;
+      padding: 16px 30px;
+      width: 80%;
+      border-radius: 4px;
+      background-color: $blue-main-color;
+      color: white;
+      text-align: center;
+      font-weight: bold;
+      transition: all ease-in-out 0.2s;
+
+      &:hover {
+        transform: scale(1.02);
+      }
+    }
+  }
+
+  .border {
+    margin: 0 10%;
+    width: 80%;
+    border-bottom: 1px solid $blue-main-color;
+  }
+}

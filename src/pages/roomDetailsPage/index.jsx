@@ -1,10 +1,11 @@
 import "./RoomDetailsPage.scss";
-import { DatePicker, InputNumber, Rate, Avatar } from "antd";
+import { Rate, Avatar, FloatButton } from "antd";
 import { UserOutlined } from '@ant-design/icons';
+import BookingForm from "./Components/BookingForm";
 
 function RoomDetailsPage() {
     return (
-        <div className="wrapper">
+        <div className="wrapper-room-detail-page">
             <div className="container">
                 <div className="heading">
                     <h1 className="name">The Penthouse</h1>
@@ -24,32 +25,27 @@ function RoomDetailsPage() {
                         className="main-img"
                         src="https://demo.goodlayers.com/traveltour/homepages/main5/wp-content/uploads/sites/6/2022/08/collov-home-design-LSpkE5OCD_8-unsplash-900x500.jpg"
                         alt=""
-                        srcset=""
                     />
                     <div className="sub-img" >
                         <img
                             className="item"
                             src="https://demo.goodlayers.com/traveltour/homepages/main5/wp-content/uploads/sites/6/2022/08/chastity-cortijo-604624-unsplash.jpg"
                             alt=""
-                            srcset=""
                         />
                         <img
                             className="item"
                             src="https://demo.goodlayers.com/traveltour/homepages/main5/wp-content/uploads/sites/6/2022/08/chastity-cortijo-604624-unsplash.jpg"
                             alt=""
-                            srcset=""
                         />
                         <img
                             className="item"
                             src="https://demo.goodlayers.com/traveltour/homepages/main5/wp-content/uploads/sites/6/2022/08/chastity-cortijo-604624-unsplash.jpg"
                             alt=""
-                            srcset=""
                         />
                         <img
                             className="item"
                             src="https://demo.goodlayers.com/traveltour/homepages/main5/wp-content/uploads/sites/6/2022/08/chastity-cortijo-604624-unsplash.jpg"
                             alt=""
-                            srcset=""
                         />
                     </div>
                 </div>
@@ -103,31 +99,7 @@ function RoomDetailsPage() {
                         </div>
                     </div>
                     <div className="booking">
-                        <span className="title">Book Your Room</span>
-                        <div className="item">
-                            <p className="sub-title">Check In</p>
-                            <DatePicker className="select" />
-                        </div>
-                        <div className="item">
-                            <p className="sub-title">Check Out</p>
-                            <DatePicker className="select" />
-                        </div>
-                        <div className="item">
-                            <p className="sub-title">Room</p>
-                            <InputNumber className="select" min={1} max={4} defaultValue={1} />
-                        </div>
-                        <div className="item">
-                            <p className="sub-title">Guests</p>
-                            <div className="sub-item">
-                                <span className="field">ADULTS</span>
-                                <InputNumber className="select" min={1} max={4} defaultValue={1} />
-                            </div>
-                            <div className="sub-item">
-                                <span className="field">CHILDREN</span>
-                                <InputNumber className="select" min={0} max={4} defaultValue={1} />
-                            </div>
-                        </div>
-                        <button className="btn">BOOK NOW</button>
+                        <BookingForm />
                     </div>
                 </div>
                 <div className="more-rooms">
@@ -227,20 +199,10 @@ function RoomDetailsPage() {
                                 <p className="date">August 9, 2022</p>
                             </div>
                         </div>
-                        <div className="item">
-                            <div className="user">
-                                <Avatar className="avatar" size={90} icon={<UserOutlined />} />
-                                <span className="name">Jane Smith</span>
-                            </div>
-                            <div className="review">
-                                <p className="content">Nice room!</p>
-                                <Rate className="rate" value={5} disabled />
-                                <p className="date">August 9, 2022</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+            <FloatButton.BackTop visibilityHeight={1000} />
         </div >
     );
 }

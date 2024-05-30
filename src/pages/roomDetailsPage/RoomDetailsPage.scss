@@ -2,13 +2,15 @@ $font-content: DM Sans, sans-serif;
 $font-title: DM Serif Display, sans-serif;
 $blue-main-color: #5c98f2;
 
-.wrapper {
+.wrapper-room-detail-page {
   min-height: 100vh;
   padding-top: 100px;
   font-family: $font-content;
+  background-color: white;
 
   .container {
-    width: 100%;
+    margin: 0 5%;
+    width: 90%;
     padding: 60px;
 
     .heading {
@@ -151,68 +153,6 @@ $blue-main-color: #5c98f2;
 
       .booking {
         width: 24%;
-
-        .title {
-          padding: 0 0 40px 0;
-          display: block;
-          font-size: 18px;
-          font-weight: bold;
-          text-decoration: underline;
-          text-underline-offset: 8px;
-          text-align: center;
-        }
-
-        .item {
-          margin: 0 0 20px 0;
-          padding: 6%;
-          background-color: rgb(223, 223, 223);
-          border-radius: 8px;
-
-          .sub-title {
-            margin: 0 0 4px 0;
-            color: #8f8f8f;
-            font-size: 16px;
-            font-weight: bold;
-          }
-
-          .select {
-            width: 100%;
-            background-color: rgb(223, 223, 223);
-          }
-
-          .sub-item {
-            margin: 4px 0 0 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-
-            .field {
-              width: 64px;
-              font-size: 13px;
-              font-weight: 500;
-            }
-            .select {
-              flex: 1;
-            }
-          }
-        }
-
-        .btn {
-          padding: 20px 24px;
-          width: 100%;
-          background-color: white;
-          border: 2px solid black;
-          border-radius: 4px;
-          font-weight: bolder;
-          font-size: 14px;
-          transition: all ease-in-out 0.2s;
-          cursor: pointer;
-
-          &:hover {
-            background-color: black;
-            color: white;
-          }
-        }
       }
     }
 
