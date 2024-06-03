@@ -1,0 +1,232 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+$black-color: #03121a;
+$gray-color: #687176;
+
+.step-2 {
+  margin: 40px 0;
+  display: flex;
+  gap: 20px;
+
+  .select-pay-method {
+    flex: 1;
+
+    .pay-methods {
+      margin: 0 0 20px 0;
+      padding: 24px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+      .title {
+        margin: 0 0 16px 0;
+        font-size: 24px;
+      }
+
+      .method-item {
+        margin: 0 0 8px 0;
+        padding: 8px 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border: 1px solid $gray-color;
+        border-radius: 8px;
+        cursor: pointer;
+
+        .name {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          span {
+            color: $black-color;
+            font-size: 20px;
+            font-weight: 600;
+          }
+        }
+
+        img {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+
+    .pay-section {
+      padding: 24px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+      .confirm-price {
+        margin: 0 0 16px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 20px;
+        color: $black-color;
+        font-weight: 600;
+      }
+
+      .pay-btn,
+      .back-btn {
+        margin: 0 0 8px 0;
+        width: 100%;
+        height: 48px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        border: 1px solid $blue-main-color;
+        background-color: rgba($color: $blue-main-color, $alpha: 0.84);
+        color: white;
+        font-size: larger;
+        font-weight: bold;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba($color: $blue-main-color, $alpha: 1);
+        }
+      }
+
+      .back-btn {
+        border: 1px solid $blue-main-color;
+        background-color: white;
+        color: $blue-main-color;
+
+        &:hover {
+          border: 1px solid red;
+          background-color: red;
+          color: white;
+        }
+      }
+    }
+  }
+
+  .summary {
+    width: 400px;
+    height: fit-content;
+    padding: 24px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+    .header {
+      margin: 0 0 16px 0;
+      padding: 8px 16px;
+      border-radius: 8px;
+      background-color: $blue-main-color;
+      color: white;
+
+      .title {
+        margin: 0 0 4px 0;
+        font-size: 20px;
+      }
+
+      .code {
+        font-size: 14px;
+      }
+    }
+
+    .info {
+      margin: 0 0 16px 0;
+      border-bottom: 1px solid $gray-color;
+
+      .hotel-name {
+        margin: 0 0 16px 0;
+        font-size: 16px;
+        color: $black-color;
+      }
+
+      .date-range {
+        margin: 0 0 16px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+
+        .check-in,
+        .check-out {
+          padding: 8px;
+          width: 124px;
+          border: 1px solid $gray-color;
+          border-radius: 8px;
+          box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+          .title {
+            color: $gray-color;
+            font-size: 11px;
+          }
+
+          .date {
+            color: $black-color;
+            font-size: 12px;
+            font-weight: 700;
+          }
+
+          .time {
+            color: $gray-color;
+            font-size: 11px;
+          }
+        }
+
+        .night {
+          .number {
+            color: $gray-color;
+            font-size: 11px;
+          }
+
+          .arrow {
+            color: $gray-color;
+          }
+        }
+      }
+
+      .room-name {
+        margin: 0 0 16px 0;
+        font-size: 14px;
+        color: $black-color;
+      }
+
+      .guest {
+        margin: 0 0 16px 0;
+
+        .title {
+          font-size: 14px;
+          color: $black-color;
+        }
+
+        .name {
+          color: $gray-color;
+        }
+      }
+    }
+
+    .contact-section {
+      .title {
+        margin: 0 0 16px 0;
+      }
+
+      .detail {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+
+        .contact-info {
+          .name {
+            font-size: 14px;
+            font-weight: 500;
+            color: $black-color;
+          }
+
+          .phone,
+          .email {
+            font-size: 12px;
+            color: $gray-color;
+          }
+        }
+      }
+    }
+  }
+}

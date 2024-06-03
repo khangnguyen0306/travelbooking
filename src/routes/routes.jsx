@@ -16,7 +16,7 @@ const User = Loadable({ loader: () => import("../pages/profile/index") });
 const Booking = Loadable({ loader: () => import("../pages/profile/Components/Booking/Booking") });
 const Invoice = Loadable({ loader: () => import("../pages/profile/Components/Invoice/Invoice") });
 const Review = Loadable({ loader: () => import("../pages/profile/Components/Review/Review") });
-
+const PaymentPage = Loadable({ loader: () => import("../pages/paymentPage") });
 
 const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
@@ -88,7 +88,7 @@ export const router = createBrowserRouter([
         element: HotelDetail,
       },
       {
-        path: "/room-details/:1",
+        path: "/room-details/:roomId",
         element: RoomDetailsPage,
       },
       {
@@ -98,6 +98,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: Login,
+      },
+      {
+        path: "/payment",
+        element: PaymentPage,
       },
       ////////////// add for more no login
     ]
