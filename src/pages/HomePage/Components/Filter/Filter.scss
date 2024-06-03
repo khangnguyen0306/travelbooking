@@ -3,10 +3,13 @@ $font-title: DM Serif Display, sans-serif;
 $blue-main-color: #5c98f2;
 
 .Home-layout {
-    width: 90%;
-    height: 100vh;
-    margin: 80px 5%;
+    width: 80%;
+    margin: 100px 10% 0;
+    padding: 40px 0;
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
 
     .Card-container-home {
@@ -16,19 +19,18 @@ $blue-main-color: #5c98f2;
 
         .Bagde-card-container-home {
             background-color: #fff;
-            width: fit-content;
-            padding: 8px 25px;
+            padding: 8px 24px;
             border-radius: 1.5rem;
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 500;
             text-transform: none;
             color: #41ddb8;
             box-shadow: 0 0 10px rgba(186, 174, 174, 0.2);
-            margin-bottom: 2rem;
         }
 
         .title-card-container-home {
-            font-size: 84px;
+            margin: 16px 0;
+            font-size: 60px;
             font-weight: 400;
             letter-spacing: 0px;
             text-transform: none;
@@ -36,57 +38,41 @@ $blue-main-color: #5c98f2;
             font-family: DM Serif Display, sans-serif;
             line-height: 1.2;
         }
-
-        .content-card-container-home {
-            font-family: DM Sans, sans-serif;
-            font-size: 20px;
-            text-transform: none;
-            color: #8c8c8c;
-            line-height: 1.7;
-            margin-top: 1rem;
-            width: 80%;
-        }
     }
 
     .search-layout-home {
-        -webkit-box-shadow: 0 20px 35px rgba(14, 13, 13, 0.08);
-        font-size: 16px;
-        font-weight: 500;
+        position: absolute;
+        bottom: 16%;
+        width: fit-content;
         display: flex;
         align-items: center;
-        position: absolute;
-        bottom: -1%;
-        left: 2%;
         background-color: #fff;
-        // padding: 30px 0px;
-        border-radius: 18px;
-        gap: 30px;
+        box-shadow: 0 20px 35px rgba(14, 13, 13, 0.08);
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 500;
 
         .search-content-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            text-align: left;
-            padding: 10px 20px;
             font-family: DM Sans, sans-serif;
-
-            .search-content-container-label {
-                padding: 10px 10px;
-                padding-left: 0;
-            }
+            padding: 0 16px;
+            width: 288px;
+            height: 60px;
+            border: none;
+            border-radius: 12px 0 0 12px;
+            border-right: 1px solid #e0e0e0;
         }
 
         .search-layout-home-btn {
-            width: 166px;
-            height: 130px;
-            background-color: #5c98f2;
-            border-radius: 0 18px 18px 0;
+            padding: 0 28px;
+            height: 60px;
+            background-color: $blue-main-color;
+            border: none;
+            border-radius: 0 12px 12px 0;
+            font-size: large;
+            color: #fff;
             cursor: pointer;
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-family: DM Sans, sans-serif;
-            color: #fff;
         }
     }
 }

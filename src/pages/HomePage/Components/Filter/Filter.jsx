@@ -95,81 +95,66 @@ const Filter = () => {
     const handleDestinationChange = (value) => {
         dispatch(setDestination(value));
     };
+    const handleSearchChange = (value) => {
+        console.log('Search button clicked');
+    }
     return (
         <Row justify="center" align="middle" className="Home-layout">
             <Col xs={24} md={12}>
-                <Card style={{ height: "100%" }} className="Card-container-home">
-                    <div className="Bagde-card-container-home">
-                        <p>Book With Us!</p>
-                    </div>
-                    <h1 className="title-card-container-home">Find Next Place
-                        To <span style={{ color: '#5c98f2' }}>Visit</span></h1>
-                    <div className="content-card-container-home">
-                        <p >Discover amzaing places at exclusive deals.</p>
-                        <p>
-                            Eat, Shop, Visit interesting places around the world.</p>
-                    </div>
-                </Card>
+                <div className="Card-container-home">
+                    <span className="Bagde-card-container-home">Book With Us!</span>
+                    <h1 className="title-card-container-home">
+                        Find Next Place <br />To <span style={{ color: '#5c98f2' }}>Visit</span>
+                    </h1>
+                </div>
             </Col>
-            <Col xs={24} md={11}>
-                <img src={IMG} style={{ width: '505px', height: '680px', marginTop: '6rem', borderRadius: '30px' }} />
+            <Col xs={24} md={11} style={{ width: '50%', textAlign: "center" }}>
+                <img src={IMG} style={{ width: "80%", borderRadius: '30px' }} />
             </Col>
 
             <div className="search-layout-home">
-                <div className="search-content-container">
-                    <label className="search-content-container-label" style={{ fontFamily: 'DM Sans, sans-serif' }}>Check In/Check Out</label>
+                <RangePicker
+                    className="search-content-container"
+                    disabledDate={disabledDate}
+                    format={dateFormat}
+                    onChange={handleDateChange}
+                    placeholder={["Check In", "CheckOut"]}
+                />
+                <div className="border"></div>
+                <Select
+                    className="search-content-container"
+                    onChange={handleDestinationChange}
+                    showSearch
+                    variant="borderless"
+                    placeholder="Location"
+                    optionFilterProp="children"
+                    filterOption={(input, option) => (option?.children ?? '').toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                    filterSort={(optionA, optionB) => optionA.children.localeCompare(optionB.children)}
+                >
+                    {VietnameseProvinces.map((province, index) => (
+                        <Option key={index} value={province}>
+                            {province}
+                        </Option>
+                    ))}
+                </Select>
+                <div className="border"></div>
+                <Popover
+                    content={content}
+                    title="Select Guests and Rooms"
+                    trigger="click"
+                    open={visible}
+                    onOpenChange={handleVisibleChange}
+                >
+                    <Button className="search-content-container">
+                        {guests} Guests, {rooms} Room(s) <UserOutlined />
+                    </Button>
+                </Popover>
+                <Button onClick={handleSearchChange} className="search-layout-home-btn">
+                    <SearchOutlined />
+                </Button>
 
-                    <Space direction="vertical" size={12}>
-
-                        <RangePicker disabledDate={disabledDate} format={dateFormat} onChange={handleDateChange} />
-                    </Space>
-                </div>
-                <div className="search-content-container">
-                    <label className="search-content-container-label">Location</label>
-                    <Select
-                        onChange={handleDestinationChange}
-                        showSearch
-                        style={{
-                            width: 200,
-                            border: 'none',
-                            color: '#8c8c8c',
-                            fontSize: '16px'
-                        }}
-                        placeholder="Select a province"
-                        optionFilterProp="children"
-                        filterOption={(input, option) => (option?.children ?? '').toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                        filterSort={(optionA, optionB) => optionA.children.localeCompare(optionB.children)}
-                    >
-                        {VietnameseProvinces.map((province, index) => (
-                            <Option key={index} value={province}>
-                                {province}
-                            </Option>
-                        ))}
-                    </Select>
-                </div>
-                <div className="search-content-container">
-                    <label className="search-content-container-label">Guest and Room</label>
-
-                    <Popover
-                        content={content}
-                        title="Select Guests and Rooms"
-                        trigger="click"
-                        open={visible}
-                        onOpenChange={handleVisibleChange}
-                    >
-                        <Button>
-                            {guests} Guests, {rooms} Room(s) <UserOutlined />
-                        </Button>
-                    </Popover>
-                </div>
-                <div className="search-layout-home-btn">
-                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-                        <p><SearchOutlined /></p>
-                        <p>Search now</p>
-                    </div>
-                </div>
             </div>
-        </Row>
+        </Row >
     )
 }
 
