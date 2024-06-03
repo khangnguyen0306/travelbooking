@@ -1,0 +1,28 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+
+.payment-wrapper {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 100px;
+  font-family: $font-content;
+
+  .container {
+    margin: 0 10%;
+    width: 80%;
+
+    .heading {
+      padding: 4% 0;
+      font-family: $font-title;
+      font-size: 60px;
+      font-weight: 400;
+      text-align: center;
+    }
+
+    .progress {
+      margin: 0 10%;
+      width: 80%;
+    }
+  }
+}
