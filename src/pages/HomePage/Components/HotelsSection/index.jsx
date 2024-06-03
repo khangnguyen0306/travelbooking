@@ -1,5 +1,6 @@
 import "./HotelsSection.scss";
 import HotelItem from "./HotelItem";
+import { Link } from 'react-router-dom';
 
 function HotelsSection() {
     return (
@@ -12,7 +13,7 @@ function HotelsSection() {
                 <HotelItem />
             </div>
             <div className="more">
-                <a className="link" href="">View More Hotels</a>
+                <Link className="link" to="/view-hotels">View More Hotels</Link>
             </div>
         </div>
     );

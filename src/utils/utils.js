@@ -1,5 +1,46 @@
 
-
+export const Countries = [
+  "United States",
+  "Canada",
+  "Brazil",
+  "Argentina",
+  "United Kingdom",
+  "France",
+  "Germany",
+  "Italy",
+  "Spain",
+  "Netherlands",
+  "Sweden",
+  "Switzerland",
+  "Norway",
+  "Denmark",
+  "Finland",
+  "Russia",
+  "China",
+  "Japan",
+  "South Korea",
+  "India",
+  "Australia",
+  "New Zealand",
+  "Mexico",
+  "South Africa",
+  "Egypt",
+  "Nigeria",
+  "Turkey",
+  "Saudi Arabia",
+  "United Arab Emirates",
+  "Israel",
+  "Thailand",
+  "Malaysia",
+  "Singapore",
+  "Indonesia",
+  "Philippines",
+  "Vietnam",
+  "Pakistan",
+  "Bangladesh",
+  "Sri Lanka",
+  "Nepal"
+];
 
 
 export const VietnameseProvinces = [

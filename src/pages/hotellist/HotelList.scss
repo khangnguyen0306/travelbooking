@@ -15,45 +15,67 @@ $blue-main-color-hover: #87b1f0;
         display: flex;
         justify-content: center;
         align-items: center;
-        // background-color: #e1e1e1;
         margin-top: 80px;
-        height: 45vh;
+        height: 35vh;
         margin-bottom: 50px;
     }
+
+    .listhotel-filter {
+        .search-layout-hotels {
+            box-shadow: 0 20px 35px rgba(14, 13, 13, 0.08);
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-radius: 10px;
+            background-color: $blue-main-color;
+            margin-top: 40px;
+            justify-content: space-between;
+            width: 80%;
+            margin-left: 10%;
+
+            .search-content-container-hotels {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: left;
+                padding: 10px 20px;
+                font-family: DM Sans, sans-serif;
+                background-color: rgba(255, 255, 255, 0.073);
+                border-radius: 10px;
+                color: #ffffff;
+                font-size: larger;
+                margin-left: 20px;
+
+                .search-content-container-label-hotels {
+                    padding: 10px 10px;
+                    padding-left: 0;
+                }
+            }
+
+            .search-layout-hotels-btn {
+                width: 166px;
+                height: 130px;
+                background-color: rgba(247, 249, 250, 1.00);
+                border-radius: 0 10px 10px 0;
+                cursor: pointer;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: DM Sans, sans-serif;
+                color: rgba(1, 148, 243, 1.00);
+            }
+        }
+    }
+
 
     .hotel {
 
         .filter {
             margin-left: 50px;
 
-            .check-in {
-                background-color: #efefef;
-                margin: 20px;
-                // margin-left: 50px;
-                width: auto;
-                padding: 10px;
-                border-radius: 5px;
 
-                .check-in-title {
-                    color: #5f5e5e;
-                    margin-bottom: 10px;
-                }
-            }
-
-            .check-out {
-                color: #000;
-                background-color: #efefef;
-                margin: 20px;
-                // margin-left: 50px;
-                width: auto;
-                padding: 10px;
-                border-radius: 5px;
-
-                .check-out-title {
-                    color: #5f5e5e;
-                    margin-bottom: 10px;
-                }
-            }
 
             .facilities {
                 margin: 20px;

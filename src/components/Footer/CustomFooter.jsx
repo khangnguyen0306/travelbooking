@@ -11,7 +11,7 @@ function CustomFooter() {
         <Col span={6}>
           <div>
             <Link to={"/"}>
-              <h3 id="Logo-footer">Travel <span>Tour</span></h3>
+              <h3 id="Logo-footer">Ta<span>bi</span></h3>
             </Link>
           </div>
         </Col>
