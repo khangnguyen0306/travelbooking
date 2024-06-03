@@ -93,7 +93,7 @@ const Amentites = () => {
                         </Card>
                     ))}
                 </Col>
-                <div className="exclammation-footer">
+                <div className="exclammation-footer" >
                     <div style={{ display: 'flex', alignItems: 'center', color: '#5c98f2' }}>
                         <p style={{ fontSize: '1.3rem',marginRight:'1 rem' }}><ExclamationCircleFilled /></p>
                         <p style={{fontSize:'1rem'}}><strong>Miễn trừ trách nhiệm</strong></p>
