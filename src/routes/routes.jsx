@@ -13,6 +13,7 @@ const Profile = Loadable({ loader: () => import("../pages/profile/profile") });
 const Profile1 = Loadable({ loader: () => import("../components/Profile/Profile") });
 const Change = Loadable({ loader: () => import("../components/ChangePassword/Change") });
 const HomePage = Loadable({ loader: () => import("../pages/HomePage/HomePage") });
+const PaymentPage = Loadable({ loader: () => import("../pages/paymentPage") });
 
 const Dashboard = Loadable({
   loader: () => import("../pages/HomePage/HomePage"),
@@ -75,7 +76,7 @@ export const router = createBrowserRouter([
         element: HotelDetail,
       },
       {
-        path: "/room-details/:1",
+        path: "/room-details/:roomId",
         element: RoomDetailsPage,
       },
       {
@@ -85,6 +86,10 @@ export const router = createBrowserRouter([
       {
         path: "/login",
         element: Login,
+      },
+      {
+        path: "/payment",
+        element: PaymentPage,
       },
       ////////////// add for more no login
     ]

@@ -1,0 +1,259 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+$black-color: #03121a;
+$gray-color: #687176;
+
+.step-1 {
+  margin: 40px 0;
+  display: flex;
+  gap: 20px;
+
+  .info-for-guest {
+    flex: 1;
+
+    .contact-info {
+      margin: 0 0 20px 0;
+      padding: 24px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+      .title {
+        margin: 0 0 16px 0;
+        font-size: 20px;
+        color: $black-color;
+      }
+
+      .description {
+        margin: 0 0 16px 0;
+        color: $gray-color;
+      }
+
+      .fullname {
+        margin: 0 0 16px 0;
+      }
+
+      .email-phone {
+        margin: 0 0 16px 0;
+        display: flex;
+        gap: 10px;
+
+        .item {
+          width: 50%;
+        }
+      }
+
+      .sub-title {
+        margin: 0 0 4px 0;
+        color: $gray-color;
+      }
+
+      .input {
+        margin: 0 0 4px 0;
+        padding: 4px 8px;
+        width: 100%;
+        height: 40px;
+        border-radius: 6px;
+        border: 1px solid $gray-color;
+
+        &:focus-visible {
+          outline: $blue-main-color auto 1px;
+        }
+      }
+
+      .error {
+        color: red;
+        font-weight: 500;
+      }
+
+      .book-for {
+        display: flex;
+        gap: 4%;
+
+        .selection {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+
+          input {
+            margin: 0 8px 0 0;
+            width: 16px;
+            height: 16px;
+          }
+
+          span {
+            color: $black-color;
+            font-size: 16px;
+            font-weight: 500;
+          }
+        }
+      }
+
+      .guest-fullname {
+        margin: 16px 0 0 0;
+      }
+    }
+
+    .price-info {
+      padding: 24px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+      .title {
+        margin: 0 0 16px 0;
+        font-size: 20px;
+      }
+
+      .detail-price {
+        margin: 0 0 16px 0;
+        border-bottom: 1px solid $gray-color;
+
+        .item {
+          margin: 0 0 8px 0;
+          display: flex;
+          justify-content: space-between;
+
+          .sub-title,
+          .price {
+            color: $gray-color;
+            font-size: 16px;
+            font-weight: 500;
+          }
+
+          .price {
+            color: $black-color;
+          }
+        }
+      }
+
+      .total-price {
+        margin: 0 0 16px 0;
+        display: flex;
+        justify-content: space-between;
+
+        .sub-title,
+        .price {
+          color: $black-color;
+          font-size: 20px;
+          font-weight: 700;
+        }
+
+        .price {
+          color: $blue-main-color;
+        }
+      }
+
+      .continue {
+        width: 100%;
+        height: 48px;
+        border: none;
+        outline: none;
+        border-radius: 8px;
+        background-color: rgba($color: $blue-main-color, $alpha: 0.84);
+        color: white;
+        font-size: larger;
+        font-weight: bold;
+        transition: all 0.2s ease-in-out;
+        cursor: pointer;
+
+        &:hover {
+          background-color: rgba($color: $blue-main-color, $alpha: 1);
+        }
+      }
+    }
+  }
+
+  .info-hotel-room {
+    width: 400px;
+    height: fit-content;
+    padding: 24px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+    .detail-info {
+      border-bottom: 1px solid $gray-color;
+
+      .hotel-name {
+        margin: 0 0 16px 0;
+        color: $black-color;
+        font-size: 16px;
+      }
+
+      .room-img {
+        margin: 0 0 16px 0;
+        width: 100%;
+      }
+
+      .date-range {
+        margin: 0 0 16px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        text-align: center;
+
+        .check-in,
+        .check-out {
+          padding: 8px;
+          width: 124px;
+          border: 1px solid $gray-color;
+          border-radius: 8px;
+          box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+
+          .title {
+            color: $gray-color;
+            font-size: 11px;
+          }
+
+          .date {
+            color: $black-color;
+            font-size: 12px;
+            font-weight: 700;
+          }
+
+          .time {
+            color: $gray-color;
+            font-size: 11px;
+          }
+        }
+
+        .night {
+          .number {
+            color: $gray-color;
+            font-size: 11px;
+          }
+
+          .arrow {
+            color: $gray-color;
+          }
+        }
+      }
+
+      .room-name {
+        margin: 0 0 16px 0;
+        color: $black-color;
+        font-size: 16px;
+      }
+    }
+
+    .detail-price {
+      margin: 16px 0 0 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-weight: 700;
+
+      .title {
+        color: $black-color;
+        font-size: 14px;
+      }
+
+      .price {
+        color: red;
+        font-size: 16px;
+      }
+    }
+  }
+}

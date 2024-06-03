@@ -1,0 +1,33 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+$black-color: #03121a;
+$gray-color: #687176;
+
+.step3-wrapper {
+  margin: 40px 10%;
+  padding: 40px 20px;
+  width: 80%;
+  border-radius: 20px;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+  text-align: center;
+
+  .title {
+    margin: 0 0 16px 0;
+    color: $black-color;
+    font-size: 28px;
+    font-family: $font-title;
+  }
+
+  .thank-you {
+    margin: 0 0 24px 0;
+    color: $gray-color;
+    font-size: 22px;
+  }
+
+  .note {
+    color: $gray-color;
+    font-size: 18px;
+  }
+}
