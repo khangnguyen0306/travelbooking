@@ -4,7 +4,7 @@ import "../scss/roomlist.scss"
 import { Rate, Row, Checkbox, Tooltip } from 'antd';
 import { QuestionCircleFilled, RightOutlined, SafetyCertificateFilled } from '@ant-design/icons';
 import Search from 'antd/es/input/Search';
-
+import { Link } from 'react-router-dom';
 const RoomList = ({ hotelId }) => {
   const [filter, setFilter] = useState('');
   const [breakFastFilter, setBreakFastFilter] = useState(false);
@@ -31,7 +31,7 @@ const RoomList = ({ hotelId }) => {
 
         </div>
         <div className="toggle-roomlist" >
-          <p><SafetyCertificateFilled style={{ color: 'green', fontSize: '20px',marginRight:'0.5rem' }} /></p>
+          <p><SafetyCertificateFilled style={{ color: 'green', fontSize: '20px', marginRight: '0.5rem' }} /></p>
           <p>  Phải đặt phòng trong thời điểm không chắc chắn này? Hãy chọn phòng có thể hủy miễn phí!</p>
         </div>
         <div className="filter-options-layout-room-list">
@@ -85,7 +85,7 @@ const RoomList = ({ hotelId }) => {
               <Rate allowHalf value={room.rate} style={{ marginBottom: '18px', fontSize: '15px' }} />
               <div className="price-btn-book">
                 <div>
-                  <button className='btn-book-now'>BOOK NOW <RightOutlined /></button>
+                  <Link to={`/room-details/${room?.id}`}><button className='btn-book-now'>BOOK NOW <RightOutlined /></button></Link>
                 </div>
                 <p className='price'> {room.price} VND</p>
               </div>

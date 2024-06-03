@@ -6,7 +6,7 @@ import './HotelList.scss'
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setGuests, setRooms, setDate, setDestination } from '../../slices/hotelSearch.slice';
-import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, ConfigProvider, Rate, Select, notification, Popover } from "antd";
+import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, Pagination, Rate, Select, notification, Popover } from "antd";
 import { VietnameseProvinces } from "../../utils/utils";
 
 import dayjs from 'dayjs';
@@ -24,11 +24,6 @@ const HotelList = () => {
     const date = useSelector(state => state.hotelSearch.date);
     const destination = useSelector(state => state.hotelSearch.destination);
     const { data: hoteldata, isLoading } = useGetHotelListQuery();
-    const colors2 = ['#ddd', '#8c8c8c', '#8c8c8c', '#343333'];
-    const getHoverColors = (colors) =>
-        colors.map((color) => new TinyColor(color).lighten(5).toString());
-    const getActiveColors = (colors) =>
-        colors.map((color) => new TinyColor(color).darken(5).toString());
     console.log(hoteldata);
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
@@ -36,6 +31,14 @@ const HotelList = () => {
             dispatch(setGuests(value * 2));
         }
     };
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+    };
+    const indexOfLastHotel = currentPage * pageSize;
+    const indexOfFirstHotel = indexOfLastHotel - pageSize;
+    const currentHotels = hoteldata?.slice(indexOfFirstHotel, indexOfLastHotel);
 
     const handleGuestsChange = (value) => {
         if (value > rooms * 2) {
@@ -54,6 +57,9 @@ const HotelList = () => {
     const handleDestinationChange = (value) => {
         dispatch(setDestination(value));
     };
+    const handleSearchChange = (value) => {
+        console.log('Search button clicked');
+    }
     const handleVisibleChange = (visible) => {
         setVisible(visible);
     };
@@ -152,26 +158,28 @@ const HotelList = () => {
             <div className='listhotel-filter'>
                 <div className="search-layout-hotels">
                     <div className="search-content-container-hotels">
-                        <label className="search-content-container-label-hotels" style={{ fontFamily: 'DM Sans, sans-serif' }}>Check In/Check Out</label>
-
                         <Space direction="vertical" size={12}>
-
-                            <RangePicker value={date} disabledDate={disabledDate} format={dateFormat} onChange={handleDateChange} />
+                            <RangePicker
+                                value={date}
+                                disabledDate={disabledDate}
+                                format={dateFormat}
+                                onChange={handleDateChange}
+                                placeholder={["Check In", "CheckOut"]}
+                            />
                         </Space>
                     </div>
                     <div className="search-content-container-hotels">
-                        <label className="search-content-container-label-hotels">Location</label>
                         <Select
                             value={destination}
                             onChange={handleDestinationChange}
                             showSearch
                             style={{
-                                width: 200,
+                                width: 286,
                                 border: 'none',
                                 color: '#8c8c8c',
                                 fontSize: '16px'
                             }}
-                            placeholder="Select a province"
+                            placeholder="Location"
                             optionFilterProp="children"
                             filterOption={(input, option) => (option?.children ?? '').toLowerCase().indexOf(input.toLowerCase()) >= 0}
                             filterSort={(optionA, optionB) => optionA.children.localeCompare(optionB.children)}
@@ -184,7 +192,6 @@ const HotelList = () => {
                         </Select>
                     </div>
                     <div className="search-content-container-hotels">
-                        <label className="search-content-container-label-hotels">Guest and Room</label>
 
                         <Popover
                             content={content}
@@ -193,17 +200,16 @@ const HotelList = () => {
                             open={visible}
                             onOpenChange={handleVisibleChange}
                         >
-                            <Button>
+                            <Button className='button-guest' >
                                 {guests} Guests, {rooms} Room(s) <UserOutlined />
                             </Button>
                         </Popover>
                     </div>
-                    <div className="search-layout-hotels-btn">
+                    <Button type="text" onClick={handleSearchChange} className="search-layout-hotels-btn">
                         <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-                            <p><SearchOutlined /></p>
-                            <p>Search now</p>
+                            <p ><SearchOutlined /></p>
                         </div>
-                    </div>
+                    </Button>
                 </div>
             </div>
 
@@ -239,29 +245,19 @@ const HotelList = () => {
                                     width: '100%',
                                 }}
                             >
-                                <ConfigProvider
-                                    className="button-container"
-                                    theme={{
-                                        components: {
-                                            Button: {
-                                                colorPrimary: `linear-gradient(90deg,  ${colors2.join(', ')})`,
-                                                colorPrimaryHover: `linear-gradient(90deg, ${getHoverColors(colors2).join(', ')})`,
-                                                colorPrimaryActive: `linear-gradient(90deg, ${getActiveColors(colors2).join(', ')})`,
-                                                lineWidth: 0,
-                                            },
-                                        },
-                                    }}
+                                <button
+                                    className="btn add-to-cart"
+                                    type="button"
                                 >
-                                    <Button className="button-container" style={{ width: '100%', }} type="primary" size="large">
-                                        Search Room
-                                    </Button>
-                                </ConfigProvider>
+                                    Search Room
+                                </button>
+
                             </Space>
                         </div>
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            {hoteldata?.map((hotel) => (
+                            {currentHotels?.map((hotel) => (
                                 <div key={hotel?.id} className="hotel-item">
                                     {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
                                     <img src={hotel?.imgUrl} alt={hotel?.name} className="hotel-img" />
@@ -287,6 +283,14 @@ const HotelList = () => {
                                     </div>
                                 </div>
                             ))}
+                        </div>
+                        <div className="pagination-container">
+                            <Pagination
+                                defaultCurrent={1}
+                                total={hoteldata?.length}
+                                pageSize={pageSize}
+                                onChange={handlePageChange}
+                            />
                         </div>
                     </Col>
                 </Row>

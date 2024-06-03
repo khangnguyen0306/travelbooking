@@ -105,6 +105,7 @@ $grey-content-color: #8c8c8c;
                 align-items: center;
                 margin-top: 20px;
 
+
                 .btn-book-now {
                     font-size: 13px;
                     text-transform: uppercase;
@@ -117,6 +118,7 @@ $grey-content-color: #8c8c8c;
                     border-bottom: 2px solid #fff;
                     position: relative;
                     padding-bottom: 10px;
+                    color: black !important;
 
                     &::before {
                         content: "";

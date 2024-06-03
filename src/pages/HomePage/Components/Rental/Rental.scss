@@ -1,43 +1,57 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+
 .container-home-rental {
-    margin: 50px;
+    margin: 80px 5%;
+    width: 90%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     .info-rental {
+        width: 60%;
+
         .title {
-            color: #006CE4;
+            color: $blue-main-color;
             font-size: 2.8rem;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
 
         .description {
-            font-size: 1.1rem;
-            margin-bottom: 40px;
+            margin-bottom: 16px;
+            font-size: 1rem;
+            text-align: justify;
         }
 
         .button {
-            background-color: #FEBB02;
+            background-color: rgba($color: $blue-main-color, $alpha: 0.8);
             color: white;
             font-size: 1rem;
             width: 30%;
             height: 50px;
             border-radius: 50px;
-            margin-bottom: 20px;
             cursor: pointer;
             border: none;
+            transition: 0.3s ease-in-out all;
+
+            &:hover {
+                background-color: $blue-main-color;
+            }
         }
 
-        .yellow-line {
+        .line {
             width: 50%;
             height: 5px;
             border-radius: 50px;
-            background-color: #FEBB02;
-            margin-bottom: 20px;
+            background-color: rgba($color: $blue-main-color, $alpha: 0.8);
+            margin-bottom: 16px;
         }
     }
 
     .img-rental {
-        width: 549px;
-        height: 340px;
+        width: 40%;
         border-radius: 20px;
         margin-left: 100px;
 
