@@ -1,6 +1,6 @@
 import React from 'react';
 import './Rental.scss';
-import { Col, Row } from "antd";
+import { Link } from 'react-router-dom';
 
 const Rental = () => {
     return (
@@ -14,7 +14,7 @@ const Rental = () => {
                     Becoming a hotel partner on our booking website offers many benefits for hotel owners. With a user-friendly interface and simple management tools, you can easily post hotel information, manage available rooms, and receive direct bookings. We commit to providing a stable customer base and marketing support to maximize revenue for your hotel.
                 </p>
                 <div >
-                    <button className="button">Discover more</button>
+                    <Link to={"/register/partner"}><button className="button" >Discover more</button></Link>
                 </div>
             </div>
 
