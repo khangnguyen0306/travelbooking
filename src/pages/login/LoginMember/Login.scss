@@ -1,0 +1,98 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+
+.login-member {
+  margin: 100px 10% 0;
+  width: 80%;
+  background-color: white;
+  font-family: $font-content;
+
+  .login-title {
+    margin: 60px 0;
+    font-family: $font-title;
+    text-align: center;
+  }
+
+  .login-content {
+    .login-content__form {
+      margin: 0 20%;
+      padding: 20px 0;
+      width: 60%;
+
+      .login-content__form__input__email,
+      .login-content__form__input__password {
+        margin: 0 20%;
+        width: 60%;
+      }
+
+      button {
+        margin: 20px 20%;
+        width: 60%;
+        height: 40px;
+      }
+
+      .login-content-forget {
+        margin: 0 20%;
+        width: 60%;
+        text-align: right;
+      }
+    }
+
+    .register-section {
+      margin: 0 20%;
+      padding: 40px 0;
+      width: 60%;
+
+      .login-content-ask {
+        margin: 0 0 16px 0;
+        text-align: center;
+        font-family: $font-title;
+      }
+
+      .login-content-signup {
+        text-align: center;
+      }
+    }
+
+    .other-type-login {
+      margin: 0 20%;
+      padding: 40px 0;
+      width: 60%;
+
+      .title {
+        margin: 0 0 16px 0;
+        text-align: center;
+        font-family: $font-title;
+      }
+
+      .link-group {
+        display: flex;
+        align-items: center;
+        justify-content: space-evenly;
+
+        .link {
+          padding: 12px 20px;
+          border: 1px solid $blue-main-color;
+          background-color: $blue-main-color;
+          color: white;
+          border-radius: 8px;
+          font-weight: bolder;
+          font-size: 14px;
+          transition: all ease-in-out 0.2s;
+          cursor: pointer;
+
+          &:hover {
+            transform: scale(1.02);
+          }
+        }
+      }
+    }
+
+    .divider {
+      margin: 0 25%;
+      width: 50%;
+      border-bottom: 1px solid black;
+    }
+  }
+}

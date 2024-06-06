@@ -1,4 +1,4 @@
-import "./RegisterPage.scss";
+import "./RegisterPartner.scss";
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
@@ -18,7 +18,8 @@ const schema = yup
     })
     .required()
 
-function RegisterPage() {
+function RegisterPartner() {
+
     const {
         register,
         handleSubmit,
@@ -54,7 +55,7 @@ function RegisterPage() {
 
     return (
         <div className="wrapper">
-            <h1 className="title">Register</h1>
+            <h1 className="title">Register as a partner</h1>
             <div className="container">
                 <p className="description">
                     After creating an account, you'll be able to track your payment status, track the confirmation and you can also rate the tour after you finished the tour.
@@ -153,11 +154,11 @@ function RegisterPage() {
                 </form>
             </div>
             <div className="footer">
-                <h3 className="sub-title">Already A Member</h3>
-                <Link className="link" to={"/login"}>Login</Link>
+                <h3 className="sub-title">Already A Partner</h3>
+                <Link className="link" to={"/login/partner"}>Login</Link>
             </div>
         </div>
     );
 }
 
-export default RegisterPage;
+export default RegisterPartner;
