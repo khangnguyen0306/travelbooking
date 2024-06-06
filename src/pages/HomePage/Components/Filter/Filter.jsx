@@ -8,16 +8,14 @@ import { VietnameseProvinces } from "../../../../utils/utils";
 import { DatePicker, Space } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { useNavigate, Link } from 'react-router-dom';
 import { setGuests, setRooms, setDestination, setDate } from '../../../../slices/hotelSearch.slice';
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
 const disabledDate = (current) => {
-    // Can not select days before today and today
     return current && current < dayjs().endOf('day');
 };
-
-
 
 const Filter = () => {
     const [visible, setVisible] = useState(false);
@@ -32,18 +30,18 @@ const Filter = () => {
     const destination = useSelector((state) => state.hotelSearch.destination);
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
-        if (guests > value * 2) {
-            dispatch(setGuests(value * 2));
+        if (guests > value * 6) {
+            dispatch(setGuests(value * 6));
         }
     };
 
     const handleGuestsChange = (value) => {
-        if (value > rooms * 2) {
+        if (value > rooms * 6) {
             notification.warning({
                 message: "Warning!",
-                description: "Mỗi phòng tối đa 2 người."
+                description: "Mỗi phòng tối đa 6 người."
             })
-            dispatch(setGuests(rooms * 2));
+            dispatch(setGuests(rooms * 6));
         } else {
             dispatch(setGuests(value));
         }
@@ -96,7 +94,7 @@ const Filter = () => {
         dispatch(setDestination(value));
     };
     const handleSearchChange = (value) => {
-        console.log('Search button clicked');
+        console.log("push");
     }
     return (
         <Row justify="center" align="middle" className="Home-layout">
@@ -104,7 +102,7 @@ const Filter = () => {
                 <div className="Card-container-home">
                     <span className="Bagde-card-container-home">Book With Us!</span>
                     <h1 className="title-card-container-home">
-                        Find Next Place <br />To <span style={{ color: '#5c98f2' }}>Visit</span>
+                        You're<span style={{ color: '#5c98f2' }}> faraway traveler</span> who doesn't tell me where you want to be taken to. <br />
                     </h1>
                 </div>
             </Col>
@@ -150,7 +148,7 @@ const Filter = () => {
                     </Button>
                 </Popover>
                 <Button onClick={handleSearchChange} className="search-layout-home-btn">
-                    <SearchOutlined />
+                    <Link to={`/view-hotels`}><SearchOutlined /></Link>
                 </Button>
 
             </div>

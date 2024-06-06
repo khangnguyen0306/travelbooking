@@ -76,6 +76,7 @@ export const router = createBrowserRouter([
             path: "change-password",
             element: Change,
           },
+
         ]
       },
 

@@ -51,7 +51,15 @@ const Change = () => {
                     name="confirmPassword"
                     rules={[
                         { required: true, message: 'Please enter your confirm password!' },
-                        { pattern: /^.{6,24}$/, message: 'Password must be between 6 and 24 characters!' }
+                        { pattern: /^.{6,24}$/, message: 'Password must be between 6 and 24 characters!' },
+                        ({ getFieldValue }) => ({
+                            validator(_, value) {
+                                if (!value || getFieldValue('newPassword') === value) {
+                                    return Promise.resolve();
+                                }
+                                return Promise.reject('New Password does not match the Confirm Password.!');
+                            },
+                        }),
                     ]}
                 >
                     <Input.Password className='input' />

@@ -15,7 +15,7 @@ const items = [
         key: '0',
     },
     {
-        label: <a href="/user/dashboard">Dashboard</a>,
+        label: <a href="/user/booking">My Booking</a>,
         key: '1',
     },
     {
@@ -23,7 +23,7 @@ const items = [
     },
     {
         label: <a href="/user/profile">Edit Profile</a>,
-        key: '3',
+        key: '2',
     },
     {
         type: 'divider',

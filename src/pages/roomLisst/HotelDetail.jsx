@@ -62,13 +62,9 @@ const RoomlistDetail = () => {
         hotelImage: hotelDetail?.image?.slice(0, 3)
     }
 
-
-
-
     if (isLoading) {
         return <h1>Loading...</h1>;
     }
-
 
     return (
         <>
