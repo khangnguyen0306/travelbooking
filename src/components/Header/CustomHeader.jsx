@@ -84,7 +84,7 @@ const CustomHeader = () => {
                             </a>
                         </Dropdown>
                     </div>
-                    <Link to='/login'>
+                    <Link to='/login/member'>
                         <Button type="primary" className="login-btn">Login</Button>
                     </Link>
                 </>
