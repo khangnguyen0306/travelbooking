@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import "./Filter.scss"
 import { Card, Col, Input, Row, Select, InputNumber, Form, Popover, Button, Alert, notification } from "antd";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
-import IMG from '../../../../assets/photo-3-1485152074061.jpg';
-import { VietnameseProvinces } from "../../../../utils/utils";
+import IMG from '../../../../../assets/photo-3-1485152074061.jpg';
+import { VietnameseProvinces } from "../../../../../utils/utils";
 import { DatePicker, Space } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useNavigate, Link } from 'react-router-dom';
-import { setGuests, setRooms, setDestination, setDate } from '../../../../slices/hotelSearch.slice';
+import { setGuests, setRooms, setDestination, setDate } from '../../../../../slices/hotelSearch.slice';
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';

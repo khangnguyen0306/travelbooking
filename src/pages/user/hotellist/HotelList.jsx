@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
-import { useGetHotelListQuery } from '../../services/roomAPI'
+import { useGetHotelListQuery } from '../../../services/roomAPI'
 import { TinyColor } from '@ctrl/tinycolor';
 import { Link } from 'react-router-dom';
 import './HotelList.scss'
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
-import { setGuests, setRooms, setDate, setDestination } from '../../slices/hotelSearch.slice';
+import { setGuests, setRooms, setDate, setDestination } from '../../../slices/hotelSearch.slice';
 import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, Pagination, Rate, Select, notification, Popover } from "antd";
-import { VietnameseProvinces } from "../../utils/utils";
+import { VietnameseProvinces } from "../../../utils/utils";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useGetHotelByIdQuery } from '../../services/roomAPI';
+import { useGetHotelByIdQuery } from '../../../services/roomAPI';
 import { Col, Row } from 'antd';
 import { useParams } from 'react-router-dom';
 import "./component/scss/hotelDetail.scss";

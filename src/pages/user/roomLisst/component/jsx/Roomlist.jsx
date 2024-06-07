@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetRoomQuery } from '../../../../services/roomAPI';
+import { useGetRoomQuery } from '../../../../../services/roomAPI';
 import "../scss/roomlist.scss"
 import { Rate, Row, Checkbox, Tooltip } from 'antd';
 import { QuestionCircleFilled, RightOutlined, SafetyCertificateFilled } from '@ant-design/icons';
