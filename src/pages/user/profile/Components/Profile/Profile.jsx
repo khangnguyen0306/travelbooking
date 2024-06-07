@@ -9,7 +9,7 @@ import {
     DatePicker,
     Select,
 } from 'antd';
-import { Countries } from '../../../../utils/utils';
+import { Countries } from '../../../../../utils/utils';
 
 const { Option } = Select;
 const normFile = (e) => {

@@ -4,13 +4,13 @@ import "../scss/introduction.scss"
 import Map from './Map';
 import { Link } from 'react-router-dom';
 import { RightOutlined } from '@ant-design/icons';
-import maylanh from "../../../../assets/iconHotelDetail/maylanh.png";
-import nhahang from "../../../../assets/iconHotelDetail/nhahang.png";
-import hoboi from "../../../../assets/iconHotelDetail/hoboi.png";
-import letan from "../../../../assets/iconHotelDetail/letan.png";
-import chodauxe from "../../../../assets/iconHotelDetail/chodauxe.png";
-import thangmay from "../../../../assets/iconHotelDetail/thangmay.png";
-import wifi from "../../../../assets/iconHotelDetail/wifi.png";
+import maylanh from "../../../../../assets/iconHotelDetail/maylanh.png";
+import nhahang from "../../../../../assets/iconHotelDetail/nhahang.png";
+import hoboi from "../../../../../assets/iconHotelDetail/hoboi.png";
+import letan from "../../../../../assets/iconHotelDetail/letan.png";
+import chodauxe from "../../../../../assets/iconHotelDetail/chodauxe.png";
+import thangmay from "../../../../../assets/iconHotelDetail/thangmay.png";
+import wifi from "../../../../../assets/iconHotelDetail/wifi.png";
 
 
 
@@ -76,7 +76,7 @@ const IntroductionHotel = (
                             </Link>
                         </div>
                         <p>{limitWords(description, 50)}</p>
-                    </div> 
+                    </div>
 
                     <div className="card-container">
                         <div className="card-header" >

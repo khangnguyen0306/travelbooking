@@ -1,32 +1,12 @@
-import { useState } from "react";
 import { Outlet } from "react-router-dom";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UserOutlined,
-  LogoutOutlined,
-} from "@ant-design/icons";
-import {
-  Layout,
-  Menu,
-  Button,
-  theme,
-  Avatar,
-  Badge,
-  Dropdown,
-  Space,
-} from "antd";
-import useSider from "@/hooks/useSider";
-import { Link, useLocation } from "react-router-dom";
+import { Layout, theme, } from "antd";
 import CustomHeader from "../components/Header/CustomHeader";
 import CustomFooter from "../components/Footer/CustomFooter";
 import { ImportFile } from "../assets/importSVG";
 
-const { Header, Sider, Content } = Layout;
+const { Content } = Layout;
 
 const MainLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  // const dispatcher = useAppDispatch();
   const {
     token: { colorBgContainer, borderRadiusLG, ...other },
   } = theme.useToken();
@@ -38,10 +18,7 @@ const MainLayout = () => {
       <Content
         style={{
           display: "flex",
-          // margin: "0px 16px",
-          // padding: 50,
           minHeight: 500,
-          // background: other.colorBorderSecondary,
           background: ImportFile.background,
           borderRadius: borderRadiusLG,
         }}
@@ -50,7 +27,6 @@ const MainLayout = () => {
       </Content>
       <CustomFooter />
     </Layout>
-
   );
 };
 

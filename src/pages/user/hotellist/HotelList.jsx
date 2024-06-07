@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import { useGetHotelListQuery } from '../../services/roomAPI'
+import { useGetHotelListQuery } from '../../../services/roomAPI'
 import { TinyColor } from '@ctrl/tinycolor';
 import { Link } from 'react-router-dom';
 import './HotelList.scss'
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
-import { setGuests, setRooms, setDate, setDestination } from '../../slices/hotelSearch.slice';
+import { setGuests, setRooms, setDate, setDestination } from '../../../slices/hotelSearch.slice';
 import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, Pagination, Rate, Select, notification, Popover } from "antd";
-import { VietnameseProvinces } from "../../utils/utils";
-
+import { VietnameseProvinces } from "../../../utils/utils";
+import InfiniteScroll from 'react-infinite-scroll-component';
 import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
@@ -27,26 +27,41 @@ const HotelList = () => {
     console.log(hoteldata);
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
-        if (guests > value * 2) {
-            dispatch(setGuests(value * 2));
+        if (guests > value * 6) {
+            dispatch(setGuests(value * 6));
         }
+    };
+    const [hasMore, setHasMore] = useState(true);
+
+    const fetchMoreData = () => {
+        if (currentHotels && currentPage * pageSize >= currentHotels?.length) {
+            setHasMore(false);
+            return;
+        }
+        setCurrentPage((prevPage) => prevPage + 1);
     };
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 10;
     const handlePageChange = (page) => {
+
         setCurrentPage(page);
+        window.scrollTo({
+            top: 100,
+            left: 0,
+            behavior: 'smooth'
+        });
     };
     const indexOfLastHotel = currentPage * pageSize;
     const indexOfFirstHotel = indexOfLastHotel - pageSize;
     const currentHotels = hoteldata?.slice(indexOfFirstHotel, indexOfLastHotel);
 
     const handleGuestsChange = (value) => {
-        if (value > rooms * 2) {
-            notification.error({
-                message: "Error!",
-                description: "Mỗi phòng tối đa 2 người."
+        if (value > rooms * 6) {
+            notification.warning({
+                message: "Warning!",
+                description: "Mỗi phòng tối đa 6 người."
             });
-            dispatch(setGuests(rooms * 2));
+            dispatch(setGuests(rooms * 6));
         } else {
             dispatch(setGuests(value));
         }
@@ -257,41 +272,51 @@ const HotelList = () => {
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            {currentHotels?.map((hotel) => (
-                                <div key={hotel?.id} className="hotel-item">
-                                    {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
-                                    <img src={hotel?.imgUrl} alt={hotel?.name} className="hotel-img" />
-                                    <div className="hotel-info">
-                                        <h2 className="hotel-name">{hotel?.name}</h2>
-                                        <p className="hotel-description">{hotel?.description}</p>
-                                        <div className="hotel-rating">
-                                            <Rate allowHalf value={hotel?.rating} disabled />
-                                            <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
+                            <InfiniteScroll
+                                dataLength={currentHotels?.length || 0}
+                                next={fetchMoreData}
+                                hasMore={hasMore}
+                                loader={<h3>Loading...</h3>}
+                                scrollableTarget="scrollableDiv"
+                                endMessage={<h3 style={{ textAlign: 'center' }}>Hết dữ liệu</h3>}
+                            >
+                                {hoteldata?.map((hotel) => (
+                                    <div key={hotel?.id} className="hotel-item">
+                                        {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
+                                        <img src={hotel?.imgUrl} alt={hotel?.name} className="hotel-img" />
+                                        <div className="hotel-info">
+                                            <h2 className="hotel-name">{hotel?.name}</h2>
+                                            <p className="hotel-description">{hotel?.description}</p>
+                                            <div className="hotel-rating">
+                                                <Rate allowHalf value={hotel?.rating} disabled />
+                                                <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
+                                            </div>
+                                            <Row>
+                                                <Col xs={24} md={14}>
+                                                    <Link to={`/hotel-detail/${hotel?.id}`}>
+                                                        <div className="hotel-book-now">DETAIL</div>
+                                                    </Link>
+                                                </Col>
+                                                <Col xs={24} md={10}>
+                                                    <div className="hotel-price">
+                                                        From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
+                                                    </div>
+                                                </Col>
+                                            </Row>
                                         </div>
-                                        <Row>
-                                            <Col xs={24} md={14}>
-                                                <Link to={`/hotel-detail/${hotel?.id}`}>
-                                                    <div className="hotel-book-now">DETAIL</div>
-                                                </Link>
-                                            </Col>
-                                            <Col xs={24} md={10}>
-                                                <div className="hotel-price">
-                                                    From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
-                                                </div>
-                                            </Col>
-                                        </Row>
                                     </div>
-                                </div>
-                            ))}
+                                ))}
+                            </InfiniteScroll>
+
                         </div>
-                        <div className="pagination-container">
+                        {/* <div className="pagination-container">
                             <Pagination
                                 defaultCurrent={1}
                                 total={hoteldata?.length}
                                 pageSize={pageSize}
                                 onChange={handlePageChange}
                             />
-                        </div>
+                        </div> */}
                     </Col>
                 </Row>
             </div>
