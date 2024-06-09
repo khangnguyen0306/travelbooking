@@ -25,9 +25,16 @@ const BookingAdmin = Loadable({ loader: () => import("../pages/admin/ViewBooking
 const ViewUser = Loadable({ loader: () => import("../pages/admin/ViewUser/ViewUser") });
 const ViewPartner = Loadable({ loader: () => import("../pages/admin/ViewPartner") });
 const Dashboard = Loadable({ loader: () => import("../pages/admin/Dashboard/Dashboard") });
+const ViewAmenities = Loadable({ loader: () => import("../pages/admin/ViewAmenities/ViewAmenities") });
+const ConfirmRental = Loadable({ loader: () => import("../pages/admin/ConfirmRetal/ConfirmRental") });
+const ViewBooking = Loadable({ loader: () => import("../pages/parner/ViewBooking/ViewBooking") });
+const ManageHotel = Loadable({ loader: () => import("../pages/parner/ManageHotel/ManageHotel") });
 
 const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
+});
+const Parner = Loadable({
+  loader: () => import("../pages/parner/Parner"),
 });
 export const router = createBrowserRouter([
   {
@@ -128,7 +135,6 @@ export const router = createBrowserRouter([
         element: <AuthGuard />,
         children: [
           {
-
             path: "/admin",
             element: Admin,
             children: [
@@ -149,8 +155,30 @@ export const router = createBrowserRouter([
                 path: "view-partner",
                 element: ViewPartner,
               },
+              {
+                path: "view-amenities",
+                element: ViewAmenities,
+              },
+              {
+                path: "confirm-rental",
+                element: ConfirmRental,
+              },
             ],
           },
+          {
+            path: "/parner",
+            element: Parner,
+            children: [
+              {
+                index: true,
+                element: ViewBooking,
+              },
+              {
+                path: "manage-hotel",
+                element: ManageHotel,
+              },
+            ]
+          }
         ],
       },
     ]

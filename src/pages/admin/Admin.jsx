@@ -3,7 +3,7 @@ import {
     SolutionOutlined,
     EditOutlined,
     OrderedListOutlined,
-    PoweroffOutlined, LaptopOutlined, NotificationOutlined, UserOutlined
+    CheckCircleOutlined,
 } from '@ant-design/icons';
 import { TbPasswordUser } from "react-icons/tb";
 
@@ -12,6 +12,8 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 
 const Admin = () => {
+    const location = useLocation();
+    const selectedKey = location.pathname;
     const {
         token: { colorBgContainer, borderRadiusLG, ...other },
     } = theme.useToken();
@@ -34,6 +36,7 @@ const Admin = () => {
                         mode="inline"
                         defaultSelectedKeys={['1']}
                         defaultOpenKeys={['sub1']}
+                        selectedKeys={[selectedKey]}
                         style={{
                             height: '100%',
                         }}
@@ -52,6 +55,14 @@ const Admin = () => {
                         <Menu.Divider />
                         <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/view-partner" icon={<OrderedListOutlined style={{ fontSize: '20px' }} />}>
                             <Link to="/admin/view-partner">View Partner</Link>
+                        </Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/view-amenities" icon={<OrderedListOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/view-amenities">View Amenities</Link>
+                        </Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/confirm-rental" icon={<CheckCircleOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/confirm-rental">Rental Registration</Link>
                         </Menu.Item>
                         <Menu.Divider />
                         {/* <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<TbPasswordUser style={{ fontSize: '20px' }} />}>
