@@ -2,6 +2,7 @@ import React from 'react';
 import {
     SolutionOutlined,
     EditOutlined,
+    OrderedListOutlined,
     PoweroffOutlined, LaptopOutlined, NotificationOutlined, UserOutlined
 } from '@ant-design/icons';
 import { TbPasswordUser } from "react-icons/tb";
@@ -43,6 +44,10 @@ const Admin = () => {
                         <Menu.Divider />
                         <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/user" icon={<EditOutlined style={{ fontSize: '20px' }} />}>
                             <Link to="/admin/user">View User</Link>
+                        </Menu.Item>
+                        <Menu.Divider />
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/view-partner" icon={<OrderedListOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/view-partner">View Partner</Link>
                         </Menu.Item>
                         <Menu.Divider />
                         {/* <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<TbPasswordUser style={{ fontSize: '20px' }} />}>

@@ -1,5 +1,5 @@
-import React from 'react'
-import "./ViewUser.scss"
+import React from 'react';
+import "./ViewPartner.scss";
 import { Table, Tag } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
@@ -956,10 +956,10 @@ const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
 };
 
-const ViewUser = () => {
+const ViewPartner = () => {
     return (
-        <div className='view-user-wrapper'>
-            <h2 className='title'>List of users:</h2>
+        <div className='view-partner-wrapper'>
+            <h2 className='title'>List of partners:</h2>
             <div className='search'>
                 <SearchOutlined className='icon' />
                 <input className='input' type="text" />
@@ -977,4 +977,4 @@ const ViewUser = () => {
     )
 }
 
-export default ViewUser
+export default ViewPartner;
