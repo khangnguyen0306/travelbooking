@@ -1,0 +1,29 @@
+/* Thêm vào file CSS của bạn, ví dụ: styles.css */
+
+.custom-table .ant-table-thead>tr>th {
+    position: relative;
+}
+
+.custom-table .ant-table-thead>tr>th::after {
+    content: '';
+    position: absolute;
+    top: 20%;
+    /* Điều chỉnh giá trị này để căn chỉnh từ trên */
+    right: 0;
+    width: 1px;
+    /* Độ dày của đường ngăn cách */
+    height: 60%;
+    /* Chiều cao của đường ngăn cách */
+    background-color: #afabab;
+    /* Màu của đường ngăn cách */
+}
+
+.custom-table .ant-table-thead>tr>th:last-child::after {
+    display: none;
+    /* Loại bỏ đường ngăn cách cuối cùng */
+}
+
+.custom-table .ant-table-thead>tr:nth-child(2)>th:first-child {
+    border-bottom: 2px solid #000;
+    /* Đường border dưới cùng cho nhóm column đầu tiên */
+}

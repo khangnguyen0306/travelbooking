@@ -37,6 +37,10 @@ const Admin = () => {
                             height: '100%',
                         }}
                     >
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<EditOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin">Dashboard</Link>
+                        </Menu.Item>
+                        <Menu.Divider />
                         <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/booking" icon={<SolutionOutlined style={{ fontSize: '20px' }} />}>
                             <Link to="/admin/booking">View Booking</Link>
                         </Menu.Item>
@@ -44,7 +48,8 @@ const Admin = () => {
                         <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/user" icon={<EditOutlined style={{ fontSize: '20px' }} />}>
                             <Link to="/admin/user">View User</Link>
                         </Menu.Item>
-                        <Menu.Divider />
+
+
                         {/* <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<TbPasswordUser style={{ fontSize: '20px' }} />}>
                         <Link to="/admin/">Change Password</Link>
                     </Menu.Item>
