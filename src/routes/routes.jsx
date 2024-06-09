@@ -23,7 +23,9 @@ const Review = Loadable({ loader: () => import("../pages/user/profile/Components
 const PaymentPage = Loadable({ loader: () => import("../pages/user/paymentPage") });
 const BookingAdmin = Loadable({ loader: () => import("../pages/admin/ViewBooking/ViewBooking") });
 const ViewUser = Loadable({ loader: () => import("../pages/admin/ViewUser/ViewUser") });
+const ViewPartner = Loadable({ loader: () => import("../pages/admin/ViewPartner") });
 const Dashboard = Loadable({ loader: () => import("../pages/admin/Dashboard/Dashboard") });
+
 const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
 });
@@ -143,7 +145,10 @@ export const router = createBrowserRouter([
                 path: "user",
                 element: ViewUser,
               },
-
+              {
+                path: "view-partner",
+                element: ViewPartner,
+              },
             ],
           },
         ],
