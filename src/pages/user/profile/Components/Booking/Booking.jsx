@@ -2,22 +2,30 @@ import { Col, Row, Table, Space, Tag } from 'antd'
 import React, { useState } from 'react'
 import './Booking.scss'
 const Booking = (hasData) => {
-    const { Column, ColumnGroup } = Table;
     const columns = [
         {
             title: 'Date',
             dataIndex: 'date',
-            width: '35%',
         },
         {
-            title: 'Guest',
-            dataIndex: 'guest',
-            sorter: (a, b) => a.guest - b.guest,
+            title: 'Detail',
+            children: [
+                {
+                    title: 'Guest',
+                    dataIndex: 'guest',
+                    sorter: (a, b) => a.guest - b.guest,
+                },
+                {
+                    title: 'Room',
+                    dataIndex: 'room',
+                    sorter: (a, b) => a.room - b.room,
+                },
+            ]
         },
+
         {
-            title: 'Room',
-            dataIndex: 'room',
-            sorter: (a, b) => a.room - b.room,
+            title: 'Total',
+            dataIndex: 'tatol',
         },
         {
             title: 'Location',
@@ -107,11 +115,9 @@ const Booking = (hasData) => {
     return (
 
         <div>
-            {hasData ? (
+            {data.length > 0 ? (
                 <div>
-
-                    <h2 className='title'>Booking Content Here</h2>
-                    <Table columns={columns} dataSource={data} />
+                    <Table columns={columns} dataSource={data} className='custom-table' />
                 </div>
             ) : (
                 <div>
