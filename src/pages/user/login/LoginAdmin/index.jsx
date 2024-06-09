@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../../../../services/accountApi";
 
 const schema = yup
     .object({
@@ -12,6 +13,8 @@ const schema = yup
     .required()
 
 function LoginAdmin() {
+    const [login, { isLoading }] = useLoginMutation();
+
     const {
         register,
         handleSubmit,
@@ -20,14 +23,18 @@ function LoginAdmin() {
         resolver: yupResolver(schema),
     })
 
-    const onSubmit = (data) => {
-        console.log({
-            emailOrPhone: data.emailOrPhone,
-            password: data.password,
-            role_id: 1
-        });
+    const onSubmit = async (dataObj) => {
+        try {
+            const result = await login({
+                phone_number: dataObj.emailOrPhone,
+                password: dataObj.password,
+                role_id: 1
+            }).unwrap();
+            console.log(result);
+        } catch (error) {
+            console.log(error);
+        }
     }
-
 
     return (
         <div className="wrapper-login-admin">
@@ -42,7 +49,7 @@ function LoginAdmin() {
                         <div className="item">
                             <p className="label">Email or Phone number</p>
                             <input
-                                {...register("email")}
+                                {...register("emailOrPhone")}
                                 className="input"
                                 autoComplete="off"
                                 placeholder="Enter email or phone number"
@@ -62,7 +69,9 @@ function LoginAdmin() {
                             <p className="error">{errors.password?.message}</p>
                         </div>
                     </div>
-                    <button className="btn">Login</button>
+                    <button className="btn">
+                        {isLoading ? "Logging in..." : "Login"}
+                    </button>
                 </form>
             </div>
             <div className="other-type-login">

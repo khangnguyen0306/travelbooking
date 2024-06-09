@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { Link } from "react-router-dom";
+import { useLoginMutation } from "../../../../services/accountApi";
 
 const schema = yup
   .object({
@@ -12,6 +13,8 @@ const schema = yup
   .required()
 
 function Login() {
+  const [login, { isLoading }] = useLoginMutation();
+
   const {
     register,
     handleSubmit,
@@ -20,12 +23,17 @@ function Login() {
     resolver: yupResolver(schema),
   })
 
-  const onSubmit = (data) => {
-    console.log({
-      emailOrPhone: data.emailOrPhone,
-      password: data.password,
-      role_id: 3
-    });
+  const onSubmit = async (dataObj) => {
+    try {
+      const result = await login({
+        phone_number: dataObj.emailOrPhone,
+        password: dataObj.password,
+        role_id: 3
+      }).unwrap();
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
 
@@ -62,7 +70,9 @@ function Login() {
               <p className="error">{errors.password?.message}</p>
             </div>
           </div>
-          <button className="btn">Login</button>
+          <button className="btn">
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
         </form>
         <div className="register-section">
           <h3 className="login-content-ask">

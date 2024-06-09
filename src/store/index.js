@@ -4,11 +4,11 @@ import { configureStore } from "@reduxjs/toolkit";
 // ...import { persistStore, persistReducer } from 'redux-persist';
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Sử dụng localStorage
-import flowerReducer from "../slices/flower.slice";
-import { flowerApi } from "../services/flowerApi";
 import roomReducer from "../slices/room.slice";
 import { roomApi } from "../services/roomAPI";
 import hotelSearchReducer from "../slices/hotelSearch.slice";
+import { accountApi } from "../services/accountApi";
+import accountSlice from "../slices/accountSlice";
 
 const persistConfig = {
   key: "root",
@@ -19,22 +19,22 @@ const staticReducers = {
   theme: "theme",
 };
 
-const persistedReducer = persistReducer(persistConfig, flowerReducer);
+const accountpersistedReducer = persistReducer(persistConfig, accountSlice);
 const roompersistedReducer = persistReducer(persistConfig, roomReducer);
 const hotelSearchpersistedReducer = persistReducer(persistConfig, hotelSearchReducer);
 export const store = configureStore({
   reducer: {
-    [flowerApi.reducerPath]: flowerApi.reducer,
-    flower: persistedReducer,
+
     [roomApi.reducerPath]: roomApi.reducer,
     room: roompersistedReducer,
     hotelSearch: hotelSearchReducer,
+    [accountApi.reducerPath]: accountApi.reducer,
+    account: accountpersistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      flowerApi.middleware,
       roomApi.middleware,
-
+      accountApi.middleware
     ),
 });
 
