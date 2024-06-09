@@ -11,7 +11,7 @@ import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
 const { Header, Content, Footer, Sider } = Layout;
 
-const Parner = () => {
+const Partner = () => {
     const location = useLocation();
     const selectedKey = location.pathname;
     const {
@@ -41,12 +41,12 @@ const Parner = () => {
                             height: '100%',
                         }}
                     >
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/parner" icon={<EditOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/parner">View Booking</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/partner" icon={<EditOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/partner">View Booking</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/parner/manage-hotel" icon={<SolutionOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/parner/manage-hotel">Manage Hotel</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/partner/manage-hotel" icon={<SolutionOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/partner/manage-hotel">Manage Hotel</Link>
                         </Menu.Item>
 
 
@@ -66,4 +66,4 @@ const Parner = () => {
     )
 }
 
-export default Parner
+export default Partner
