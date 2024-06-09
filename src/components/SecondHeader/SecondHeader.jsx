@@ -34,13 +34,23 @@ const SecondHeader = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [prevScrollPos]);
 
+
+
+    let logoText;
+    if (location.pathname.startsWith("/partner")) {
+        logoText = <p><span style={{ color: 'black' }}>Ta</span><span style={{ color: '#1677ff' }}>bi</span>'s Partner</p>;
+    } else if (location.pathname.startsWith("/admin")) {
+        logoText = <p><span style={{ color: 'black' }}>Ta</span><span style={{ color: '#1677ff' }}>bi</span>'s Admin</p>;
+    } else {
+        logoText = <p><span style={{ color: 'black' }}>Ta</span><span style={{ color: '#1677ff' }}>bi</span></p>;
+    }
+
     return (
         <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1100' }}>
-            <Link to={"/admin"}>
-                <div className="header-logo">
-                    <p><span style={{ color: 'black' }}>Ta</span><span >bi</span></p>
-                </div>
-            </Link>
+            <div className="header-logo">
+                {logoText}
+            </div>
+
 
             <a onClick={showModal}><Button type="primary" className="login-btn">Log Out</Button></a>
             <Modal
@@ -56,7 +66,7 @@ const SecondHeader = () => {
                         Yes
                     </Button>,
                 ]}>
-                <p>Are you really want to log out admin ?</p>
+                <p>Are you really want to log out ?</p>
             </Modal>
         </Header>
 

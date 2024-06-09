@@ -4,8 +4,9 @@ import {
     EditOutlined,
     OrderedListOutlined,
     CheckCircleOutlined,
+    BarChartOutlined
 } from '@ant-design/icons';
-import { TbPasswordUser } from "react-icons/tb";
+import { FaMendeley } from "react-icons/fa";
 
 import { Breadcrumb, Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
@@ -41,7 +42,7 @@ const Admin = () => {
                             height: '100%',
                         }}
                     >
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<EditOutlined style={{ fontSize: '20px' }} />}>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<BarChartOutlined style={{ fontSize: '20px' }} />}>
                             <Link to="/admin">Dashboard</Link>
                         </Menu.Item>
                         <Menu.Divider />
@@ -57,7 +58,7 @@ const Admin = () => {
                             <Link to="/admin/view-partner">View Partner</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/view-amenities" icon={<OrderedListOutlined style={{ fontSize: '20px' }} />}>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/view-amenities" icon={<FaMendeley style={{ fontSize: '20px' }} />}>
                             <Link to="/admin/view-amenities">View Amenities</Link>
                         </Menu.Item>
                         <Menu.Divider />
