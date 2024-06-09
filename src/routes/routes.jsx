@@ -12,7 +12,7 @@ const HotelList = Loadable({ loader: () => import("../pages/user/hotellist/Hotel
 const HotelDetail = Loadable({ loader: () => import("../pages/user/roomLisst/HotelDetail") });
 const RegisterMember = Loadable({ loader: () => import("../pages/user/registerPage/Member") });
 const RegisterPartner = Loadable({ loader: () => import("../pages/user/registerPage/Partner") });
-const Dashboard = Loadable({ loader: () => import("../pages/user/profile/Components/Dashboard/Dashboard") });
+
 const Profile = Loadable({ loader: () => import("../pages/user/profile/Components/Profile/Profile") });
 const Change = Loadable({ loader: () => import("../pages/user/profile/Components/ChangePassword/Change") });
 const HomePage = Loadable({ loader: () => import("../pages/user/HomePage/HomePage") });
@@ -24,6 +24,7 @@ const PaymentPage = Loadable({ loader: () => import("../pages/user/paymentPage")
 const BookingAdmin = Loadable({ loader: () => import("../pages/admin/ViewBooking/ViewBooking") });
 const ViewUser = Loadable({ loader: () => import("../pages/admin/ViewUser/ViewUser") });
 const ViewPartner = Loadable({ loader: () => import("../pages/admin/ViewPartner") });
+const Dashboard = Loadable({ loader: () => import("../pages/admin/Dashboard/Dashboard") });
 
 const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
@@ -40,10 +41,7 @@ export const router = createBrowserRouter([
             path: "/user",
             element: User,
             children: [
-              {
-                path: "dashboard",
-                element: Dashboard,
-              },
+
               {
                 path: "profile",
                 element: Profile,
@@ -135,9 +133,14 @@ export const router = createBrowserRouter([
             element: Admin,
             children: [
               {
+                index: true,
+                element: Dashboard,
+              },
+              {
                 path: "booking",
                 element: BookingAdmin,
               },
+
               {
                 path: "user",
                 element: ViewUser,
