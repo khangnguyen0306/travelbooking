@@ -8,10 +8,9 @@ import { Link } from "react-router-dom";
 
 const schema = yup
     .object({
-        username: yup.string().required("This is required field.").min(6, "Username must be at least 6 characters.").max(12, "Username must be at most 12 characters.").trim(),
+        fullname: yup.string().required("This is required field.").min(4, "Username must be at least 4 characters.").trim(),
         email: yup.string().email("This field must be a valid email").required("This is required field.").trim(),
         phone: yup.string().required("This is required field.").length(10, "Phone number must have 10 digits").trim(),
-        address: yup.string().required("This is required field.").trim(),
         password: yup.string().required("This is required field.").min(6, "Password must be at least 6 characters.").max(24, "Password must be at most 24 characters.").trim(),
         confirmPassword: yup.string().required("This is required field.").min(6, "Confirm password must be at least 6 characters.").max(24, "Confirm password must be at most 24 characters.").trim(),
         check: yup.boolean().required().isTrue("Please check the box."),
@@ -32,12 +31,12 @@ function RegisterPartner() {
     const onSubmit = (data) => {
         if (data.password === data.confirmPassword) {
             console.log({
-                username: data.username,
+                fullname: data.fullname,
                 email: data.email,
                 phone: data.phone,
-                address: data.address,
                 password: data.password,
                 confirmPassword: data.confirmPassword,
+                role_id: 2
             });
             notification.success({
                 message: "Sign up successfully!",
@@ -54,11 +53,11 @@ function RegisterPartner() {
     const [checked, setChecked] = useState(false);
 
     return (
-        <div className="wrapper">
+        <div className="wrapper-register-partner">
             <h1 className="title">Register as a partner</h1>
             <div className="container">
                 <p className="description">
-                    After creating an account, you'll be able to track your payment status, track the confirmation and you can also rate the tour after you finished the tour.
+                    Sign up to become a partner so you can start renting.
                 </p>
                 <form
                     className="form"
@@ -67,14 +66,14 @@ function RegisterPartner() {
                     <div className="body">
                         {/* Username */}
                         <div className="item">
-                            <p className="label">Username*</p>
+                            <p className="label">Fullname*</p>
                             <input
-                                {...register("username")}
+                                {...register("fullname")}
                                 className="input"
                                 autoComplete="off"
-                                placeholder="Ex: username123 (6-12 characters)"
+                                placeholder="Ex: Nguyen Van A (at least 4 characters)"
                             />
-                            <p className="error">{errors.username?.message}</p>
+                            <p className="error">{errors.fullname?.message}</p>
                         </div>
                         {/* Email */}
                         <div className="item">
@@ -99,17 +98,6 @@ function RegisterPartner() {
                                 placeholder="Ex: 0987654321"
                             />
                             <p className="error">{errors.phone?.message}</p>
-                        </div>
-                        {/* Address */}
-                        <div className="item">
-                            <p className="label">Address*</p>
-                            <input
-                                {...register("address")}
-                                className="input"
-                                autoComplete="off"
-                                placeholder="Ex: Ho Chi Minh City"
-                            />
-                            <p className="error">{errors.address?.message}</p>
                         </div>
                         {/* Password */}
                         <div className="item">
