@@ -2,15 +2,10 @@ import React from 'react';
 import {
     SolutionOutlined,
     EditOutlined,
-    OrderedListOutlined,
-    CheckCircleOutlined,
-    ApartmentOutlined
 } from '@ant-design/icons';
-import { TbPasswordUser } from "react-icons/tb";
-
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const Partner = () => {
     const location = useLocation();
@@ -48,9 +43,6 @@ const Partner = () => {
                         <Menu.Divider />
                         <Menu.Item className="dashboard-content-sider-menu-item" key="/partner/manage-hotel" icon={<SolutionOutlined style={{ fontSize: '20px' }} />}>
                             <Link to="/partner/manage-hotel">Manage Hotel</Link>
-                        </Menu.Item>
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/partner/hotel-registration" icon={<ApartmentOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/partner/hotel-registration">Hotel Registration</Link>
                         </Menu.Item>
                     </Menu>
                 </Sider>

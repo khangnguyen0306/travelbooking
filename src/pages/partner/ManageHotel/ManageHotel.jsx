@@ -1,7 +1,8 @@
 import React from 'react'
 import "./ManageHotel.scss"
 import { Table, Tag } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Link } from 'react-router-dom';
 
 const columns = [
     {
@@ -65,9 +66,15 @@ const ManageHotel = () => {
     return (
         <div className='manage-hotel-wrapper'>
             <p><h2 className='title'>Manage Hotels</h2></p>
-            <div className='search'>
-                <SearchOutlined className='icon' />
-                <input className='input' type="text" />
+            <div className="action">
+                <div className='search'>
+                    <SearchOutlined className='icon' />
+                    <input className='input' type="text" />
+                </div>
+                <Link className="new-btn" to={"/partner/create-hotel"}>
+                    <PlusCircleOutlined />
+                    New Hotel
+                </Link>
             </div>
             <Table
                 bordered={true}
