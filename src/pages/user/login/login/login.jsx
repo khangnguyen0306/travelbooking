@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useLoginUserMutation } from "../../../../services/authAPI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { notification } from "antd";
 import { SmileOutlined } from "@ant-design/icons";
 import { useNavigate, useLocation, Link } from "react-router-dom";
@@ -24,6 +24,15 @@ function LoginAdmin() {
     const dispatch = useDispatch();
     const [login, { isLoading }] = useLoginUserMutation();
     const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+        if (token) {
+          dispatch(setToken(token));
+          navigate('/');
+        }
+      }, [navigate, dispatch]);
+      
     const {
         register,
         handleSubmit,
