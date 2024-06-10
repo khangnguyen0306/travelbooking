@@ -1,0 +1,26 @@
+#rooms-section {
+  padding: 40px 0;
+  margin: 0 5%;
+  width: 90%;
+
+  .title {
+    text-align: center;
+  }
+
+  .list-rooms {
+    margin: 60px 0 60px 0;
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+  }
+
+  .more {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .link {
+      color: #343434;
+    }
+  }
+}

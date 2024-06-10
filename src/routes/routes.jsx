@@ -1,28 +1,45 @@
 import { createBrowserRouter } from "react-router-dom";
 import Loadable from "./Loadable";
 import MainLayout from "../layout/MainLayout";
+import SecondLayout from "../layout/SecondLayout";
 import AuthGuard from "./AuthGuard";
-const Login = Loadable({ loader: () => import("../pages/login/Login") });
+const LoginMember = Loadable({ loader: () => import("../pages/user/login/LoginMember/Login") });
+const LoginAdmin = Loadable({ loader: () => import("../pages/user/login/LoginAdmin") });
+const LoginPartner = Loadable({ loader: () => import("../pages/user/login/LoginPartner") });
+const Login = Loadable({ loader: () => import("../pages/user/login/login/login") });
 const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
-const RoomDetailsPage = Loadable({ loader: () => import("../pages/roomDetailsPage") });
-const HotelList = Loadable({ loader: () => import("../pages/hotellist/HotelList") });
-const HotelDetail = Loadable({ loader: () => import("../pages/roomLisst/HotelDetail") });
-const RegisterPage = Loadable({ loader: () => import("../pages/registerPage") });
-const Dashboard = Loadable({ loader: () => import("../pages/profile/Components/Dashboard/Dashboard") });
-const Profile = Loadable({ loader: () => import("../pages/profile/Components/Profile/Profile") });
-const Change = Loadable({ loader: () => import("../pages/profile/Components/ChangePassword/Change") });
-const HomePage = Loadable({ loader: () => import("../pages/HomePage/HomePage") });
-const User = Loadable({ loader: () => import("../pages/profile/index") });
-const Booking = Loadable({ loader: () => import("../pages/profile/Components/Booking/Booking") });
-const Invoice = Loadable({ loader: () => import("../pages/profile/Components/Invoice/Invoice") });
-const Review = Loadable({ loader: () => import("../pages/profile/Components/Review/Review") });
-const PaymentPage = Loadable({ loader: () => import("../pages/paymentPage") });
+const RoomDetailsPage = Loadable({ loader: () => import("../pages/user/roomDetailsPage") });
+const HotelList = Loadable({ loader: () => import("../pages/user/hotellist/HotelList") });
+const HotelDetail = Loadable({ loader: () => import("../pages/user/roomLisst/HotelDetail") });
+const Register = Loadable({ loader: () => import("../pages/user/register/Register") });
+// const RegisterMember = Loadable({ loader: () => import("../pages/user/register/register") });
+const RegisterPartner = Loadable({ loader: () => import("../pages/user/registerPage/Partner") });
+
+const Profile = Loadable({ loader: () => import("../pages/user/profile/Components/Profile/Profile") });
+const Change = Loadable({ loader: () => import("../pages/user/profile/Components/ChangePassword/Change") });
+const HomePage = Loadable({ loader: () => import("../pages/user/HomePage/HomePage") });
+const User = Loadable({ loader: () => import("../pages/user/profile/index") });
+const Booking = Loadable({ loader: () => import("../pages/user/profile/Components/Booking/Booking") });
+const Invoice = Loadable({ loader: () => import("../pages/user/profile/Components/Invoice/Invoice") });
+const Review = Loadable({ loader: () => import("../pages/user/profile/Components/Review/Review") });
+const PaymentPage = Loadable({ loader: () => import("../pages/user/paymentPage") });
+const BookingAdmin = Loadable({ loader: () => import("../pages/admin/ViewBooking/ViewBooking") });
+const ViewUser = Loadable({ loader: () => import("../pages/admin/ViewUser/ViewUser") });
+const ViewPartner = Loadable({ loader: () => import("../pages/admin/ViewPartner") });
+const Dashboard = Loadable({ loader: () => import("../pages/admin/Dashboard/Dashboard") });
+const ViewAmenities = Loadable({ loader: () => import("../pages/admin/ViewAmenities/ViewAmenities") });
+const ConfirmRental = Loadable({ loader: () => import("../pages/admin/ConfirmRetal/ConfirmRental") });
+const ViewBooking = Loadable({ loader: () => import("../pages/partner/ViewBooking/ViewBooking") });
+const ManageHotel = Loadable({ loader: () => import("../pages/partner/ManageHotel/ManageHotel") });
+const HotelRigistration = Loadable({ loader: () => import("../pages/partner/HotelRegistration") });
 
 const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
 });
+const partner = Loadable({
+  loader: () => import("../pages/partner/partner"),
+});
 export const router = createBrowserRouter([
-
   {
     element: <MainLayout />,
     children: [
@@ -31,54 +48,39 @@ export const router = createBrowserRouter([
         element: <AuthGuard />,
         children: [
           {
+            path: "/user",
+            element: User,
             children: [
-              {
-                index: true,
-                element: HomePage,
-              },
 
               {
-                path: "admin",
-                element: Admin,
+                path: "profile",
+                element: Profile,
               },
-
-            ],
+              {
+                path: "booking",
+                element: Booking,
+              },
+              {
+                path: "invoice",
+                element: Invoice,
+              },
+              {
+                path: "review",
+                element: Review,
+              },
+              {
+                path: "change-password",
+                element: Change,
+              },
+            ]
           },
-
         ],
 
       },
       {
-        path: "/user",
-        element: User,
-        children: [
-          {
-            path: "dashboard",
-            element: Dashboard,
-          },
-          {
-            path: "profile",
-            element: Profile,
-          },
-          {
-            path: "booking",
-            element: Booking,
-          },
-          {
-            path: "invoice",
-            element: Invoice,
-          },
-          {
-            path: "review",
-            element: Review,
-          },
-          {
-            path: "change-password",
-            element: Change,
-          },
-        ]
+        index: true,
+        element: HomePage,
       },
-
       {
         path: "/view-hotels",
         element: HotelList,
@@ -93,17 +95,101 @@ export const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element: RegisterPage,
+        element:Register
+        // children: [
+        //   {
+        //     path: "member",
+        //     element: RegisterMember,
+        //   },
+        //   {
+        //     path: "partner",
+        //     element: RegisterPartner,
+        //   },
+        // ],
       },
       {
         path: "/login",
-        element: Login,
+        element: Login
+        // children: [
+        //   {
+        //     path: "member",
+        //     element: LoginMember,
+        //   },
+        //   {
+        //     path: "admin",
+        //     element: LoginAdmin,
+        //   },
+        //   {
+        //     path: "partner",
+        //     element: LoginPartner,
+        //   },
+        // ],
       },
       {
         path: "/payment",
         element: PaymentPage,
       },
       ////////////// add for more no login
+    ]
+  },
+  {
+    element: <SecondLayout />,
+    children: [
+      {
+        path: "/",
+        element: <AuthGuard />,
+        children: [
+          {
+            path: "/admin",
+            element: Admin,
+            children: [
+              {
+                index: true,
+                element: Dashboard,
+              },
+              {
+                path: "booking",
+                element: BookingAdmin,
+              },
+
+              {
+                path: "user",
+                element: ViewUser,
+              },
+              {
+                path: "view-partner",
+                element: ViewPartner,
+              },
+              {
+                path: "view-amenities",
+                element: ViewAmenities,
+              },
+              {
+                path: "confirm-rental",
+                element: ConfirmRental,
+              },
+            ],
+          },
+          {
+            path: "/partner",
+            element: partner,
+            children: [
+              {
+                index: true,
+                element: ViewBooking,
+              },
+              {
+                path: "manage-hotel",
+                element: ManageHotel,
+              },
+              {
+                path: "hotel-registration",
+                element: HotelRigistration,
+              },
+            ]
+          }
+        ],
+      },
     ]
   },
   {

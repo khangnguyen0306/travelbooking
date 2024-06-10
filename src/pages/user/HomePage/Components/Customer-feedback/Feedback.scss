@@ -1,0 +1,56 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+$blue-main-color-hover: #87b1f0;
+
+.container-home-feedback {
+
+    background-color: #e1e1e1;
+    padding: 40px 0;
+
+    .title {
+        font-size: 2.8rem;
+        font-weight: 400;
+        text-align: center;
+        font-family: $font-title;
+        line-height: 1.2;
+        margin-bottom: 40px;
+    }
+
+    .feedback {
+        margin: 0 5%;
+        width: 90%;
+
+        .feedback-item {
+            margin: 0 24%;
+            padding: 16px 32px;
+            width: 52% !important;
+            background-color: white;
+            border-radius: 20px;
+
+            .feedback-item__content {
+                .feedback-item__content__name {
+                    font-size: 1.5rem;
+                    font-weight: bold;
+                }
+
+                .feedback-item__content__rating {
+                    text-align: right;
+                }
+
+                .feedback-item__content__role {
+                    margin: 0 0 16px 0;
+                    font-size: 1rem;
+                    color: #8c8c8c;
+                }
+
+                .feedback-item__content__text {
+                    font-size: 1.2rem;
+                    color: #000;
+                }
+            }
+        }
+
+    }
+
+}

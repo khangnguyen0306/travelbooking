@@ -1,0 +1,114 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+
+.wrapper-register-partner {
+  margin: 0px 10% 0;
+  width: 80%;
+  font-family: $font-content;
+
+  .title {
+    padding: 40px 0px 0px;
+    color: #0a0a0a;
+    text-align: center;
+    font-size: 52px;
+    font-weight: 400;
+    font-family: $font-title;
+  }
+
+  .container {
+    padding: 40px 0;
+
+    .description {
+      padding: 0px 0 40px 0;
+      color: #8c8c8c;
+      text-align: center;
+    }
+
+    .form {
+      margin: 0 25%;
+      padding: 40px;
+      width: 50%;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+
+      .body {
+        .item {
+          margin: 0 0 24px;
+
+          .label {
+            margin: 0 0 8px;
+            color: #5c5c5c;
+          }
+
+          .input {
+            width: 100%;
+            height: 48px;
+            padding: 0 8px;
+            border-radius: 4px;
+            border: 1px solid #a9a9a9;
+            outline: none;
+
+            &:focus-visible {
+              outline: 1px solid $blue-main-color;
+            }
+          }
+
+          .error {
+            margin: 4px 0 0 0;
+            color: red;
+          }
+        }
+      }
+
+      .policy {
+        margin: 0 0 28px 0;
+        text-align: center;
+        color: #8c8c8c;
+
+        .checkbox {
+          margin: 0 4px 0 0;
+        }
+
+        .error {
+          margin: 8px 20% 0;
+          color: red;
+        }
+      }
+
+      .btn {
+        width: 100%;
+        height: 56px;
+        border-radius: 4px;
+        outline: none;
+        border: none;
+        background-color: $blue-main-color;
+        color: white;
+        font-weight: bold;
+        font-size: larger;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .footer {
+    padding: 40px 0px;
+    text-align: center;
+
+    .sub-title {
+      margin: 0 0 16px 0;
+      font-family: $font-title;
+      font-size: 20px;
+    }
+
+    .link {
+      font-size: 16px;
+
+      &:hover {
+        text-decoration: underline;
+        text-underline-offset: 4px;
+      }
+    }
+  }
+}

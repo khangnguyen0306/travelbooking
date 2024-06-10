@@ -1,0 +1,219 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+$blue-main-color-hover: #87b1f0;
+
+.container-hotel-hotelSearch {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+    margin-top: 4rem;
+    position: relative;
+
+    .titel {
+        font-size: 4rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 80px;
+        height: 35vh;
+        margin-bottom: 50px;
+    }
+
+    .listhotel-filter {
+        width: 100%;
+
+        .search-layout-hotels {
+            box-shadow: 0 25px 40px rgba(14, 13, 13, 0.2);
+            font-size: 16px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            position: relative;
+            border-radius: 10px;
+            background-color: $blue-main-color;
+            margin-top: 40px;
+            justify-content: space-between;
+            width: 80%;
+            margin-left: 10%;
+
+            .search-content-container-hotels {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                text-align: left;
+                padding: 10px 20px;
+                font-family: DM Sans, sans-serif;
+                border-radius: 10px;
+                color: #ffffff;
+                font-size: larger;
+                margin-left: 20px;
+
+                .button-guest {
+                    width: 264px;
+                    text-align: start;
+                    padding-left: 11px;
+
+                }
+
+                .search-content-container-label-hotels {
+                    padding: 10px 10px;
+                    padding-left: 0;
+                }
+            }
+
+            .search-layout-hotels-btn {
+                height: 60px;
+                padding: 0 28px;
+                background-color: rgba(247, 249, 250, 1.00);
+                border-radius: 0 10px 10px 0;
+                cursor: pointer;
+                display: flex;
+                font-size: large;
+                justify-content: center;
+                align-items: center;
+                font-family: DM Sans, sans-serif;
+                color: rgba(1, 148, 243, 1.00);
+                padding: 0 28px;
+                border: 1px solid rgba(247, 249, 250, 1.00);
+            }
+        }
+    }
+
+
+    .hotel {
+
+        .filter {
+            margin-left: 50px;
+
+
+
+            .facilities {
+                margin: 20px;
+                font-weight: bold;
+                font-family: $font-title;
+                font-size: 1.5rem;
+                margin-bottom: 20px;
+
+                .facilities-check-box {
+                    font-weight: normal;
+                    margin: 10px;
+                    font-size: larger;
+                }
+            }
+
+            .btn {
+                padding: 20px 24px;
+                width: 60%;
+                border: 1px solid $blue-main-color;
+                background-color: $blue-main-color;
+                color: white;
+                border-radius: 4px;
+                font-weight: bolder;
+                font-size: 14px;
+                transition: all ease-in-out 0.2s;
+                cursor: pointer;
+                margin-left: 20px !important;
+
+                &:hover {
+                    transform: scale(1.02);
+                }
+            }
+
+            .add-to-cart {
+                margin: 0 0 12px 0;
+                background-color: white;
+                color: $blue-main-color;
+            }
+        }
+
+        .list-hotel {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin: 2rem;
+
+            .hotel-item {
+                display: flex;
+                border: 1px solid #ddd;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+                position: relative;
+                margin-bottom: 40px;
+
+                .hotel-img {
+                    width: 40%;
+                    object-fit: cover;
+                }
+
+                .hotel-info {
+                    padding: 1rem;
+                    display: flex;
+                    width: 50%;
+                    flex-direction: column;
+                    justify-content: space-between;
+
+                    .hotel-name {
+                        font-size: 1.5rem;
+                        font-weight: bold;
+                    }
+
+                    .hotel-description {
+                        margin: 0.5rem 0;
+                        color: #555;
+                    }
+
+                    .hotel-rating {
+                        margin: 0.5rem 0;
+                        color: #ff9500;
+                    }
+
+                    .hotel-book-now {
+                        display: inline-block;
+                        padding: 0.5rem 1rem;
+                        margin: 1rem 0;
+                        background-color: #006ce4;
+                        color: white;
+                        text-decoration: none;
+                        border-radius: 4px;
+                        width: fit-content;
+                    }
+
+                    .hotel-price {
+                        font-size: 1.2rem;
+                        font-weight: bold;
+                        text-align: right;
+                        justify-content: center;
+                        margin-top: 1.3rem;
+
+                        .hotel-original-price {
+                            text-decoration: line-through;
+                            color: #888;
+                        }
+
+                        .hotel-current-price {
+                            color: #000;
+                        }
+                    }
+                }
+
+                .hotel-discount {
+                    background-color: #007bff;
+                    color: white;
+                    padding: 0.2rem 0.5rem;
+                    position: absolute;
+                    top: 10px;
+                    left: 10px;
+                    border-radius: 4px;
+                    z-index: 1;
+                }
+            }
+        }
+
+        .pagination-container {
+            margin: 0px 25px 20px 0px !important;
+            text-align: right;
+        }
+    }
+}

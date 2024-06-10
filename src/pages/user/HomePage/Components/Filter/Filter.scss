@@ -1,0 +1,78 @@
+$font-content: DM Sans, sans-serif;
+$font-title: DM Serif Display, sans-serif;
+$blue-main-color: #5c98f2;
+
+.Home-layout {
+    width: 80%;
+    margin: 100px 10% 0;
+    padding: 40px 0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+
+    .Card-container-home {
+        background-color: #f5f5f5;
+        width: 100%;
+        border: none;
+
+        .Bagde-card-container-home {
+            background-color: #fff;
+            padding: 8px 24px;
+            border-radius: 1.5rem;
+            font-size: 16px;
+            font-weight: 500;
+            text-transform: none;
+            color: #41ddb8;
+            box-shadow: 0 0 10px rgba(186, 174, 174, 0.2);
+        }
+
+        .title-card-container-home {
+            margin: 40px 0 120px 0;
+            font-size: 40px;
+            font-weight: 400;
+            letter-spacing: 0px;
+            text-transform: none;
+            color: rgb(30, 30, 30);
+            font-family: DM Serif Display, sans-serif;
+            line-height: 1.4;
+        }
+    }
+
+    .search-layout-home {
+        position: absolute;
+        bottom: 16%;
+        width: fit-content;
+        display: flex;
+        align-items: center;
+        background-color: #fff;
+        box-shadow: 0 20px 35px rgba(14, 13, 13, 0.08);
+        border-radius: 12px;
+        font-size: 16px;
+        font-weight: 500;
+
+        .search-content-container {
+            font-family: DM Sans, sans-serif;
+            padding: 0 16px;
+            width: 288px;
+            height: 60px;
+            border: none;
+            border-radius: 12px 0 0 12px;
+            border-right: 1px solid #e0e0e0;
+        }
+
+        .search-layout-home-btn {
+            padding: 0 28px;
+            height: 60px;
+            background-color: $blue-main-color;
+            border: none;
+            border-radius: 0 12px 12px 0;
+            font-size: large;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+    }
+}
