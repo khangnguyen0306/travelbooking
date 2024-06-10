@@ -3,7 +3,10 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { Link } from "react-router-dom";
-import { useLoginMutation } from "../../../../services/accountApi";
+import { useLoginUserMutation } from "../../../../services/authAPI";
+import { useState } from "react";
+import { message, notification } from "antd";
+
 
 const schema = yup
     .object({
@@ -13,8 +16,8 @@ const schema = yup
     .required()
 
 function LoginAdmin() {
-    const [login, { isLoading }] = useLoginMutation();
-
+    const [login, { isLoading }] = useLoginUserMutation();
+    const [error, setError] = useState(null);
     const {
         register,
         handleSubmit,
@@ -31,8 +34,30 @@ function LoginAdmin() {
                 role_id: 1
             }).unwrap();
             console.log(result);
+            // if (result.data.data.user && result.data.data.token) {          //chua checkUser Data
+            if (result.data) {
+                //   dispatch(setUser(result.data.data.user));
+                //   console.log(result.data.data.user)
+                dispatch(setToken(result.data.token));
+                localStorage.setItem("token", result.data.token);
+                notification.success({
+                    message: "Login successfully",
+                    description:
+                        <div>
+                            Welcome   {result.data.userName}   <SmileOutlined />
+                        </div>,
+                });
+                const from = location.state?.from?.pathname || "/"; // Check for intended path
+                navigate(from)
+            } else {
+                notification.error({
+                    message: "Login error",
+                    description: "Invalid email or password. Try again!",
+                });
+                form.resetFields(); // Xóa dữ liệu trong các ô input
+            }
         } catch (error) {
-            console.log(error);
+            setError("An error occurred while attempting to log in");
         }
     }
 

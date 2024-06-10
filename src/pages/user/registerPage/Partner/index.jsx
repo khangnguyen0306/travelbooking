@@ -1,14 +1,15 @@
-import "./RegisterPartner.scss";
+import "../Member/RegisterMember.scss";
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useState } from "react";
-import { notification } from "antd";
-import { Link } from "react-router-dom";
+import { Spin, message, notification } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterUserMutation } from "../../../../services/authAPI";
+import { useDispatch } from "react-redux";
 
 const schema = yup
     .object({
-        fullname: yup.string().required("This is required field.").min(4, "Username must be at least 4 characters.").trim(),
         email: yup.string().email("This field must be a valid email").required("This is required field.").trim(),
         phone: yup.string().required("This is required field.").length(10, "Phone number must have 10 digits").trim(),
         password: yup.string().required("This is required field.").min(6, "Password must be at least 6 characters.").max(24, "Password must be at most 24 characters.").trim(),
@@ -18,7 +19,6 @@ const schema = yup
     .required()
 
 function RegisterPartner() {
-
     const {
         register,
         handleSubmit,
@@ -28,16 +28,28 @@ function RegisterPartner() {
         resolver: yupResolver(schema),
     })
 
-    const onSubmit = (data) => {
+    const [registerUSer, { isLoading }] = useRegisterUserMutation();
+    const navigate = useNavigate()
+
+    const onSubmit = async (data) => {
+        console.log(data);
         if (data.password === data.confirmPassword) {
-            console.log({
-                fullname: data.fullname,
+            const result = await registerUSer({
+                role_id: 2,
                 email: data.email,
-                phone: data.phone,
                 password: data.password,
-                confirmPassword: data.confirmPassword,
-                role_id: 2
-            });
+                retype_password: data.confirmPassword,
+                phone_number: data.phone,
+            }).unwrap();
+            // console.log(result);
+            if (result.status == "OK") {
+                // message.success(result.message);
+                navigate("/login");
+            } else {
+                console.log(result);
+                message.error(result.message);
+                // form.resetFields();
+            }
             notification.success({
                 message: "Sign up successfully!",
                 description: "Please login to continue."
@@ -53,28 +65,16 @@ function RegisterPartner() {
     const [checked, setChecked] = useState(false);
 
     return (
-        <div className="wrapper-register-partner">
-            <h1 className="title">Register as a partner</h1>
+        <div className="wrapper-register-member">
             <div className="container">
                 <p className="description">
-                    Sign up to become a partner so you can start renting.
+                    Signing up to become a member gives you more privileges.
                 </p>
                 <form
                     className="form"
                     onSubmit={handleSubmit(onSubmit)}
                 >
                     <div className="body">
-                        {/* Username */}
-                        <div className="item">
-                            <p className="label">Fullname*</p>
-                            <input
-                                {...register("fullname")}
-                                className="input"
-                                autoComplete="off"
-                                placeholder="Ex: Nguyen Van A (at least 4 characters)"
-                            />
-                            <p className="error">{errors.fullname?.message}</p>
-                        </div>
                         {/* Email */}
                         <div className="item">
                             <p className="label">Email*</p>
@@ -137,13 +137,17 @@ function RegisterPartner() {
                         * Creating an account means you're okay with our <a>Terms of Service</a> and <a>Privacy Statement</a>.
                         <p className="error">{errors.check?.message}</p>
                     </div>
+                    {isLoading ?
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <Spin tip="Loading" size="small" style={{ textAlign: 'center' }} />
+                        </div> :
+                        <button className="btn" >SIGN UP</button>}
 
-                    <button className="btn">SIGN UP</button>
                 </form>
             </div>
             <div className="footer">
-                <h3 className="sub-title">Already A Partner</h3>
-                <Link className="link" to={"/login/partner"}>Login</Link>
+                <h3 className="sub-title">Already A Member</h3>
+                <Link className="link" to={"/login"}>Login</Link>
             </div>
         </div>
     );

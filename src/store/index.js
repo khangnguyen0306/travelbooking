@@ -7,8 +7,8 @@ import storage from "redux-persist/lib/storage"; // Sử dụng localStorage
 import roomReducer from "../slices/room.slice";
 import { roomApi } from "../services/roomAPI";
 import hotelSearchReducer from "../slices/hotelSearch.slice";
-import { accountApi } from "../services/accountApi";
-import accountSlice from "../slices/accountSlice";
+import { authApi } from "../services/authAPI";
+import authReducer from "../slices/auth.slice";
 
 const persistConfig = {
   key: "root",
@@ -19,7 +19,7 @@ const staticReducers = {
   theme: "theme",
 };
 
-const accountpersistedReducer = persistReducer(persistConfig, accountSlice);
+const authrersistedReducer = persistReducer(persistConfig, authReducer);
 const roompersistedReducer = persistReducer(persistConfig, roomReducer);
 const hotelSearchpersistedReducer = persistReducer(persistConfig, hotelSearchReducer);
 export const store = configureStore({
@@ -28,13 +28,13 @@ export const store = configureStore({
     [roomApi.reducerPath]: roomApi.reducer,
     room: roompersistedReducer,
     hotelSearch: hotelSearchReducer,
-    [accountApi.reducerPath]: accountApi.reducer,
-    account: accountpersistedReducer,
+    [authApi.reducerPath]: authApi.reducer,
+    auth: authrersistedReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       roomApi.middleware,
-      accountApi.middleware
+      authApi.middleware
     ),
 });
 

@@ -1,45 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { Button, Layout, Menu, Drawer, Grid, Dropdown, Space } from "antd";
-import "./CustomHeader.scss"; // Import SCSS file
-import { MenuOutlined } from "@ant-design/icons";
+import { Button, Layout, Menu, Drawer, Grid, Dropdown, Space, Avatar, notification } from "antd";
+import "./CustomHeader.scss";
+import { MenuOutlined, DownOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { logOut, selectCurrentUser } from "../../slices/auth.slice";
 import SubMenu from "antd/es/menu/SubMenu";
-import { DownOutlined } from '@ant-design/icons';
-import { Link, useLocation } from 'react-router-dom';
-// import Imame from "../../../src/assets/icons/laudry-icon.png"
 const { Header } = Layout;
 const { useBreakpoint } = Grid;
 
-const items = [
-    {
-        label: <a>-----</a>,
-        key: '0',
-    },
-    {
-        label: <a href="/user/booking">My Booking</a>,
-        key: '1',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        label: <a href="/user/profile">Edit Profile</a>,
-        key: '2',
-    },
-    {
-        type: 'divider',
-    },
-    {
-        label: <a href="/user/change-password">Change Password</a>,
-        key: '4',
-    },
-];
+
+
 const CustomHeader = () => {
     const screens = useBreakpoint();
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [visible, setVisible] = useState(true);
     const [drawerVisible, setDrawerVisible] = useState(false);
+    const dispatch = useDispatch();
     const location = useLocation();
+    const navigate = useNavigate();
     const selectedKey = location.pathname;
+    const user = useSelector(selectCurrentUser);
+
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollPos = window.pageYOffset;
@@ -52,41 +34,73 @@ const CustomHeader = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, [prevScrollPos]);
 
+    const renderMenuItems = () => (
+        <Menu className="menu" mode="horizontal" selectedKeys={[selectedKey]}>
+            <Menu.Item key="/" className="item">
+                <Link to="/">Home</Link>
+            </Menu.Item>
+            <Menu.Item key="/view-hotels" className="item">
+                <Link to="/view-hotels">View Hotels</Link>
+            </Menu.Item>
+        </Menu>
+    );
+
+    const renderProfileDropdown = () => (
+        <Dropdown menu={{ items }} trigger={['hover']}>
+            <Link onClick={(e) => e.preventDefault()}>
+                <Space>
+                    <Avatar
+                        style={{
+                            backgroundColor: '#87d068',
+                        }}
+                        icon={<UserOutlined />}
+                    />
+                    <p>  {user?.userName || 'User'}
+                        {/* <DownOutlined /> */}
+                    </p>
+
+                </Space>
+            </Link>
+        </Dropdown>
+    );
+
+    const handleLogout = () => {
+        dispatch(logOut());
+        notification.success({
+            message: "Logout successfully",
+            description: "See you again!",
+        });
+        navigate("/login");
+    };
+
+    const items = [
+        { label: <Link>-----</Link>, key: '0' },
+        { label: <Link to="/user/booking">My Booking</Link>, key: '1' },
+        { type: 'divider' },
+        { label: <Link to="/user/profile">Edit Profile</Link>, key: '2' },
+        { type: 'divider' },
+        { label: <Link to="/user/change-password">Change Password</Link>, key: '4' },
+        { label: <Link onClick={handleLogout}>Logout</Link>, key: '5' },
+    ];
+
     return (
         <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1100' }}>
-            <Link to={"/"}>
+            <Link to="/">
                 <div className="header-logo">
-                    <p><span style={{ color: 'black' }}>Ta</span><span >bi</span></p>
+                    <p><span style={{ color: 'black' }}>Ta</span><span>bi</span></p>
                 </div>
             </Link>
             {screens.md ? (
                 <>
-                    <Menu className="menu" mode="horizontal" selectedKeys={[selectedKey]}>
-                        <Menu.Item key="/" className="item">
-                            <Link to="/">Home</Link>
-                        </Menu.Item>
-                        <Menu.Item key="/view-hotels" className="item">
-                            <Link to="/view-hotels">View Hotels</Link>
-                        </Menu.Item>
-                    </Menu>
+                    {renderMenuItems()}
                     <div className="profile-btn">
-                        <Dropdown
-                            menu={{
-                                items,
-                            }}
-                            trigger={['click']}
-                        >
-                            <a onClick={(e) => e.preventDefault()}>
-                                <Space >
-                                    Click me
-                                    <DownOutlined />
-                                </Space>
-                            </a>
-                        </Dropdown>
+                        {user ? renderProfileDropdown() : null}
                     </div>
-                    <Link to='/login/member'>
-                        <Button type="primary" className="login-btn">Login</Button>
-                    </Link>
+                    {user ? null : (
+                        <Link to='/login'>
+                            <Button type="primary" className="login-btn">Login</Button>
+                        </Link>
+                    )}
                 </>
             ) : (
                 <Button className="menu-btn" onClick={() => setDrawerVisible(true)} style={{ marginRight: '40px' }}>
@@ -121,7 +135,7 @@ const CustomHeader = () => {
                         <Link to="admin">Tour List</Link>
                     </Menu.Item>
                     <Menu.Item key="4">
-                        <Link to="/"> Room List </Link>
+                        <Link to="/">Room List</Link>
                     </Menu.Item>
                     <Menu.Item key="5">
                         <Link to="home">Tour Search</Link>

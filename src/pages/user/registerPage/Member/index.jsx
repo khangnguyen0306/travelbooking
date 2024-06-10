@@ -3,8 +3,10 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useState } from "react";
-import { notification } from "antd";
-import { Link } from "react-router-dom";
+import { Spin, message, notification } from "antd";
+import { Link, useNavigate } from "react-router-dom";
+import { useRegisterUserMutation } from "../../../../services/authAPI";
+import { useDispatch } from "react-redux";
 
 const schema = yup
     .object({
@@ -26,15 +28,28 @@ function RegisterMember() {
         resolver: yupResolver(schema),
     })
 
-    const onSubmit = (data) => {
+    const [registerUSer, { isLoading }] = useRegisterUserMutation();
+    const navigate = useNavigate()
+
+    const onSubmit = async (data) => {
+        console.log(data);
         if (data.password === data.confirmPassword) {
-            console.log({
+            const result = await registerUSer({
+                role_id: 3,
                 email: data.email,
-                phone: data.phone,
                 password: data.password,
-                confirmPassword: data.confirmPassword,
-                role_id: 3
-            });
+                retype_password: data.confirmPassword,
+                phone_number: data.phone,
+            }).unwrap();
+            // console.log(result);
+            if (result.status == "OK") {
+                // message.success(result.message);
+                navigate("/login");
+            } else {
+                console.log(result);
+                message.error(result.message);
+                // form.resetFields();
+            }
             notification.success({
                 message: "Sign up successfully!",
                 description: "Please login to continue."
@@ -51,7 +66,6 @@ function RegisterMember() {
 
     return (
         <div className="wrapper-register-member">
-            <h1 className="title">Register as a member</h1>
             <div className="container">
                 <p className="description">
                     Signing up to become a member gives you more privileges.
@@ -123,13 +137,17 @@ function RegisterMember() {
                         * Creating an account means you're okay with our <a>Terms of Service</a> and <a>Privacy Statement</a>.
                         <p className="error">{errors.check?.message}</p>
                     </div>
+                    {isLoading ?
+                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                            <Spin tip="Loading" size="small" style={{ textAlign: 'center' }} />
+                        </div> :
+                        <button className="btn" >SIGN UP</button>}
 
-                    <button className="btn">SIGN UP</button>
                 </form>
             </div>
             <div className="footer">
                 <h3 className="sub-title">Already A Member</h3>
-                <Link className="link" to={"/login/member"}>Login</Link>
+                <Link className="link" to={"/login"}>Login</Link>
             </div>
         </div>
     );

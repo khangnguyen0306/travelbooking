@@ -1,21 +1,33 @@
 import React, { useState, useEffect } from "react";
-import { Button, Layout, Modal } from "antd";
+import { Button, Layout, Modal, notification } from "antd";
 import "./SecondHeader.scss"; // Import SCSS file
 import { MenuOutlined } from "@ant-design/icons";
 import SubMenu from "antd/es/menu/SubMenu";
 import { DownOutlined } from '@ant-design/icons';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { logOut } from "../../slices/auth.slice";
+import { useDispatch } from "react-redux";
 // import Imame from "../../../src/assets/icons/laudry-icon.png"
 const { Header } = Layout;
 
 const SecondHeader = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const showModal = () => {
         setIsModalOpen(true);
     };
     const handleOk = () => {
         setIsModalOpen(false);
+        dispatch(logOut());
+        notification.success({
+            message: "Logout successfully",
+            description: "See you again!",
+        });
+        navigate("/login")
+
     };
+
     const handleCancel = () => {
         setIsModalOpen(false);
     };

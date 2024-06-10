@@ -6,11 +6,13 @@ import AuthGuard from "./AuthGuard";
 const LoginMember = Loadable({ loader: () => import("../pages/user/login/LoginMember/Login") });
 const LoginAdmin = Loadable({ loader: () => import("../pages/user/login/LoginAdmin") });
 const LoginPartner = Loadable({ loader: () => import("../pages/user/login/LoginPartner") });
+const Login = Loadable({ loader: () => import("../pages/user/login/login/login") });
 const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
 const RoomDetailsPage = Loadable({ loader: () => import("../pages/user/roomDetailsPage") });
 const HotelList = Loadable({ loader: () => import("../pages/user/hotellist/HotelList") });
 const HotelDetail = Loadable({ loader: () => import("../pages/user/roomLisst/HotelDetail") });
-const RegisterMember = Loadable({ loader: () => import("../pages/user/registerPage/Member") });
+const Register = Loadable({ loader: () => import("../pages/user/register/Register") });
+// const RegisterMember = Loadable({ loader: () => import("../pages/user/register/register") });
 const RegisterPartner = Loadable({ loader: () => import("../pages/user/registerPage/Partner") });
 
 const Profile = Loadable({ loader: () => import("../pages/user/profile/Components/Profile/Profile") });
@@ -93,33 +95,35 @@ export const router = createBrowserRouter([
       },
       {
         path: "/register",
-        children: [
-          {
-            path: "member",
-            element: RegisterMember,
-          },
-          {
-            path: "partner",
-            element: RegisterPartner,
-          },
-        ],
+        element:Register
+        // children: [
+        //   {
+        //     path: "member",
+        //     element: RegisterMember,
+        //   },
+        //   {
+        //     path: "partner",
+        //     element: RegisterPartner,
+        //   },
+        // ],
       },
       {
         path: "/login",
-        children: [
-          {
-            path: "member",
-            element: LoginMember,
-          },
-          {
-            path: "admin",
-            element: LoginAdmin,
-          },
-          {
-            path: "partner",
-            element: LoginPartner,
-          },
-        ],
+        element: Login
+        // children: [
+        //   {
+        //     path: "member",
+        //     element: LoginMember,
+        //   },
+        //   {
+        //     path: "admin",
+        //     element: LoginAdmin,
+        //   },
+        //   {
+        //     path: "partner",
+        //     element: LoginPartner,
+        //   },
+        // ],
       },
       {
         path: "/payment",
