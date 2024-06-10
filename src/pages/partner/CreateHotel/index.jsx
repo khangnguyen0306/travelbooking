@@ -9,6 +9,7 @@ const schema = yup.object().shape({
     description: yup.string().required("This field is required").trim(),
     brand: yup.string(),
     hotel_name: yup.string().required("This field is required").trim(),
+    businessLicense: yup.string().required("This field is required").trim(),
     conveniences: yup.object().shape({
         free_breakfast: yup.boolean(),
         pick_up_drop_off: yup.boolean(),
@@ -63,6 +64,11 @@ function CreateHotel() {
                     <label>Description*</label>
                     <textarea className="input" type="text" {...register('description')} placeholder="Describe about hotel" />
                     <p className="error-message">{errors.description?.message}</p>
+                </div>
+                <div className="item-100">
+                    <label>Business License*</label>
+                    <input className="input" type="text" {...register('businessLicense')} placeholder="Enter hotel name" />
+                    <p className="error-message">{errors.businessLicense?.message}</p>
                 </div>
                 <div className="item-100">
                     <h3>Location:</h3>
