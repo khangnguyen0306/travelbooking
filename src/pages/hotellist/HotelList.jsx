@@ -1,10 +1,28 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useGetHotelListQuery } from '../../services/roomAPI'
 import { TinyColor } from '@ctrl/tinycolor';
 import { Link } from 'react-router-dom';
 import './HotelList.scss'
-import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, ConfigProvider, Rate } from "antd";
+import { SearchOutlined, UserOutlined } from "@ant-design/icons";
+import { useSelector, useDispatch } from 'react-redux';
+import { setGuests, setRooms, setDate, setDestination } from '../../slices/hotelSearch.slice';
+import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, ConfigProvider, Rate, Select, notification, Popover } from "antd";
+import { VietnameseProvinces } from "../../utils/utils";
+
+import dayjs from 'dayjs';
+const { RangePicker } = DatePicker;
+const dateFormat = 'DD/MM/YYYY';
+const disabledDate = (current) => {
+    // Can not select days before today and today
+    return current && current < dayjs().endOf('day');
+};
 const HotelList = () => {
+    const dispatch = useDispatch();
+    const [visible, setVisible] = useState(false);
+    const guests = useSelector(state => state.hotelSearch.guests);
+    const rooms = useSelector(state => state.hotelSearch.rooms);
+    const date = useSelector(state => state.hotelSearch.date);
+    const destination = useSelector(state => state.hotelSearch.destination);
     const { data: hoteldata, isLoading } = useGetHotelListQuery();
     const colors2 = ['#ddd', '#8c8c8c', '#8c8c8c', '#343333'];
     const getHoverColors = (colors) =>
@@ -12,6 +30,57 @@ const HotelList = () => {
     const getActiveColors = (colors) =>
         colors.map((color) => new TinyColor(color).darken(5).toString());
     console.log(hoteldata);
+    const handleRoomsChange = (value) => {
+        dispatch(setRooms(value));
+        if (guests > value * 2) {
+            dispatch(setGuests(value * 2));
+        }
+    };
+
+    const handleGuestsChange = (value) => {
+        if (value > rooms * 2) {
+            notification.error({
+                message: "Error!",
+                description: "Mỗi phòng tối đa 2 người."
+            });
+            dispatch(setGuests(rooms * 2));
+        } else {
+            dispatch(setGuests(value));
+        }
+    };
+    const handleDateChange = (dates) => {
+        dispatch(setDate(dates));
+    };
+    const handleDestinationChange = (value) => {
+        dispatch(setDestination(value));
+    };
+    const handleVisibleChange = (visible) => {
+        setVisible(visible);
+    };
+    const content = (
+        <div>
+            <Row gutter={[16, 16]}>
+                <Col span={12}>
+                    <span>Guests</span>
+                </Col>
+                <Col span={12}>
+                    <InputNumber min={1} max={10} value={guests} onChange={handleGuestsChange} />
+                </Col>
+                <Col span={12}>
+                    <span>Rooms</span>
+                </Col>
+                <Col span={12}>
+                    <InputNumber min={1} max={10} value={rooms} onChange={handleRoomsChange} />
+                </Col>
+            </Row>
+
+        </div>
+    );
+
+    console.log("destination: " + destination);
+    console.log("guests: " + guests);
+    console.log("rooms: " + rooms);
+    console.log("date: " + date);
     const hotels = [
         {
             id: 1,
@@ -80,69 +149,71 @@ const HotelList = () => {
     ];
     return (
         <div className='container-hotel-hotelSearch'>
+            <div className='listhotel-filter'>
+                <div className="search-layout-hotels">
+                    <div className="search-content-container-hotels">
+                        <label className="search-content-container-label-hotels" style={{ fontFamily: 'DM Sans, sans-serif' }}>Check In/Check Out</label>
 
-            <h1 className='titel'>Hotel Search</h1>
+                        <Space direction="vertical" size={12}>
+
+                            <RangePicker value={date} disabledDate={disabledDate} format={dateFormat} onChange={handleDateChange} />
+                        </Space>
+                    </div>
+                    <div className="search-content-container-hotels">
+                        <label className="search-content-container-label-hotels">Location</label>
+                        <Select
+                            value={destination}
+                            onChange={handleDestinationChange}
+                            showSearch
+                            style={{
+                                width: 200,
+                                border: 'none',
+                                color: '#8c8c8c',
+                                fontSize: '16px'
+                            }}
+                            placeholder="Select a province"
+                            optionFilterProp="children"
+                            filterOption={(input, option) => (option?.children ?? '').toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                            filterSort={(optionA, optionB) => optionA.children.localeCompare(optionB.children)}
+                        >
+                            {VietnameseProvinces.map((province, index) => (
+                                <Option key={index} value={province}>
+                                    {province}
+                                </Option>
+                            ))}
+                        </Select>
+                    </div>
+                    <div className="search-content-container-hotels">
+                        <label className="search-content-container-label-hotels">Guest and Room</label>
+
+                        <Popover
+                            content={content}
+                            title="Select Guests and Rooms"
+                            trigger="click"
+                            open={visible}
+                            onOpenChange={handleVisibleChange}
+                        >
+                            <Button>
+                                {guests} Guests, {rooms} Room(s) <UserOutlined />
+                            </Button>
+                        </Popover>
+                    </div>
+                    <div className="search-layout-hotels-btn">
+                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+                            <p><SearchOutlined /></p>
+                            <p>Search now</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h1 className='titel'>Hotels</h1>
             <div className="hotel">
                 <Row>
                     <Col xs={24} md={6}>
                         <div className="filter">
-                            <div className="check-in">
-                                <Space
-                                    direction="vertical"
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                >
-                                    <div className='check-in-title'>Check in</div>
-                                    <DatePicker
-                                        style={{
-                                            width: '100%',
-                                        }}
-                                    />
-                                </Space>
-                            </div>
-                            <div className="check-out">
-                                <Space
-                                    direction="vertical"
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                >
-                                    <div className='check-out-title'>Check out</div>
-                                    <DatePicker
-                                        style={{
-                                            width: '100%',
-                                        }}
-                                    />
-                                </Space>
-                            </div>
 
-                            <div className="check-out">
-                                <Space
-                                    direction="vertical"
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                >
-                                    <div className='check-out-title'>Room</div>
-                                    <InputNumber size="large" style={{ width: '100%', }} min={1} max={100000} defaultValue={1} />
-                                </Space>
-                            </div>
 
-                            <div className="check-out">
-                                <Space
-                                    direction="vertical"
-                                    style={{
-                                        width: '100%',
-                                    }}
-                                >
-                                    <div className='check-out-title'>Guests</div>
-                                    <span>ADULTS</span>
-                                    <InputNumber size="large" style={{ width: '100%', }} min={1} max={100000} defaultValue={1} />
-                                    <span>CHILDREN</span>
-                                    <InputNumber size="large" style={{ width: '100%', }} min={1} max={100000} defaultValue={1} />
-                                </Space>
-                            </div>
                             <div className='facilities'>
                                 Facilities
                                 <div className="facilities-check-box">
@@ -220,7 +291,6 @@ const HotelList = () => {
                     </Col>
                 </Row>
             </div>
-            {/* {isLoading ? <div>Hotels are loading</div> : <div>{hoteldata.map(hotel => <div>{hotel.name}</div>)}</div>} */}
         </div>
     )
 }

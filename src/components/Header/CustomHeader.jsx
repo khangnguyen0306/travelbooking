@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Button, Layout, Menu, Drawer, Grid, Dropdown, Space } from "antd";
 import "./CustomHeader.scss"; // Import SCSS file
 import { MenuOutlined } from "@ant-design/icons";
 import SubMenu from "antd/es/menu/SubMenu";
 import { DownOutlined } from '@ant-design/icons';
+import { Link, useLocation } from 'react-router-dom';
 // import Imame from "../../../src/assets/icons/laudry-icon.png"
 const { Header } = Layout;
 const { useBreakpoint } = Grid;
@@ -15,21 +15,21 @@ const items = [
         key: '0',
     },
     {
-        label: <a href="/dashboard">Dashboard</a>,
+        label: <a href="/user/dashboard">Dashboard</a>,
         key: '1',
     },
     {
         type: 'divider',
     },
     {
-        label: <a href="https://www.aliyun.com">Edit Profile</a>,
+        label: <a href="/user/profile">Edit Profile</a>,
         key: '3',
     },
     {
         type: 'divider',
     },
     {
-        label: <a href="https://www.aliyun.com">Change Password</a>,
+        label: <a href="/user/change-password">Change Password</a>,
         key: '4',
     },
 ];
@@ -38,7 +38,8 @@ const CustomHeader = () => {
     const [prevScrollPos, setPrevScrollPos] = useState(0);
     const [visible, setVisible] = useState(true);
     const [drawerVisible, setDrawerVisible] = useState(false);
-
+    const location = useLocation();
+    const selectedKey = location.pathname;
     useEffect(() => {
         const handleScroll = () => {
             const currentScrollPos = window.pageYOffset;
@@ -60,29 +61,12 @@ const CustomHeader = () => {
             </Link>
             {screens.md ? (
                 <>
-                    <Menu className="menu" mode="horizontal" defaultSelectedKeys={["1"]} style={{ width: 'fit-content', backgroundColor: 'none' }}>
-                        <Menu.Item key="1">
+                    <Menu className="menu" mode="horizontal" selectedKeys={[selectedKey]}>
+                        <Menu.Item key="/" className="item">
                             <Link to="/">Home</Link>
                         </Menu.Item>
-                        <SubMenu key="2" title="Pages">
-                            <Menu.Item key="2-1">
-                                <Link to="/destination">Destination</Link>
-                            </Menu.Item>
-                            <Menu.Item key="2-2">
-                                <Link to="/about">About Us</Link>
-                            </Menu.Item>
-                        </SubMenu>
-                        <Menu.Item key="3">
-                            <Link to="admin">Tour List</Link>
-                        </Menu.Item>
-                        <Menu.Item key="4">
-                            <Link to="/hotel-list"> Search Hotel </Link>
-                        </Menu.Item>
-                        <Menu.Item key="5">
-                            {/* <Link to="home">Tour Search</Link> */}
-                        </Menu.Item>
-                        <Menu.Item key="6">
-                            <Link to="admin">Blog</Link>
+                        <Menu.Item key="/view-hotels" className="item">
+                            <Link to="/view-hotels">View Hotels</Link>
                         </Menu.Item>
                     </Menu>
                     <div className="profile-btn">
@@ -91,7 +75,6 @@ const CustomHeader = () => {
                                 items,
                             }}
                             trigger={['click']}
-
                         >
                             <a onClick={(e) => e.preventDefault()}>
                                 <Space >

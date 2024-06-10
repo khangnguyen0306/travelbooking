@@ -28,7 +28,15 @@ $blue-main-color: #5c98f2;
     }
 
     .menu {
-        margin-left: 28%;
+        margin-left: 35%;
+        border: none;
+        background-color: transparent;
+
+        .item {
+            padding: 0 1rem;
+            min-width: 120px;
+            text-align: center;
+        }
     }
 
     .header-logo {
