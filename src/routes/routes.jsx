@@ -44,6 +44,24 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
+        path: "/login",
+        element: Login
+        // children: [
+        //   {
+        //     path: "member",
+        //     element: LoginMember,
+        //   },
+        //   {
+        //     path: "admin",
+        //     element: LoginAdmin,
+        //   },
+        //   {
+        //     path: "partner",
+        //     element: LoginPartner,
+        //   },
+        // ],
+      },
+      {
         path: "/",
         element: <AuthGuard />,
         children: [
@@ -107,24 +125,7 @@ export const router = createBrowserRouter([
         //   },
         // ],
       },
-      {
-        path: "/login",
-        element: Login
-        // children: [
-        //   {
-        //     path: "member",
-        //     element: LoginMember,
-        //   },
-        //   {
-        //     path: "admin",
-        //     element: LoginAdmin,
-        //   },
-        //   {
-        //     path: "partner",
-        //     element: LoginPartner,
-        //   },
-        // ],
-      },
+
       {
         path: "/payment",
         element: PaymentPage,
