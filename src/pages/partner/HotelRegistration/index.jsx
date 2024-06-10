@@ -1,7 +1,6 @@
-import React from 'react'
-import "./ManageHotel.scss"
+import "./HotelRegistration.scss";
 import { Table, Tag } from 'antd';
-import { SearchOutlined } from '@ant-design/icons';
+import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
 
 const columns = [
     {
@@ -61,13 +60,19 @@ const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
 };
 
-const ManageHotel = () => {
+function HotelRigistration() {
     return (
-        <div className='manage-hotel-wrapper'>
-            <p><h2 className='title'>Manage Hotels</h2></p>
-            <div className='search'>
-                <SearchOutlined className='icon' />
-                <input className='input' type="text" />
+        <div className='hotel-registration-wrapper'>
+            <p><h2 className='title'>Registration</h2></p>
+            <div className="action">
+                <div className='search'>
+                    <SearchOutlined className='icon' />
+                    <input className='input' type="text" />
+                </div>
+                <button className="new-btn">
+                    <PlusCircleOutlined />
+                    New registration
+                </button>
             </div>
             <Table
                 bordered={true}
@@ -79,7 +84,7 @@ const ManageHotel = () => {
                 }}
             />
         </div>
-    )
+    );
 }
 
-export default ManageHotel
+export default HotelRigistration;

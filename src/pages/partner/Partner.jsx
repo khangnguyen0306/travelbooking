@@ -4,6 +4,7 @@ import {
     EditOutlined,
     OrderedListOutlined,
     CheckCircleOutlined,
+    ApartmentOutlined
 } from '@ant-design/icons';
 import { TbPasswordUser } from "react-icons/tb";
 
@@ -48,8 +49,9 @@ const Partner = () => {
                         <Menu.Item className="dashboard-content-sider-menu-item" key="/partner/manage-hotel" icon={<SolutionOutlined style={{ fontSize: '20px' }} />}>
                             <Link to="/partner/manage-hotel">Manage Hotel</Link>
                         </Menu.Item>
-
-
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/partner/hotel-registration" icon={<ApartmentOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/partner/hotel-registration">Hotel Registration</Link>
+                        </Menu.Item>
                     </Menu>
                 </Sider>
                 <Content
