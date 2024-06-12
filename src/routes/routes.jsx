@@ -36,6 +36,8 @@ const AdminManageConveniences = Loadable({ loader: () => import("../pages/admin/
 const ViewBooking = Loadable({ loader: () => import("../pages/partner/ViewBooking/ViewBooking") });
 const ManageHotel = Loadable({ loader: () => import("../pages/partner/ManageHotel/ManageHotel") });
 const CreateHotel = Loadable({ loader: () => import("../pages/partner/CreateHotel") });
+const Edit = Loadable({ loader: () => import("../pages/partner/EditHotel/EditHotel") });
+const Room = Loadable({ loader: () => import("../pages/partner/ManageRoom/ManageRoom") });
 
 const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
@@ -185,7 +187,17 @@ export const router = createBrowserRouter([
               {
                 path: "manage-hotel",
                 element: ManageHotel,
+
               },
+              {
+                path: "manage-hotel/:id/edit",
+                element: Edit
+              },
+              {
+                path: "manage-hotel/:id/manage-room",
+                element: Room
+              },
+
               {
                 path: "create-hotel",
                 element: CreateHotel,

@@ -9,7 +9,8 @@ import { roomApi } from "../services/roomAPI";
 import hotelSearchReducer from "../slices/hotelSearch.slice";
 import { authApi } from "../services/authAPI";
 import authReducer from "../slices/auth.slice";
-
+import { hotelApi } from "../services/hotelAPI";
+import hotelReducer from "../slices/hotelSlice";
 const persistConfig = {
   key: "root",
   storage,
@@ -20,6 +21,7 @@ const staticReducers = {
 };
 
 const authrersistedReducer = persistReducer(persistConfig, authReducer);
+const hotelrersistedReducer = persistReducer(persistConfig, hotelReducer);
 const roompersistedReducer = persistReducer(persistConfig, roomReducer);
 const hotelSearchpersistedReducer = persistReducer(persistConfig, hotelSearchReducer);
 export const store = configureStore({
@@ -30,11 +32,15 @@ export const store = configureStore({
     hotelSearch: hotelSearchReducer,
     [authApi.reducerPath]: authApi.reducer,
     auth: authrersistedReducer,
+    [hotelApi.reducerPath]: hotelApi.reducer,
+    hotel: hotelrersistedReducer,
+
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       roomApi.middleware,
-      authApi.middleware
+      authApi.middleware,
+      hotelApi.middleware
     ),
 });
 

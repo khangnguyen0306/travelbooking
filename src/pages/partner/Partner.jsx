@@ -9,7 +9,15 @@ const { Content, Sider } = Layout;
 
 const Partner = () => {
     const location = useLocation();
-    const selectedKey = location.pathname;
+
+    const determineActiveKey = (path) => {
+        if (path.startsWith('/partner/manage-hotel')) {
+            return '/partner/manage-hotel';
+        }
+        return path;
+    };
+
+    const selectedKey = determineActiveKey(location.pathname);
     const {
         token: { colorBgContainer, borderRadiusLG, ...other },
     } = theme.useToken();

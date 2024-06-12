@@ -41,8 +41,12 @@ const columns = [
         key: 'action',
         render: (_, record) => (
             <div>
-                <p><a>Edit</a></p>
-                <p><a>Manage Room</a></p>
+                <div style={{ marginRight: '8px' }}>
+                    <Link to={`${record.id}/edit`}>Edit</Link>
+                </div>
+                <div>
+                    <Link to={`${record.id}/manage-room`}>Room</Link>
+                </div>
             </div>
         ),
     },
@@ -55,6 +59,7 @@ const data = [
         "location": "District 1, Ho Chi Minh City",
         "brand": "Luxury",
         "status:": "Active",
+        "id": "1"
     },
 ];
 
@@ -85,6 +90,7 @@ const ManageHotel = () => {
                     y: 440,
                 }}
             />
+
         </div>
     )
 }

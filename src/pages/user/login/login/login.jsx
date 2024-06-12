@@ -28,11 +28,11 @@ function LoginAdmin() {
     useEffect(() => {
         const token = sessionStorage.getItem('token') || localStorage.getItem('token');
         if (token) {
-          dispatch(setToken(token));
-          navigate('/');
+            dispatch(setToken(token));
+            navigate('/');
         }
-      }, [navigate, dispatch]);
-      
+    }, [navigate, dispatch]);
+
     const {
         register,
         handleSubmit,
@@ -65,7 +65,7 @@ function LoginAdmin() {
     const onSubmit = async (dataObj) => {
         try {
             const result = await login({
-                phone_number: dataObj.emailOrPhone,
+                email_or_phone: dataObj.emailOrPhone,
                 password: dataObj.password,
                 role_id: getRoleId(dataObj.role)
             }).unwrap();
@@ -154,7 +154,7 @@ function LoginAdmin() {
                         {isLoading ? "Logging in..." : "Login"}
                     </button>
                 </form>
-                <div className="register-section" style={{marginBottom:'2rem'}}>
+                <div className="register-section" style={{ marginBottom: '2rem' }}>
                     <h3 className="login-content-ask">
                         Want to become a member?
                     </h3>
