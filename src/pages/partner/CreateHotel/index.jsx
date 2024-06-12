@@ -3,6 +3,10 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { VietnameseProvinces } from "../../../utils/utils";
+import { hotelApi } from "../../../services/hotelAPI";
+import { setHotel } from "../../../slices/hotelSlice";
+import { useDispatch } from "react-redux";
+import { notification } from "antd";
 
 const schema = yup.object().shape({
     rating: yup.number("Rating from 1-5").min(1).max(5).required("This field is required"),
@@ -27,6 +31,8 @@ const schema = yup.object().shape({
 });
 
 function CreateHotel() {
+    const dispatch = useDispatch();
+    const [createHotel, { isLoading }] = hotelApi.useCreateHotelMutation();
     const {
         register,
         handleSubmit,
@@ -37,8 +43,27 @@ function CreateHotel() {
         resolver: yupResolver(schema),
     });
 
-    const onSubmit = data => {
-        console.log(JSON.stringify(data, null, 2));
+    const onSubmit = async (data) => {
+        const conveniences = Object.keys(data.conveniences).map(key => ({
+            [key]: data.conveniences[key]
+        }));
+        data.conveniences = conveniences;
+        try {
+            const response = await createHotel(data).unwrap();
+            console.log(response);
+            notification.success({
+                message: "Success",
+                description: "Hotel created successfully!",
+            });
+            reset();
+        } catch (error) {
+            notification.error({
+                message: "Error",
+                description: error.data.message,
+            });
+            console.log(error.data.message);
+            console.log(data);
+        }
     };
 
     return (
@@ -97,9 +122,16 @@ function CreateHotel() {
                                 <Controller
                                     name={`conveniences.${key}`}
                                     control={control}
-                                    render={({ field }) => <input type="checkbox" {...field} />}
+                                    render={({ field }) => (
+                                        <input type="checkbox" {...field} />
+                                    )}
                                 />
-                                <label className="label">{key.slice(0, 1).toUpperCase().concat(key.slice(1, key.length)).replace('_', ' ')}</label>
+                                <label className="label">
+                                    {key.slice(0, 1).toUpperCase().concat(key.slice(1, key.length)).replace(
+                                        '_',
+                                        ' '
+                                    )}
+                                </label>
                             </div>
                         ))}
                     </div>
