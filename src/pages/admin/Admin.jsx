@@ -1,16 +1,16 @@
 import React from 'react';
 import {
     SolutionOutlined,
-    EditOutlined,
-    OrderedListOutlined,
-    CheckCircleOutlined,
-    BarChartOutlined
+    BarChartOutlined,
+    BankOutlined,
+    UserOutlined,
+    UsergroupAddOutlined,
+    WifiOutlined
 } from '@ant-design/icons';
-import { FaMendeley } from "react-icons/fa";
 
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Layout, Menu, theme } from 'antd';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Sider } = Layout;
 
 const Admin = () => {
     const location = useLocation();
@@ -42,37 +42,30 @@ const Admin = () => {
                             height: '100%',
                         }}
                     >
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<BarChartOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/admin">Dashboard</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/" icon={<BarChartOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/">Dashboard</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/booking" icon={<SolutionOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/admin/booking">View Booking</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/manage-bookings" icon={<SolutionOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/manage-bookings">Bookings</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/user" icon={<EditOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/admin/user">View User</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/manage-users" icon={<UserOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/manage-users">Users</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/view-partner" icon={<OrderedListOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/admin/view-partner">View Partner</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/manage-partners" icon={<UsergroupAddOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/manage-partners">Partners</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/view-amenities" icon={<FaMendeley style={{ fontSize: '20px' }} />}>
-                            <Link to="/admin/view-amenities">View Amenities</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/manage-hotels" icon={<BankOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/manage-hotels">Hotels</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/confirm-rental" icon={<CheckCircleOutlined style={{ fontSize: '20px' }} />}>
-                            <Link to="/admin/confirm-rental">Rental Registration</Link>
+                        <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/manage-conveniences" icon={<WifiOutlined style={{ fontSize: '20px' }} />}>
+                            <Link to="/admin/manage-conveniences">Conveniences</Link>
                         </Menu.Item>
                         <Menu.Divider />
-                        {/* <Menu.Item className="dashboard-content-sider-menu-item" key="/admin" icon={<TbPasswordUser style={{ fontSize: '20px' }} />}>
-                        <Link to="/admin/">Change Password</Link>
-                    </Menu.Item>
-                    <Menu.Divider />
-                    <Menu.Item className="dashboard-content-sider-menu-item" key="/admin/" icon={<PoweroffOutlined style={{ fontSize: '20px' }} />}>
-                        <a >Log Out</a>
-                    </Menu.Item> */}
                     </Menu>
                 </Sider>
                 <Content
@@ -84,7 +77,6 @@ const Admin = () => {
                     <Outlet />
                 </Content>
             </Layout>
-
         </div>
     )
 }

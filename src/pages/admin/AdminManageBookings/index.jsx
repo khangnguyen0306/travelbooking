@@ -1,7 +1,8 @@
-import { Col, Row, Table, Space, Tag } from 'antd'
-import React, { useState } from 'react'
-import './ViewBooking.scss'
-const ViewBooking = () => {
+import { Col, Row, Table, Space, Tag } from 'antd';
+import React, { useState } from 'react';
+import './AdminManageBookings.scss';
+
+const AdminManageBookings = () => {
     const columns = [
         {
             title: 'Location',
@@ -134,7 +135,6 @@ const ViewBooking = () => {
     ];
 
     return (
-
         <div>
             {data.length > 0 ? (
                 <div>
@@ -157,4 +157,4 @@ const ViewBooking = () => {
     )
 }
 
-export default ViewBooking
+export default AdminManageBookings;
