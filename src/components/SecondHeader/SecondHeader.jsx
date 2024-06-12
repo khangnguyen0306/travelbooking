@@ -58,7 +58,7 @@ const SecondHeader = () => {
     }
 
     return (
-        <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1100' }}>
+        <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '100' }}>
             <div className="header-logo">
                 {logoText}
             </div>

@@ -2,7 +2,7 @@ $font-content: DM Sans, sans-serif;
 $font-title: DM Serif Display, sans-serif;
 $blue-main-color: #5c98f2;
 
-.view-partner-wrapper {
+.admin-manage-hotels-wrapper {
   .title {
     margin: 0 0 16px 0;
   }
@@ -29,5 +29,17 @@ $blue-main-color: #5c98f2;
         outline: 2px solid $blue-main-color;
       }
     }
+  }
+}
+
+.action-item {
+  margin: 0 0 4px 0;
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($color: #dcdcdc, $alpha: 1);
   }
 }
