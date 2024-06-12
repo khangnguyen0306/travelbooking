@@ -23,12 +23,16 @@ const Booking = Loadable({ loader: () => import("../pages/user/profile/Component
 const Invoice = Loadable({ loader: () => import("../pages/user/profile/Components/Invoice/Invoice") });
 const Review = Loadable({ loader: () => import("../pages/user/profile/Components/Review/Review") });
 const PaymentPage = Loadable({ loader: () => import("../pages/user/paymentPage") });
-const BookingAdmin = Loadable({ loader: () => import("../pages/admin/ViewBooking/ViewBooking") });
-const ViewUser = Loadable({ loader: () => import("../pages/admin/ViewUser/ViewUser") });
-const ViewPartner = Loadable({ loader: () => import("../pages/admin/ViewPartner") });
-const Dashboard = Loadable({ loader: () => import("../pages/admin/Dashboard/Dashboard") });
-const ViewAmenities = Loadable({ loader: () => import("../pages/admin/ViewAmenities/ViewAmenities") });
-const ConfirmRental = Loadable({ loader: () => import("../pages/admin/ConfirmRetal/ConfirmRental") });
+
+// admin page
+const Dashboard = Loadable({ loader: () => import("../pages/admin/Dashboard") });
+const AdminManageBookings = Loadable({ loader: () => import("../pages/admin/AdminManageBookings") });
+const AdminManageUsers = Loadable({ loader: () => import("../pages/admin/AdminManageUsers") });
+const AdminManagePartners = Loadable({ loader: () => import("../pages/admin/AdminManagePartners") });
+const AdminManageHotels = Loadable({ loader: () => import("../pages/admin/AdminManageHotels") });
+const AdminManageConveniences = Loadable({ loader: () => import("../pages/admin/AdminManageConveniences") });
+
+// partner page
 const ViewBooking = Loadable({ loader: () => import("../pages/partner/ViewBooking/ViewBooking") });
 const ManageHotel = Loadable({ loader: () => import("../pages/partner/ManageHotel/ManageHotel") });
 const CreateHotel = Loadable({ loader: () => import("../pages/partner/CreateHotel") });
@@ -113,7 +117,7 @@ export const router = createBrowserRouter([
       },
       {
         path: "/register",
-        element:Register
+        element: Register
         // children: [
         //   {
         //     path: "member",
@@ -149,25 +153,24 @@ export const router = createBrowserRouter([
                 element: Dashboard,
               },
               {
-                path: "booking",
-                element: BookingAdmin,
-              },
-
-              {
-                path: "user",
-                element: ViewUser,
+                path: "manage-bookings",
+                element: AdminManageBookings,
               },
               {
-                path: "view-partner",
-                element: ViewPartner,
+                path: "manage-users",
+                element: AdminManageUsers,
               },
               {
-                path: "view-amenities",
-                element: ViewAmenities,
+                path: "manage-partners",
+                element: AdminManagePartners,
               },
               {
-                path: "confirm-rental",
-                element: ConfirmRental,
+                path: "manage-hotels",
+                element: AdminManageHotels,
+              },
+              {
+                path: "manage-conveniences",
+                element: AdminManageConveniences,
               },
             ],
           },
