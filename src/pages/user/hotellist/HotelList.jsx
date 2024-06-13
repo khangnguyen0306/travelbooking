@@ -1,49 +1,50 @@
-import React, { useState } from 'react'
-import { useGetHotelListQuery } from '../../../services/roomAPI'
-import { TinyColor } from '@ctrl/tinycolor';
+import React, { useState } from 'react';
+import { useGetHotelListQuery } from '../../../services/roomAPI';
 import { Link } from 'react-router-dom';
-import './HotelList.scss'
+import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
-import { setGuests, setRooms, setDate, setDestination } from '../../../slices/hotelSearch.slice';
-import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Button, Pagination, Rate, Select, notification, Popover } from "antd";
+import { setGuests, setRooms, setDate, setDestination } from '../../../slices/hotelSlice';
+import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Select, Rate, Button, notification, Popover } from "antd";
 import { VietnameseProvinces } from "../../../utils/utils";
 import InfiniteScroll from 'react-infinite-scroll-component';
 import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
+
 const disabledDate = (current) => {
-    // Can not select days before today and today
     return current && current < dayjs().endOf('day');
 };
+
 const HotelList = () => {
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
-    const guests = useSelector(state => state.hotelSearch.guests);
-    const rooms = useSelector(state => state.hotelSearch.rooms);
-    const date = useSelector(state => state.hotelSearch.date);
-    const destination = useSelector(state => state.hotelSearch.destination);
+    const guests = useSelector(state => state.hotel?.search?.guests);
+    const rooms = useSelector(state => state.hotel?.search?.rooms);
+    const date = useSelector(state => state.hotel?.search?.date);
+    const destination = useSelector(state => state.hotel?.search?.destination);
     const { data: hoteldata, isLoading } = useGetHotelListQuery();
-    console.log(hoteldata);
+
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
         if (guests > value * 6) {
             dispatch(setGuests(value * 6));
         }
     };
+
     const [hasMore, setHasMore] = useState(true);
+    const [currentPage, setCurrentPage] = useState(1);
+    const pageSize = 10;
 
     const fetchMoreData = () => {
-        if (currentHotels && currentPage * pageSize >= currentHotels?.length) {
+        if (currentHotels && currentPage * pageSize >= hoteldata?.length) {
             setHasMore(false);
             return;
         }
         setCurrentPage((prevPage) => prevPage + 1);
     };
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 10;
-    const handlePageChange = (page) => {
 
+    const handlePageChange = (page) => {
         setCurrentPage(page);
         window.scrollTo({
             top: 100,
@@ -51,9 +52,6 @@ const HotelList = () => {
             behavior: 'smooth'
         });
     };
-    const indexOfLastHotel = currentPage * pageSize;
-    const indexOfFirstHotel = indexOfLastHotel - pageSize;
-    const currentHotels = hoteldata?.slice(indexOfFirstHotel, indexOfLastHotel);
 
     const handleGuestsChange = (value) => {
         if (value > rooms * 6) {
@@ -66,18 +64,23 @@ const HotelList = () => {
             dispatch(setGuests(value));
         }
     };
+
     const handleDateChange = (dates) => {
         dispatch(setDate(dates));
     };
+
     const handleDestinationChange = (value) => {
         dispatch(setDestination(value));
     };
-    const handleSearchChange = (value) => {
+
+    const handleSearchChange = () => {
         console.log('Search button clicked');
-    }
+    };
+
     const handleVisibleChange = (visible) => {
         setVisible(visible);
     };
+
     const content = (
         <div>
             <Row gutter={[16, 16]}>
@@ -94,80 +97,13 @@ const HotelList = () => {
                     <InputNumber min={1} max={10} value={rooms} onChange={handleRoomsChange} />
                 </Col>
             </Row>
-
         </div>
     );
 
-    console.log("destination: " + destination);
-    console.log("guests: " + guests);
-    console.log("rooms: " + rooms);
-    console.log("date: " + date);
-    const hotels = [
-        {
-            id: 1,
-            name: 'Luxury Suite',
-            description: 'Our Suites has been honored with the prestigious Five-Star Award by Forbes.',
-            rating: 5,
-            reviews: 1,
-            price: 90,
-            imgUrl: 'https://source.unsplash.com/600x400/?hotel,room',
-        },
-        {
-            id: 2,
-            name: 'Standard Deluxe',
-            description: 'Our Suites has been honored with the prestigious Five-Star Award by Forbes.',
-            rating: 4.5,
-            reviews: 1,
-            originalPrice: 90,
-            discountPrice: 75,
-            imgUrl: 'https://source.unsplash.com/600x401/?hotel,room',
-            discount: '17% OFF'
-        },
-        {
-            id: 3,
-            name: 'Luxury Suite',
-            description: 'Our Suites has been honored with the prestigious Five-Star Award by Forbes.',
-            rating: 4,
-            reviews: 1,
-            price: 90,
-            imgUrl: 'https://source.unsplash.com/600x402/?hotel,room',
-        }, {
-            id: 4,
-            name: 'Luxury Suite',
-            description: 'Our Suites has been honored with the prestigious Five-Star Award by Forbes.',
-            rating: 5,
-            reviews: 1,
-            originalPrice: 90,
-            discountPrice: 75,
-            imgUrl: 'https://source.unsplash.com/600x403/?hotel,room',
-            discount: '17% OFF'
-        }, {
-            id: 5,
-            name: 'Luxury Suite',
-            description: 'Our Suites has been honored with the prestigious Five-Star Award by Forbes.',
-            rating: 5,
-            reviews: 1,
-            price: 90,
-            imgUrl: 'https://source.unsplash.com/600x404/?hotel,room',
-        }, {
-            id: 6,
-            name: 'Luxury Suite',
-            description: 'Our Suites has been honored with the prestigious Five-Star Award by Forbes.',
-            rating: 5,
-            reviews: 1,
-            price: 90,
-            imgUrl: 'https://source.unsplash.com/600x405/?hotel,room',
-            discount: '17% OFF'
-        }, {
-            id: 7,
-            name: 'Luxury Suite',
-            description: 'Our Suites has been honored with the prestigious Five-Star Award by Forbes.',
-            rating: 5,
-            reviews: 1,
-            price: 90,
-            imgUrl: 'https://source.unsplash.com/600x406/?hotel,room',
-        },
-    ];
+    const indexOfLastHotel = currentPage * pageSize;
+    const indexOfFirstHotel = indexOfLastHotel - pageSize;
+    const currentHotels = hoteldata ? hoteldata.slice(indexOfFirstHotel, indexOfLastHotel) : [];
+
     return (
         <div className='container-hotel-hotelSearch'>
             <div className='listhotel-filter'>
@@ -175,7 +111,7 @@ const HotelList = () => {
                     <div className="search-content-container-hotels">
                         <Space direction="vertical" size={12}>
                             <RangePicker
-                                value={date}
+                                value={date ? date.map(d => dayjs(d)) : null}
                                 disabledDate={disabledDate}
                                 format={dateFormat}
                                 onChange={handleDateChange}
@@ -200,14 +136,13 @@ const HotelList = () => {
                             filterSort={(optionA, optionB) => optionA.children.localeCompare(optionB.children)}
                         >
                             {VietnameseProvinces.map((province, index) => (
-                                <Option key={index} value={province}>
+                                <Select.Option key={index} value={province}>
                                     {province}
-                                </Option>
+                                </Select.Option>
                             ))}
                         </Select>
                     </div>
                     <div className="search-content-container-hotels">
-
                         <Popover
                             content={content}
                             title="Select Guests and Rooms"
@@ -222,19 +157,15 @@ const HotelList = () => {
                     </div>
                     <Button type="text" onClick={handleSearchChange} className="search-layout-hotels-btn">
                         <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-                            <p ><SearchOutlined /></p>
+                            <p><SearchOutlined /></p>
                         </div>
                     </Button>
                 </div>
             </div>
-
-            <h1 className='titel'>Hotels</h1>
             <div className="hotel">
                 <Row>
                     <Col xs={24} md={6}>
                         <div className="filter">
-
-
                             <div className='facilities'>
                                 Facilities
                                 <div className="facilities-check-box">
@@ -246,27 +177,19 @@ const HotelList = () => {
                                 </div>
                             </div>
                             <div className='facilities'>
-                                Room Size
+                                Rating
                                 <div className="facilities-check-box">
-                                    <div><Checkbox>30-40 sqmr</Checkbox></div>
-                                    <div><Checkbox>40-55 sqm</Checkbox></div>
-                                    <div><Checkbox>55-80 sqm</Checkbox></div>
-                                    <div><Checkbox>80+ sqm</Checkbox></div>
+                                    <div><Checkbox><Rate value={1} disabled /></Checkbox></div>
+                                    <div><Checkbox><Rate value={2} disabled /></Checkbox></div>
+                                    <div><Checkbox><Rate value={3} disabled /></Checkbox></div>
+                                    <div><Checkbox><Rate value={4} disabled /></Checkbox></div>
+                                    <div><Checkbox><Rate value={5} disabled /></Checkbox></div>
                                 </div>
                             </div>
-                            <Space
-                                direction="vertical"
-                                style={{
-                                    width: '100%',
-                                }}
-                            >
-                                <button
-                                    className="btn add-to-cart"
-                                    type="button"
-                                >
+                            <Space direction="vertical" style={{ width: '100%' }}>
+                                <Button className="btn add-to-cart" type="button">
                                     Search Room
-                                </button>
-
+                                </Button>
                             </Space>
                         </div>
                     </Col>
@@ -280,7 +203,7 @@ const HotelList = () => {
                                 scrollableTarget="scrollableDiv"
                                 endMessage={<h3 style={{ textAlign: 'center' }}>Hết dữ liệu</h3>}
                             >
-                                {hoteldata?.map((hotel) => (
+                                {currentHotels?.map((hotel) => (
                                     <div key={hotel?.id} className="hotel-item">
                                         {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
                                         <img src={hotel?.imgUrl} alt={hotel?.name} className="hotel-img" />
@@ -307,21 +230,12 @@ const HotelList = () => {
                                     </div>
                                 ))}
                             </InfiniteScroll>
-
                         </div>
-                        {/* <div className="pagination-container">
-                            <Pagination
-                                defaultCurrent={1}
-                                total={hoteldata?.length}
-                                pageSize={pageSize}
-                                onChange={handlePageChange}
-                            />
-                        </div> */}
                     </Col>
                 </Row>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default HotelList
+export default HotelList;

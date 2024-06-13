@@ -9,7 +9,7 @@ import { DatePicker, Space } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { useNavigate, Link } from 'react-router-dom';
-import { setGuests, setRooms, setDestination, setDate } from '../../../../../slices/hotelSearch.slice';
+import { setGuests, setRooms, setDestination, setDate } from '../../../../../slices/hotelSlice';
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
@@ -24,10 +24,10 @@ const Filter = () => {
     // const [destination, setDestination] = useState(null);
     // const [date, setDate] = useState(null);
     const dispatch = useDispatch();
-    const guests = useSelector((state) => state.hotelSearch.guests);
-    const rooms = useSelector((state) => state.hotelSearch.rooms);
-    const date = useSelector((state) => state.hotelSearch.date);
-    const destination = useSelector((state) => state.hotelSearch.destination);
+    const guests = useSelector((state) => state.hotel.search.guests);
+    const rooms = useSelector((state) => state.hotel.search.rooms);
+    const date = useSelector((state) => state.hotel.search.date);
+    const destination = useSelector((state) => state.hotel.search.destination);
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
         if (guests > value * 6) {
