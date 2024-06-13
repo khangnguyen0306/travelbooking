@@ -24,9 +24,17 @@ export const hotelApi = createApi({
                 body: body,
             }),
         }),
+        getHotel: builder.mutation({
+            query: (id) => ({
+                url: `hotels/getAllHotels`,
+                method: "GET",
+            }),
+        }),
     }),
-});
+})
 
 export const {
     useCreateHotelMutation,
+    useGetHotelMutation,
+
 } = hotelApi;
