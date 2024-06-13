@@ -4,7 +4,6 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { VietnameseProvinces } from "../../../utils/utils";
 import { hotelApi } from "../../../services/hotelAPI";
-import { setHotel } from "../../../slices/hotelSlice";
 import { useDispatch } from "react-redux";
 import { notification } from "antd";
 

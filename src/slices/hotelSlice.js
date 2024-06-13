@@ -1,18 +1,34 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    hotel: null,
+    search: {
+        guests: 1,
+        rooms: 1,
+        destination: null,
+        date: null,
+    }
+
 };
 
 const hotelSlice = createSlice({
-    name: "hotel",
+    name: 'hotel',
     initialState,
     reducers: {
-        setHotel: (state, action) => {
-            state.user = action.payload;
+        setGuests: (state, action) => {
+            state.search.guests = action.payload;
+        },
+        setRooms: (state, action) => {
+            state.search.rooms = action.payload;
+        },
+        setDestination: (state, action) => {
+            state.search.destination = action.payload;
+        },
+        setDate: (state, action) => {
+            state.search.date = action.payload;
         },
     },
 });
 
-export const { setHotel } = hotelSlice.actions;
+export const { setGuests, setRooms, setDestination, setDate } = hotelSlice.actions;
+
 export default hotelSlice.reducer;
