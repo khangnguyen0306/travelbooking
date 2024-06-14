@@ -4,9 +4,17 @@ import { Link } from 'react-router-dom';
 
 function HotelsSection() {
     return (
-        <div id="rooms-section">
+        <div id="hotels-section">
             <h1 className="title">Hotels</h1>
             <div className="list-rooms">
+                <HotelItem />
+                <HotelItem />
+                <HotelItem />
+                <HotelItem />
+                <HotelItem />
+                <HotelItem />
+                <HotelItem />
+                <HotelItem />
                 <HotelItem />
                 <HotelItem />
                 <HotelItem />

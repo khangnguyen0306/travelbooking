@@ -1,17 +1,19 @@
-#rooms-section {
-  padding: 40px 0;
-  margin: 0 5%;
-  width: 90%;
+#hotels-section {
+  padding: 100px 10%;
+  background-color: white;
+  font-family: var(--font-content);
 
   .title {
     text-align: center;
+    font-family: var(--font-title);
   }
 
   .list-rooms {
-    margin: 60px 0 60px 0;
+    margin: 60px 0;
     display: flex;
-    justify-content: center;
-    gap: 36px;
+    justify-content: flex-start;
+    gap: 32px;
+    overflow: auto;
   }
 
   .more {
@@ -20,7 +22,11 @@
     justify-content: center;
 
     .link {
-      color: #343434;
+      color: black;
+
+      &:hover {
+        color: var(--blue-main-color);
+      }
     }
   }
 }

@@ -1,32 +1,32 @@
-$font-content: DM Sans, sans-serif;
-$font-title: DM Serif Display, sans-serif;
-$blue-main-color: #5c98f2;
+.footer {
+  padding: 100px 10%;
+  background-color: #1a1a1a;
 
-#Logo-footer {
-    color: #fff;
-    font-size: 27px;
-    padding-left: 3rem;
-    font-family: $font-title;
-    font-weight: 300;
+  .content {
+    #Logo-footer {
+      color: #fff;
+      font-size: 28px;
+      font-family: var(--font-title);
+      font-weight: 400;
 
-    span {
-        color: $blue-main-color;
+      span {
+        color: var(--blue-main-color);
+      }
     }
-}
 
-.Footer-container-content {
-
-    .Footer-title-container {
+    .Footer-container-content {
+      .Footer-title-container {
         color: #fff;
-        font-size: 27px;
-        font-family: $font-title;
-        font-weight: 300;
-       
-    }
+        font-size: 28px;
+        font-family: var(--font-title);
+        font-weight: 400;
+      }
 
-    .Footer-content-container {
+      .Footer-content-container {
         font-size: 16px;
-        color: #9a9a9a;
-        padding: 10px 0;
+        color: gray;
+        padding: 12px 0;
+      }
     }
+  }
 }

@@ -19,7 +19,7 @@ const MainLayout = () => {
         style={{
           display: "flex",
           minHeight: 500,
-          background: ImportFile.background,
+          background: ImportFile.Background,
           borderRadius: borderRadiusLG,
         }}
       >
