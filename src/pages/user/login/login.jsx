@@ -1,78 +1,107 @@
-import "./LoginPartner.scss";
-import { useForm } from "react-hook-form"
-import { yupResolver } from "@hookform/resolvers/yup"
-import * as yup from "yup"
-import { Link } from "react-router-dom";
-import { useLoginUserMutation } from "../../../../services/authAPI";
-
+import "./Login.scss";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+import { useLoginUserMutation } from "../../../services/authAPI";
+import { useEffect } from "react";
+import { notification } from "antd";
+import { SmileOutlined } from "@ant-design/icons";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setToken, setUser } from "../../../slices/auth.slice"; // Adjust the import according to your project structure
+import IMG from "../../../assets/photo-3-1485152074061.jpg";
 
 const schema = yup
     .object({
         emailOrPhone: yup.string().required("This is required field.").trim(),
         password: yup.string().required("This is required field.").trim(),
     })
-    .required()
+    .required();
 
-function LoginPartner() {
+function LoginAdmin() {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useDispatch();
     const [login, { isLoading }] = useLoginUserMutation();
+
+    useEffect(() => {
+        const token = sessionStorage.getItem('token') || localStorage.getItem('token');
+        if (token) {
+            dispatch(setToken(token));
+            navigate('/');
+        }
+    }, [navigate, dispatch]);
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors },
     } = useForm({
         resolver: yupResolver(schema),
-    })
+    });
+
+    const navigateByRoles = {
+        'ROLE_ADMIN': '/admin',
+        'ROLE_PARTNER': '/partner',
+        'ROLE_CUSTOMER': '/',
+    };
+
+
     const onSubmit = async (dataObj) => {
         try {
             const result = await login({
-                phone_number: dataObj.emailOrPhone,
+                email_or_phone: dataObj.emailOrPhone,
                 password: dataObj.password,
-                role_id: 1
             }).unwrap();
             console.log(result);
-            // if (result.data.data.user && result.data.data.token) {
-            if (result.data) {
-                //   dispatch(setUser(result.data.data.user));
-                //   console.log(result.data.data.user)
+            if (result) {
+                dispatch(setUser(result.data.roles));
+                console.log(result.data.roles)
                 dispatch(setToken(result.data.token));
                 localStorage.setItem("token", result.data.token);
+                const role = result.data.roles[0];
+                const defaultPath = navigateByRoles[role] || "/";
+                const from = location.state?.from?.pathname || defaultPath;
+                navigate(from);
                 notification.success({
                     message: "Login successfully",
                     description:
                         <div>
-                            Welcome   {result.data.userName}   <SmileOutlined />
+                            Welcome {result.data.userName} <SmileOutlined />
                         </div>,
                 });
-                const from = location.state?.from?.pathname || "/"; // Check for intended path
-                navigate(from)
             } else {
                 notification.error({
                     message: "Login error",
                     description: "Invalid email or password. Try again!",
                 });
-                form.resetFields(); // Xóa dữ liệu trong các ô input
+                reset(); // Clear input fields
             }
         } catch (error) {
-            setError("An error occurred while attempting to log in");
+            notification.error({
+                message: "Login error",
+                description: error.message,
+            });
         }
-    }
-
+    };
 
     return (
-        <div className="wrapper-login-partner">
-            <h1 className="title">Login for partner</h1>
+        <div className="wrapper-login">
+            <img className="image" src={IMG} alt="Image" />
             <div className="container">
                 <form
                     className="form"
                     onSubmit={handleSubmit(onSubmit)}
                 >
+                    <h1 className="title">Login</h1>
+
                     <div className="body">
                         {/* Email */}
                         <div className="item">
                             <p className="label">Email or Phone number</p>
                             <input
-                                {...register("email")}
+                                {...register("emailOrPhone")}
                                 className="input"
                                 autoComplete="off"
                                 placeholder="Enter email or phone number"
@@ -94,27 +123,19 @@ function LoginPartner() {
                     </div>
                     <button className="btn">
                         {isLoading ? "Logging in..." : "Login"}
-
                     </button>
                 </form>
                 <div className="register-section">
                     <h3 className="login-content-ask">
-                        Want to become a partner?
+                        Want to become a member?
                     </h3>
                     <p className="login-content-signup">
-                        <Link to={`/register/partner`}>Register as a partner</Link>
+                        <Link to={`/register`}>Register now</Link>
                     </p>
-                </div>
-            </div>
-            <div className="other-type-login">
-                <h3 className="sub-title">Or</h3>
-                <div className="link-group">
-                    <Link className="link" to={"/login/member"}>Login for member</Link>
-                    <Link className="link" to={"/login/admin"}>Login for admin</Link>
                 </div>
             </div>
         </div>
     );
 }
 
-export default LoginPartner;
+export default LoginAdmin;

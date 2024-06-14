@@ -6,8 +6,8 @@ const { Footer } = Layout;
 
 function CustomFooter() {
   return (
-    <Footer style={{ backgroundColor: "#f0f2f5", padding: "20px 50px", backgroundColor: '#1a1a1a', margin: '0' }}>
-      <Row justify="center" style={{ margin: '50px 30px' }}>
+    <Footer className="footer">
+      <Row className="content">
         <Col span={6}>
           <div>
             <Link to={"/"}>
@@ -15,7 +15,6 @@ function CustomFooter() {
             </Link>
           </div>
         </Col>
-
         <Col span={6}>
           <div className="Footer-container-content">
             <h4 className="Footer-title-container">Contact</h4>
@@ -39,7 +38,6 @@ function CustomFooter() {
               </p>
             </Link>
             <Link>
-
               <p className="Footer-content-container">
                 Working With Us
               </p>
@@ -58,7 +56,6 @@ function CustomFooter() {
             <p className="Footer-content-container">
               The payment is encrypted and transmitted securely with an SSL protocol.
             </p>
-
           </div>
         </Col>
       </Row>
