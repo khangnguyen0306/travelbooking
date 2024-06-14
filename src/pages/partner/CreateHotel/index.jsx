@@ -3,9 +3,9 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { VietnameseProvinces } from "../../../utils/utils";
-import { hotelApi } from "../../../services/hotelAPI";
 import { useDispatch } from "react-redux";
 import { notification } from "antd";
+import { hotelApi } from "../../../services/hotelAPI";
 
 const schema = yup.object().shape({
     rating: yup.number("Rating from 1-5").min(1).max(5).required("This field is required"),

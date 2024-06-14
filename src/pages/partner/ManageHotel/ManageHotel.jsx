@@ -1,14 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import "./ManageHotel.scss"
 import { Table, Tag } from 'antd';
 import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-
+import { hotelApi } from "../../../services/hotelAPI";
 const columns = [
     {
         title: 'Hotel Name',
-        dataIndex: 'hotelName',
-        key: 'hotelName',
+        dataIndex: 'hotel_name',
+        key: 'hotel_name',
         render: (text) => <a>{text}</a>,
     },
     {
@@ -18,8 +18,10 @@ const columns = [
     },
     {
         title: 'Location',
-        dataIndex: 'location',
         key: 'location',
+        render: (_, record) => (
+            <span>{record.location?.province}</span>
+        ),
     },
     {
         title: 'Brand',
@@ -28,14 +30,40 @@ const columns = [
     },
     {
         title: 'Status',
-        key: 'status',
         dataIndex: 'status',
-        render: (_, record) => (
-            <Tag >
-                {record.status}
-            </Tag>
-        ),
+        render: (status) => {
+            let color;
+            const lowercaseStatus = status.toLowerCase();
+            switch (lowercaseStatus) {
+                case 'pending':
+                    color = 'processing';
+                    break;
+                case 'REJECTED':
+                    color = 'red';
+                    break;
+                case 'ACTIVE':
+                    color = 'success';
+                    break;
+                case 'INACTIVE':
+                    color = 'warning';
+                    break;
+                case 'APPROVED':
+                    color = 'orange';
+                    break;
+                case 'CLOSED':
+                    color = 'cyan';
+                    break;
+
+            }
+            return (
+                <Tag color={color}>
+                    {status.toUpperCase()}
+                </Tag>
+            );
+        },
     },
+
+
     {
         title: 'Action',
         key: 'action',
@@ -52,22 +80,34 @@ const columns = [
     },
 ];
 
-const data = [
-    {
-        "hotelName": "Intercontinental",
-        "rating": 5,
-        "location": "District 1, Ho Chi Minh City",
-        "brand": "Luxury",
-        "status:": "Active",
-        "id": "1"
-    },
-];
 
 const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
 };
 
 const ManageHotel = () => {
+    const [getHotel] = hotelApi.useGetHotelMutation();
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getHotel();
+                setData(result?.data?.data);
+            } catch (error) {
+                console.error("Error fetching hotel data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+
+    console.log("Hotel data:", data);
+    const hotelData = data?.content;
+
     return (
         <div className='manage-hotel-wrapper'>
             <p><h2 className='title'>Manage Hotels</h2></p>
@@ -84,13 +124,10 @@ const ManageHotel = () => {
             <Table
                 bordered={true}
                 columns={columns}
-                dataSource={data}
+                dataSource={hotelData}
                 onChange={onChange}
-                scroll={{
-                    y: 440,
-                }}
+                scroll={{ y: 440, }}
             />
-
         </div>
     )
 }
