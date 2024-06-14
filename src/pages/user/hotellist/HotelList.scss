@@ -7,7 +7,7 @@ $blue-main-color-hover: #87b1f0;
     width: 100%;
     height: 100%;
     margin: 0 auto;
-    margin-top: 10rem;
+    margin-top: 7rem;
     position: relative;
 
     .titel {
@@ -169,6 +169,46 @@ $blue-main-color-hover: #87b1f0;
                     .hotel-rating {
                         margin: 0.5rem 0;
                         color: #ff9500;
+                    }
+
+                    .hotel-conveniences {
+                        display: flex;
+                        flex-wrap: wrap;
+                        gap: 10px;
+
+                        .no-conveniences {
+                            color: #555;
+                            /* Màu chữ */
+                            font-size: 16px;
+                            /* Kích thước chữ */
+                            font-weight: bold;
+                            /* Độ đậm chữ */
+                            background-color: #f8f8f8;
+                            /* Màu nền */
+                            padding: 10px;
+                            /* Padding */
+                            border-radius: 5px;
+                            /* Bo góc */
+                            margin-top: 10px;
+                            /* Khoảng cách phía trên */
+                            text-align: center;
+                            /* Canh giữa văn bản */
+                            width: 100%;
+                            /* Chiều rộng đầy đủ */
+                        }
+
+                        .convenience-list {
+                            display: flex;
+                            flex-wrap: wrap;
+                            gap: 10px;
+
+                            .convenience-item {
+                                background-color: rgba(214, 217, 217, 0.453);
+                                padding: 5px 10px;
+                                border-radius: 5px;
+                                margin-right: 5px;
+                            }
+                        }
                     }
 
                     .hotel-book-now {

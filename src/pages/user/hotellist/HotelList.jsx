@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useGetHotelListQuery } from '../../../services/roomAPI';
+import { hotelApi } from '../../../services/hotelAPI';
 import { Link } from 'react-router-dom';
 import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
@@ -23,7 +24,26 @@ const HotelList = () => {
     const rooms = useSelector(state => state.hotel?.search?.rooms);
     const date = useSelector(state => state.hotel?.search?.date);
     const destination = useSelector(state => state.hotel?.search?.destination);
-    const { data: hoteldata, isLoading } = useGetHotelListQuery();
+
+    const [getHotel] = hotelApi.useGetHotelMutation();
+
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const result = await getHotel();
+                setData(result?.data?.data);
+            } catch (error) {
+                console.error("Error fetching hotel data:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    const hotelData = data?.content;
+
 
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
@@ -37,7 +57,7 @@ const HotelList = () => {
     const pageSize = 10;
 
     const fetchMoreData = () => {
-        if (currentHotels && currentPage * pageSize >= hoteldata?.length) {
+        if (currentHotels && currentPage * pageSize >= hotelData?.length) {
             setHasMore(false);
             return;
         }
@@ -102,7 +122,7 @@ const HotelList = () => {
 
     const indexOfLastHotel = currentPage * pageSize;
     const indexOfFirstHotel = indexOfLastHotel - pageSize;
-    const currentHotels = hoteldata ? hoteldata.slice(indexOfFirstHotel, indexOfLastHotel) : [];
+    const currentHotels = hotelData ? hotelData.slice(indexOfFirstHotel, indexOfLastHotel) : [];
 
     return (
         <div className='container-hotel-hotelSearch'>
@@ -199,17 +219,41 @@ const HotelList = () => {
                                 dataLength={currentHotels?.length || 0}
                                 next={fetchMoreData}
                                 hasMore={hasMore}
-                                loader={<h3>Loading...</h3>}
+                                loader={<h3 style={{ textAlign: 'center' }}>Loading...</h3>}
                                 scrollableTarget="scrollableDiv"
-                                endMessage={<h3 style={{ textAlign: 'center' }}>Hết dữ liệu</h3>}
+                            // endMessage={<h3 style={{ textAlign: 'center' }}>Hết dữ liệu</h3>}
                             >
                                 {currentHotels?.map((hotel) => (
                                     <div key={hotel?.id} className="hotel-item">
                                         {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
-                                        <img src={hotel?.imgUrl} alt={hotel?.name} className="hotel-img" />
+                                        <img src={hotel?.imgUrl} alt={hotel?.hotel_name} className="hotel-img" />
                                         <div className="hotel-info">
-                                            <h2 className="hotel-name">{hotel?.name}</h2>
+                                            <h2 className="hotel-name">{hotel?.hotel_name}</h2>
                                             <p className="hotel-description">{hotel?.description}</p>
+                                            <div className='hotel-conveniences'>
+                                                {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
+                                                    hotel?.conveniences.map((convenience, index) => {
+                                                        const trueConveniences = [];
+                                                        if (convenience.bar) trueConveniences.push("Bar");
+                                                        if (convenience.free_breakfast) trueConveniences.push("Breakfast");
+                                                        if (convenience.free_internet) trueConveniences.push("Internet");
+                                                        if (convenience.laundry) trueConveniences.push("Laundry");
+                                                        if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
+                                                        if (convenience.pool) trueConveniences.push("Pool");
+                                                        if (convenience.reception_24h) trueConveniences.push("24h Reception");
+                                                        if (convenience.restaurant) trueConveniences.push("Restaurant");
+                                                        return (
+                                                            <div key={index} className="convenience-list">
+                                                                {trueConveniences.map((item, idx) => (
+                                                                    <span key={idx} className="convenience-item">{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
+                                                                ))}
+                                                            </div>
+                                                        );
+                                                    })
+                                                ) : (
+                                                    <p className="no-conveniences">No conveniences available</p>
+                                                )}
+                                            </div>
                                             <div className="hotel-rating">
                                                 <Rate allowHalf value={hotel?.rating} disabled />
                                                 <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
