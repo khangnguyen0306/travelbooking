@@ -10,7 +10,7 @@ function HotelItem() {
             className='room-item'
             // hoverable
             style={{
-                width: 280,
+                minWidth: 280,
             }}
             cover={
                 <img alt="example" src="https://demo.goodlayers.com/traveltour/homepages/main5/wp-content/uploads/sites/6/2022/08/collov-home-design-LSpkE5OCD_8-unsplash-700x500.jpg" />

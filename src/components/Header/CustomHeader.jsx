@@ -1,68 +1,17 @@
-import React, { useState, useEffect } from "react";
-import { Button, Layout, Menu, Drawer, Grid, Dropdown, Space, Avatar, notification } from "antd";
+import React from "react";
 import "./CustomHeader.scss";
-import { MenuOutlined, DownOutlined, SmileOutlined, UserOutlined } from "@ant-design/icons";
+import { Dropdown, Space, Avatar, notification } from "antd";
+import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { logOut, selectCurrentUser } from "../../slices/auth.slice";
-import SubMenu from "antd/es/menu/SubMenu";
-const { Header } = Layout;
-const { useBreakpoint } = Grid;
-
-
 
 const CustomHeader = () => {
-    const screens = useBreakpoint();
-    const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [visible, setVisible] = useState(true);
-    const [drawerVisible, setDrawerVisible] = useState(false);
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const selectedKey = location.pathname;
     const user = useSelector(selectCurrentUser);
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const currentScrollPos = window.pageYOffset;
-            setVisible(prevScrollPos > currentScrollPos || currentScrollPos < 10);
-            setPrevScrollPos(currentScrollPos);
-        };
-
-        window.addEventListener("scroll", handleScroll);
-
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [prevScrollPos]);
-
-    const renderMenuItems = () => (
-        <Menu className="menu" mode="horizontal" selectedKeys={[selectedKey]}>
-            <Menu.Item key="/" className="item">
-                <Link to="/">Home</Link>
-            </Menu.Item>
-            <Menu.Item key="/view-hotels" className="item">
-                <Link to="/view-hotels">View Hotels</Link>
-            </Menu.Item>
-        </Menu>
-    );
-
-    const renderProfileDropdown = () => (
-        <Dropdown menu={{ items }} trigger={['hover']}>
-            <Link onClick={(e) => e.preventDefault()}>
-                <Space>
-                    <Avatar
-                        style={{
-                            backgroundColor: '#87d068',
-                        }}
-                        icon={<UserOutlined />}
-                    />
-                    <p>  {user?.userName || 'User'}
-                        {/* <DownOutlined /> */}
-                    </p>
-
-                </Space>
-            </Link>
-        </Dropdown>
-    );
 
     const handleLogout = () => {
         dispatch(logOut());
@@ -74,78 +23,45 @@ const CustomHeader = () => {
     };
 
     const items = [
-        { label: <Link>-----</Link>, key: '0' },
-        { label: <Link to="/user/booking">My Booking</Link>, key: '1' },
+        { label: <Link to="/user/booking">My Booking</Link>, key: '0' },
         { type: 'divider' },
-        { label: <Link to="/user/profile">Edit Profile</Link>, key: '2' },
+        { label: <Link to="/user/profile">Edit Profile</Link>, key: '1' },
+        { label: <Link to="/user/change-password">Change Password</Link>, key: '2' },
         { type: 'divider' },
-        { label: <Link to="/user/change-password">Change Password</Link>, key: '4' },
-        { label: <Link onClick={handleLogout}>Logout</Link>, key: '5' },
+        { label: <Link onClick={handleLogout}>Logout</Link>, key: '3' },
     ];
 
+    const renderProfileDropdown = () => (
+        <Dropdown menu={{ items }} trigger={['click']}>
+            <Space>
+                <Avatar
+                    style={{
+                        backgroundColor: '#87d068',
+                    }}
+                    icon={<UserOutlined />}
+                />
+                <p>{user?.userName || 'User'} <DownOutlined /></p>
+            </Space>
+        </Dropdown>
+    );
+
     return (
-        <Header id="header" className={visible ? "show" : "hidden"} style={{ zIndex: '1100' }}>
-            <Link to="/">
-                <div className="header-logo">
-                    <p><span style={{ color: 'black' }}>Ta</span><span>bi</span></p>
-                </div>
+        <header id="header">
+            <Link to="/" className="header-logo">
+                <span>Ta</span><span>bi</span>
             </Link>
-            {screens.md ? (
-                <>
-                    {renderMenuItems()}
-                    <div className="profile-btn">
-                        {user ? renderProfileDropdown() : null}
-                    </div>
-                    {user ? null : (
-                        <Link to='/login'>
-                            <Button type="primary" className="login-btn">Login</Button>
-                        </Link>
-                    )}
-                </>
-            ) : (
-                <Button className="menu-btn" onClick={() => setDrawerVisible(true)} style={{ marginRight: '40px' }}>
-                    <MenuOutlined />
-                </Button>
-            )}
-            <Drawer
-                title="Navigation"
-                placement="right"
-                closable={false}
-                onClose={() => setDrawerVisible(false)}
-                open={drawerVisible}
-            >
-                <Menu
-                    mode="vertical"
-                    defaultSelectedKeys={["1"]}
-                    style={{ width: '100%' }}
-                    onClick={() => setDrawerVisible(false)}
-                >
-                    <Menu.Item key="1">
-                        <Link to="/">Home</Link>
-                    </Menu.Item>
-                    <SubMenu key="2" title="Pages">
-                        <Menu.Item key="2-1">
-                            <Link to="/destination">Destination</Link>
-                        </Menu.Item>
-                        <Menu.Item key="2-2">
-                            <Link to="/about">About Us</Link>
-                        </Menu.Item>
-                    </SubMenu>
-                    <Menu.Item key="3">
-                        <Link to="admin">Tour List</Link>
-                    </Menu.Item>
-                    <Menu.Item key="4">
-                        <Link to="/">Room List</Link>
-                    </Menu.Item>
-                    <Menu.Item key="5">
-                        <Link to="home">Tour Search</Link>
-                    </Menu.Item>
-                    <Menu.Item key="6">
-                        <Link to="admin">Blog</Link>
-                    </Menu.Item>
-                </Menu>
-            </Drawer>
-        </Header>
+            <div className="header-link">
+                <Link className={`link-item ${selectedKey === "/" && "isSelected"}`} to="/">Home</Link>
+                <Link className={`link-item ${selectedKey === "/view-hotels" && "isSelected"}`} to="/view-hotels">View Hotels</Link>
+            </div>
+            <div className="header-actions">
+                {user ? renderProfileDropdown() : (
+                    <Link to='/login' className="login-btn">
+                        Login
+                    </Link>
+                )}
+            </div>
+        </header>
     );
 };
 

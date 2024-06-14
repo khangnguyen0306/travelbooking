@@ -9,13 +9,11 @@ const Rental = () => {
                 <div className='title'>
                     Become A Partner
                 </div>
-                <div class="line"></div>
+                <div className="line"></div>
                 <p className="description">
                     Becoming a hotel partner on our booking website offers many benefits for hotel owners. With a user-friendly interface and simple management tools, you can easily post hotel information, manage available rooms, and receive direct bookings. We commit to providing a stable customer base and marketing support to maximize revenue for your hotel.
                 </p>
-                <div >
-                    <Link to={"/register/partner"}><button className="button" >Discover more</button></Link>
-                </div>
+                <Link to={"/register"}><button className="button" >Discover more</button></Link>
             </div>
 
             <div className="img-rental">

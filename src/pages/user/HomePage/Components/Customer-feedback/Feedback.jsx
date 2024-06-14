@@ -1,7 +1,7 @@
 import React from 'react'
 import './Feedback.scss'
 import { UserOutlined } from '@ant-design/icons';
-import { Carousel, Col, Row, Rate, Avatar } from 'antd';
+import { Carousel, Rate, Avatar } from 'antd';
 
 const Feedback = () => {
 
@@ -10,32 +10,40 @@ const Feedback = () => {
             <h1 className="title">
                 What our customers are saying about us
             </h1>
-            <Carousel arrows className="feedback">
+            <Carousel autoplay className="feedback">
                 <div className="feedback-item">
-                    <Row>
-                        <Col xs={24} md={2}>
-                            <div className="feedback-item__image">
+                    <div className="feedback-item__content">
+                        <div className='heading'>
+                            <div className='user'>
                                 <Avatar size="large" icon={<UserOutlined />} />
+                                <div className='info'>
+                                    <h3 className="name">David Doe</h3>
+                                    <span className="address">ha noi</span>
+                                </div>
                             </div>
-                        </Col>
-                        <Col xs={24} md={22}>
-                            <div className="feedback-item__content">
-                                <Row style={{ display: "flex", alignItems: "center", marginBottom: "4px" }}>
-                                    <Col xs={24} md={12}>
-                                        <span className="feedback-item__content__name">David Doe</span>
-                                    </Col>
-                                    <Col xs={24} md={12}>
-                                        <div className="feedback-item__content__rating">
-                                            <Rate disabled defaultValue={5} />
-                                        </div>
-                                    </Col>
-                                </Row>
-                                <div className="feedback-item__content__role">ha noi</div>
-                                <div className="feedback-item__content__text">The tours in this website are great. I had been really enjoying with my family! The team is very professional and taking care of the customers. Will surely recommend to my friend to join this company!</div>
-
+                            <Rate className="rating" disabled defaultValue={5} />
+                        </div>
+                        <div className="content">
+                            The tours in this website are great. I had been really enjoying with my family! The team is very professional and taking care of the customers. Will surely recommend to my friend to join this company!
+                        </div>
+                    </div>
+                </div>
+                <div className="feedback-item">
+                    <div className="feedback-item__content">
+                        <div className='heading'>
+                            <div className='user'>
+                                <Avatar size="large" icon={<UserOutlined />} />
+                                <div className='info'>
+                                    <h3 className="name">David Doe 2</h3>
+                                    <span className="address">ha noi</span>
+                                </div>
                             </div>
-                        </Col>
-                    </Row>
+                            <Rate className="rating" disabled defaultValue={5} />
+                        </div>
+                        <div className="content">
+                            The tours in this website are great. I had been really enjoying with my family! The team is very professional and taking care of the customers. Will surely recommend to my friend to join this company!
+                        </div>
+                    </div>
                 </div>
             </Carousel>
         </div>
