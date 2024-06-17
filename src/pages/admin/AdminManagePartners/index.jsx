@@ -1,76 +1,212 @@
-import React, { useState } from 'react'
-import "./AdminManagePartners.scss";
-import { Table, Tag, Button, Modal } from 'antd';
+import React, { useState, useRef } from 'react'
+import "./AdminManagePartners.scss"
+import { Table, Tag, Button, Modal, Tooltip, notification, Input, Space } from 'antd';
+import Highlighter from 'react-highlight-words';
 import {
     SearchOutlined,
     CheckCircleOutlined,
     ExclamationCircleOutlined,
+    LockOutlined,
+    UnlockOutlined,
 } from '@ant-design/icons';
+import { useChangeStatusUserMutation, useGetPartnersQuery } from '../../../services/userAPI';
+import { Link } from 'react-router-dom';
 
-const AdminManagePartners = () => {
+const AdminManageUsers = () => {
+    // hook call api
+    const [changeStatus, { isLoading }] = useChangeStatusUserMutation();
+    const { data, refetch } = useGetPartnersQuery();
+
+    // search in table
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    // active-inactive user
+    const [activeUser, setActiveUser] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const showModal = () => {
+
+    // ham xu ly modal - active-inactive user
+    const showModal = (body) => {
+        setActiveUser(body)
         setIsModalOpen(true);
     };
-    const handleOk = () => {
+    const handleOk = async () => {
         setIsModalOpen(false);
+        try {
+            const result = await changeStatus(activeUser);
+            if (result) {
+                notification.success({
+                    message: "Change status successfully!"
+                })
+            }
+            refetch();
+        } catch (error) {
+            console.log(error);
+            notification.error({
+                message: "Some thing wrong!"
+            })
+        }
+
     };
     const handleCancel = () => {
         setIsModalOpen(false);
     };
 
+    // ham xu ly search
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            confirm({
+                                closeDropdown: false,
+                            });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex].toString().toLowerCase().includes(value.toLowerCase()),
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text, record) =>
+            searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                dataIndex === "full_name" ? <Link to={`details-user/${record.id}`}>{text}</Link> : text
+            ),
+    });
+
+    // render - xu ly onChange 
     const columns = [
         {
             title: 'Name',
-            dataIndex: 'name',
-            key: 'name',
-            render: (text) => <a>{text}</a>,
-        },
-        {
-            title: 'Date of birth',
-            dataIndex: 'dob',
-            key: 'dob',
-        },
-        {
-            title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'full_name',
+            key: 'full_name',
+            width: "30%",
+            ...getColumnSearchProps('full_name'),
         },
         {
             title: 'Email',
             dataIndex: 'email',
             key: 'email',
+            width: "30%",
+            ...getColumnSearchProps('email'),
         },
         {
             title: 'Phone',
-            dataIndex: 'phone',
-            key: 'phone',
+            dataIndex: 'phone_number',
+            key: 'phone_number',
+            ...getColumnSearchProps('phone_number'),
         },
         {
             title: 'Status',
-            key: 'status',
-            dataIndex: 'status',
+            key: 'is_active',
+            dataIndex: 'is_active',
+            width: 150,
+            align: "center",
             filters: [
                 {
                     text: 'ACTIVE',
-                    value: 'ACTIVE',
+                    value: true,
                 },
                 {
                     text: 'INACTIVE',
-                    value: 'INACTIVE',
+                    value: false,
                 },
             ],
-            onFilter: (value, record) => record.status.indexOf(value) === 0,
+            onFilter: (value, record) => record.is_active === value,
             render: (_, record) => (
                 <div>
-                    {record.status === "ACTIVE" &&
+                    {record.is_active === true &&
                         <Tag icon={<CheckCircleOutlined />} color="success">
-                            {record.status}
+                            ACTIVE
                         </Tag>
                     }
-                    {record.status === "INACTIVE" &&
+                    {record.is_active === false &&
                         <Tag icon={<ExclamationCircleOutlined />} color="warning">
-                            {record.status}
+                            INACTIVE
                         </Tag>
                     }
                 </div>
@@ -79,83 +215,58 @@ const AdminManagePartners = () => {
         {
             title: 'Action',
             key: 'action',
+            width: 100,
+            align: "center",
             render: (_, record) => (
                 <div>
                     {
-                        record.status === "ACTIVE"
+                        record.is_active === true
                             ?
-                            <Button onClick={showModal}><ExclamationCircleOutlined /> INACTIVE</Button>
+                            <Tooltip title="INACTIVE USER" color='red'>
+                                <Button
+                                    icon={<LockOutlined />}
+                                    danger
+                                    onClick={() => {
+                                        showModal({
+                                            userId: record.id,
+                                            status: 0
+                                        })
+                                    }} />
+                            </Tooltip>
                             :
-                            <Button onClick={showModal}><CheckCircleOutlined /> ACTIVE</Button>
+                            <Tooltip title="ACTIVE USER" color='green'>
+                                <Button
+                                    icon={<UnlockOutlined />}
+                                    onClick={() => {
+                                        showModal({
+                                            userId: record.id,
+                                            status: 1
+                                        })
+                                    }} ></Button>
+                            </Tooltip>
                     }
                 </div>
             ),
         },
     ];
-
-    const data = [
-        {
-            "name": "Nguyễn Văn A",
-            "dob": "1950-11-13T22:09:58.771Z",
-            "address": "1 Nguyễn Oanh, Phường 6, Gò Vấp, TP.HCM",
-            "email": "Mariane.Dach39@yahoo.com",
-            "phone": "533-910-9858",
-            "status": "INACTIVE",
-            "id": "1"
-        },
-        {
-            "name": "Nguyễn Văn B",
-            "dob": "1950-11-13T22:09:58.771Z",
-            "address": "11 Nguyễn Oanh, Phường 6, Gò Vấp, TP.HCM",
-            "email": "Mariane2.Dach39@yahoo.com",
-            "phone": "533-910-9858",
-            "status": "ACTIVE",
-            "id": "2"
-        },
-        {
-            "name": "Nguyễn Văn C",
-            "dob": "1950-11-13T22:09:58.771Z",
-            "address": "111 Nguyễn Oanh, Phường 6, Gò Vấp, TP.HCM",
-            "email": "Mariane3.Dach39@yahoo.com",
-            "phone": "533-910-9858",
-            "status": "INACTIVE",
-            "id": "3"
-        },
-        {
-            "name": "Nguyễn Văn D",
-            "dob": "1950-11-13T22:09:58.771Z",
-            "address": "101 Nguyễn Oanh, Phường 6, Gò Vấp, TP.HCM",
-            "email": "Mariane4.Dach39@yahoo.com",
-            "phone": "533-910-9858",
-            "status": "ACTIVE",
-            "id": "4"
-        },
-    ];
-
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
 
     return (
-        <div className='admin-manage-partners-wrapper'>
+        <div className='admin-manage-users-wrapper'>
             <h2 className='title'>List of partners:</h2>
-            <div className='search'>
-                <SearchOutlined className='icon' />
-                <input className='input' type="text" />
-            </div>
             <Table
                 bordered={true}
                 columns={columns}
                 dataSource={data}
                 onChange={onChange}
-                scroll={{
-                    y: 440,
-                }}
             />
             <Modal
-                title="Change Status Of Partner"
+                title="Change Status Of User"
                 open={isModalOpen}
                 onOk={handleOk}
+                confirmLoading={isLoading}
                 onCancel={handleCancel}
                 centered
                 width={"400px"}
@@ -169,4 +280,4 @@ const AdminManagePartners = () => {
     )
 }
 
-export default AdminManagePartners;
+export default AdminManageUsers;
