@@ -7,7 +7,7 @@ import {
     Button,
 
 } from 'antd';
-
+import { Link } from 'react-router-dom';
 const EditHotel = () => {
     const onFinish = (values) => {
         console.log('Received values of form: ', values);
@@ -64,6 +64,7 @@ const EditHotel = () => {
                             Submit
                         </Button>
                         <Button htmlType="reset">reset</Button>
+                        <Link to={'/partner/manage-hotel'}><Button danger>cancel</Button></Link>
                     </Space>
                 </Form.Item>
             </Form>

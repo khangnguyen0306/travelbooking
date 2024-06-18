@@ -34,7 +34,8 @@ export const hotelApi = createApi({
                 body: body,
             }),
         }),
-        getHotel: builder.mutation({
+
+        getHotelWithPage: builder.query({
             query: ({ pageNumber = 0, pageSize = 10 }) => ({
                 url: `hotels/getAllHotels?page=${pageNumber}&size=${pageSize}`,
                 method: "GET",
@@ -45,7 +46,13 @@ export const hotelApi = createApi({
                     },
                 },
             }),
-            invalidatesTags: ["Hotel"],
+        }),
+
+        getFullHotel: builder.query({
+            query: () => ({
+                url: `hotels/getAllHotels?page=0&size=10000`,
+                method: "GET",
+            }),
         }),
         putLicense: builder.mutation({
             query: ({ idHotel, license }) => {
@@ -66,7 +73,8 @@ export const hotelApi = createApi({
 
 export const {
     useCreateHotelMutation,
-    useGetHotelMutation,
     usePutLicenseMutation,
+    useGetFullHotelQuery,
+    useGetHotelWithPageQuery,
 
 } = hotelApi;

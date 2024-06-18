@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "./ManageHotel.scss"
-import { Table, Tag } from 'antd';
+import { Table, Tag, Pagination } from 'antd';
 import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { hotelApi } from "../../../services/hotelAPI";
@@ -81,32 +81,12 @@ const columns = [
 ];
 
 
-const onChange = (pagination, filters, sorter, extra) => {
-    console.log('params', pagination, filters, sorter, extra);
-};
 
 const ManageHotel = () => {
-    const [getHotel] = hotelApi.useGetHotelMutation();
-
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const result = await getHotel();
-                setData(result?.data?.data);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-            }
-        };
-
-        fetchData();
-    }, []);
-
-
+    const { data, refetch } = hotelApi.useGetFullHotelQuery();
+    const HotelData = data?.data?.content
 
     console.log("Hotel data:", data);
-    const hotelData = data?.content;
 
     return (
         <div className='manage-hotel-wrapper'>
@@ -124,10 +104,10 @@ const ManageHotel = () => {
             <Table
                 bordered={true}
                 columns={columns}
-                dataSource={hotelData}
-                onChange={onChange}
+                dataSource={HotelData}
                 scroll={{ y: 440, }}
             />
+
         </div>
     )
 }
