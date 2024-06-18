@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useGetHotelListQuery } from '../../../services/roomAPI';
 import { hotelApi } from '../../../services/hotelAPI';
 import { Link } from 'react-router-dom';
+import ReactPaginate from "react-paginate";
 import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setGuests, setRooms, setDate, setDestination } from '../../../slices/hotelSlice';
-import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Select, Rate, Button, notification, Popover } from "antd";
+import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Select, Rate, Button, notification, Popover, Pagination } from "antd";
 import { VietnameseProvinces } from "../../../utils/utils";
-import InfiniteScroll from 'react-infinite-scroll-component';
 import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
@@ -26,51 +25,42 @@ const HotelList = () => {
     const destination = useSelector(state => state.hotel?.search?.destination);
 
     const [getHotel] = hotelApi.useGetHotelMutation();
-
     const [data, setData] = useState([]);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageSize] = useState(10);
+    const [totalElements, setTotalElements] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const fetchData = async (page) => {
+        setLoading(true);
+        try {
+            const result = await getHotel({ pageNumber: page, pageSize });
+            setData(result?.data?.data?.content || []);
+            setTotalElements(result?.data?.data?.totalElements || 0);
+            setCurrentPage(page);
+        } catch (error) {
+            console.error("Error fetching hotel data:", error);
+        }
+        setLoading(false);
+    };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const result = await getHotel();
-                setData(result?.data?.data);
-            } catch (error) {
-                console.error("Error fetching hotel data:", error);
-            }
-        };
+        fetchData(currentPage);
+    }, [currentPage]);
 
-        fetchData();
-    }, []);
-
-    const hotelData = data?.content;
-
+    const handlePageChange = (page) => {
+        fetchData(page - 1);
+        window.scrollTo({
+            top: 100,
+            left: 0,
+            behavior: 'smooth'
+        });
+    };
 
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
         if (guests > value * 6) {
             dispatch(setGuests(value * 6));
         }
-    };
-
-    const [hasMore, setHasMore] = useState(true);
-    const [currentPage, setCurrentPage] = useState(1);
-    const pageSize = 10;
-
-    const fetchMoreData = () => {
-        if (currentHotels && currentPage * pageSize >= hotelData?.length) {
-            setHasMore(false);
-            return;
-        }
-        setCurrentPage((prevPage) => prevPage + 1);
-    };
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        window.scrollTo({
-            top: 100,
-            left: 0,
-            behavior: 'smooth'
-        });
     };
 
     const handleGuestsChange = (value) => {
@@ -94,7 +84,7 @@ const HotelList = () => {
     };
 
     const handleSearchChange = () => {
-        console.log('Search button clicked');
+        fetchData(0); // Reset to first page on search
     };
 
     const handleVisibleChange = (visible) => {
@@ -119,10 +109,6 @@ const HotelList = () => {
             </Row>
         </div>
     );
-
-    const indexOfLastHotel = currentPage * pageSize;
-    const indexOfFirstHotel = indexOfLastHotel - pageSize;
-    const currentHotels = hotelData ? hotelData.slice(indexOfFirstHotel, indexOfLastHotel) : [];
 
     return (
         <div className='container-hotel-hotelSearch'>
@@ -215,66 +201,72 @@ const HotelList = () => {
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            <InfiniteScroll
-                                dataLength={currentHotels?.length || 0}
-                                next={fetchMoreData}
-                                hasMore={hasMore}
-                                loader={<h3 style={{ textAlign: 'center' }}>Loading...</h3>}
-                                scrollableTarget="scrollableDiv"
-                            // endMessage={<h3 style={{ textAlign: 'center' }}>Hết dữ liệu</h3>}
-                            >
-                                {currentHotels?.map((hotel) => (
-                                    <div key={hotel?.id} className="hotel-item">
-                                        {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
-                                        <img src={hotel?.imgUrl} alt={hotel?.hotel_name} className="hotel-img" />
-                                        <div className="hotel-info">
-                                            <h2 className="hotel-name">{hotel?.hotel_name}</h2>
-                                            <p className="hotel-description">{hotel?.description}</p>
-                                            <div className='hotel-conveniences'>
-                                                {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
-                                                    hotel?.conveniences.map((convenience, index) => {
-                                                        const trueConveniences = [];
-                                                        if (convenience.bar) trueConveniences.push("Bar");
-                                                        if (convenience.free_breakfast) trueConveniences.push("Breakfast");
-                                                        if (convenience.free_internet) trueConveniences.push("Internet");
-                                                        if (convenience.laundry) trueConveniences.push("Laundry");
-                                                        if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
-                                                        if (convenience.pool) trueConveniences.push("Pool");
-                                                        if (convenience.reception_24h) trueConveniences.push("24h Reception");
-                                                        if (convenience.restaurant) trueConveniences.push("Restaurant");
-                                                        return (
-                                                            <div key={index} className="convenience-list">
-                                                                {trueConveniences.map((item, idx) => (
-                                                                    <span key={idx} className="convenience-item">{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
-                                                                ))}
-                                                            </div>
-                                                        );
-                                                    })
-                                                ) : (
-                                                    <p className="no-conveniences">No conveniences available</p>
-                                                )}
+                            {data.length > 0 ? (
+                                <>
+                                    {data.map((hotel) => (
+                                        <div key={hotel?.id} className="hotel-item">
+                                            {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
+                                            <img src={hotel?.imgUrl} alt={hotel?.hotel_name} className="hotel-img" />
+                                            <div className="hotel-info">
+                                                <h2 className="hotel-name">{hotel?.hotel_name}</h2>
+                                                <p className="hotel-description">{hotel?.description}</p>
+                                                <div className='hotel-conveniences'>
+                                                    {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
+                                                        hotel?.conveniences.map((convenience, index) => {
+                                                            const trueConveniences = [];
+                                                            if (convenience.bar) trueConveniences.push("Bar");
+                                                            if (convenience.free_breakfast) trueConveniences.push("Breakfast");
+                                                            if (convenience.free_internet) trueConveniences.push("Internet");
+                                                            if (convenience.laundry) trueConveniences.push("Laundry");
+                                                            if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
+                                                            if (convenience.pool) trueConveniences.push("Pool");
+                                                            if (convenience.reception_24h) trueConveniences.push("24h Reception");
+                                                            if (convenience.restaurant) trueConveniences.push("Restaurant");
+                                                            return (
+                                                                <div key={index} className="convenience-list">
+                                                                    {trueConveniences.map((item, idx) => (
+                                                                        <span key={idx} className="convenience-item">{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
+                                                                    ))}
+                                                                </div>
+                                                            );
+                                                        })
+                                                    ) : (
+                                                        <p className="no-conveniences">No conveniences available</p>
+                                                    )}
+                                                </div>
+                                                <div className="hotel-rating">
+                                                    <Rate allowHalf value={hotel?.rating} disabled />
+                                                    <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
+                                                </div>
+                                                <Row>
+                                                    <Col xs={24} md={14}>
+                                                        <Link to={`/hotel-detail/${hotel?.id}`}>
+                                                            <div className="hotel-book-now">DETAIL</div>
+                                                        </Link>
+                                                    </Col>
+                                                    <Col xs={24} md={10}>
+                                                        <div className="hotel-price">
+                                                            From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
                                             </div>
-                                            <div className="hotel-rating">
-                                                <Rate allowHalf value={hotel?.rating} disabled />
-                                                <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
-                                            </div>
-                                            <Row>
-                                                <Col xs={24} md={14}>
-                                                    <Link to={`/hotel-detail/${hotel?.id}`}>
-                                                        <div className="hotel-book-now">DETAIL</div>
-                                                    </Link>
-                                                </Col>
-                                                <Col xs={24} md={10}>
-                                                    <div className="hotel-price">
-                                                        From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
-                                                    </div>
-                                                </Col>
-                                            </Row>
                                         </div>
-                                    </div>
-                                ))}
-                            </InfiniteScroll>
+                                    ))}
+                                    <Pagination
+                                        current={currentPage + 1}
+                                        total={totalElements}
+                                        pageSize={pageSize}
+                                        onChange={handlePageChange}
+                                    />
+
+                                </>
+                            ) : (
+                                <div className="no-data">No hotels found</div>
+                            )}
                         </div>
+
+
                     </Col>
                 </Row>
             </div>
