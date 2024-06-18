@@ -1,21 +1,31 @@
+
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "../config";
 import { selectTokens } from "../slices/auth.slice";
 
+// Base query with Authorization header
+const baseQueryWithAuth = fetchBaseQuery({
+    baseUrl: API_BASE_URL,
+    prepareHeaders: (headers, { getState }) => {
+        const token = selectTokens(getState());
+        if (token) {
+            headers.append("Authorization", `Bearer ${token}`);
+        }
+        return headers;
+    },
+});
+
+// Base query without Authorization header
+const baseQueryWithoutAuth = fetchBaseQuery({
+    baseUrl: API_BASE_URL,
+    prepareHeaders: (headers) => {
+        return headers;
+    },
+});
+
 export const hotelApi = createApi({
     reducerPath: "hotelManagement",
-    // baseQuery: fetchBaseQuery({baseUrl:"https://localhost:7293/api/"}),                        //chua fix
-    baseQuery: fetchBaseQuery({
-        baseUrl: API_BASE_URL,
-        prepareHeaders: (headers, { getState }) => {
-            const token = selectTokens(getState()); // Retrieve token from Redux state using selectToken selector
-            if (token) {
-                headers.append("Authorization", `Bearer ${token}`);
-            }
-            headers.append("Content-Type", "application/json");
-            return headers;
-        },
-    }),
+    baseQuery: baseQueryWithAuth,
     endpoints: (builder) => ({
         createHotel: builder.mutation({
             query: (body) => ({
@@ -25,16 +35,38 @@ export const hotelApi = createApi({
             }),
         }),
         getHotel: builder.mutation({
-            query: (id) => ({
-                url: `hotels/getAllHotels`,
+            query: ({ pageNumber = 0, pageSize = 10 }) => ({
+                url: `hotels/getAllHotels?page=${pageNumber}&size=${pageSize}`,
                 method: "GET",
+                params: {
+                    pageable: {
+                        pageNumber,
+                        pageSize,
+                    },
+                },
             }),
+            invalidatesTags: ["Hotel"],
+        }),
+        putLicense: builder.mutation({
+            query: ({ idHotel, license }) => {
+                const formData = new FormData();
+                formData.append('license', license);
+                for (let pair of formData.entries()) {
+                    console.log(`${pair[0]}, ${pair[1]}`);
+                }
+                return {
+                    url: `hotels/update-business-license/${idHotel}`,
+                    method: 'PUT',
+                    body: formData,
+                };
+            },
         }),
     }),
-})
+});
 
 export const {
     useCreateHotelMutation,
     useGetHotelMutation,
+    usePutLicenseMutation,
 
 } = hotelApi;

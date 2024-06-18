@@ -31,6 +31,7 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     auth: authrersistedReducer,
     [hotelApi.reducerPath]: hotelApi.reducer,
+    hotel: hotelReducer,
     hotel: hotelrersistedReducer,
     [userApi.reducerPath]: userApi.reducer,
 

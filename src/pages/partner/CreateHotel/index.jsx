@@ -12,7 +12,7 @@ const schema = yup.object().shape({
     description: yup.string().required("This field is required").trim(),
     brand: yup.string(),
     hotel_name: yup.string().required("This field is required").trim(),
-    businessLicense: yup.string().required("This field is required").trim(),
+    businessLicense: yup.mixed().required("This field is required"),
     conveniences: yup.object().shape({
         free_breakfast: yup.boolean(),
         pick_up_drop_off: yup.boolean(),
@@ -32,6 +32,8 @@ const schema = yup.object().shape({
 function CreateHotel() {
     const dispatch = useDispatch();
     const [createHotel, { isLoading }] = hotelApi.useCreateHotelMutation();
+    const [putLicense, { isLoading: isLicenseLoading, isSuccess, isError, error }] = hotelApi.usePutLicenseMutation();
+
     const {
         register,
         handleSubmit,
@@ -42,14 +44,36 @@ function CreateHotel() {
         resolver: yupResolver(schema),
     });
 
+
     const onSubmit = async (data) => {
         const conveniences = Object.keys(data.conveniences).map(key => ({
             [key]: data.conveniences[key]
         }));
         data.conveniences = conveniences;
+
+        // Check if businessLicense file is selected
+        if (!data.businessLicense || data.businessLicense.length === 0) {
+            notification.error({
+                message: "Error",
+                description: "Business license file is required.",
+            });
+            return;
+        }
+
+        const formData = new FormData();
+        formData.append("license", data.businessLicense[0]);
+
+        // Log formData content for debugging
+        for (let pair of formData.entries()) {
+            console.log(`${pair[0]}, ${pair[1]}`);
+        }
+
         try {
             const response = await createHotel(data).unwrap();
-            console.log(response);
+            console.log("Created hotel response:", response);
+
+            await putLicense({ idHotel: response?.data?.id, license: data.businessLicense[0] }).unwrap();
+
             notification.success({
                 message: "Success",
                 description: "Hotel created successfully!",
@@ -58,10 +82,10 @@ function CreateHotel() {
         } catch (error) {
             notification.error({
                 message: "Error",
-                description: error.data.message,
+                description: error.message,
             });
-            console.log(error.data.message);
-            console.log(data);
+            console.log("Error:", error.message);
+            console.log("Submitted data:", data);
         }
     };
 
@@ -91,8 +115,8 @@ function CreateHotel() {
                 </div>
                 <div className="item-100">
                     <label>Business License*</label>
-                    <input className="input" type="text" {...register('businessLicense')} placeholder="Enter hotel name" />
-                    <p className="error-message">{errors.businessLicense?.message}</p>
+                    <input className="input" type="file" {...register('businessLicense')} placeholder="Enter hotel name" multiple={false}
+                    />                    <p className="error-message">{errors.businessLicense?.message}</p>
                 </div>
                 <div className="item-100">
                     <h3>Location:</h3>
@@ -109,7 +133,7 @@ function CreateHotel() {
                                     <option key={index} value={province}>{province}</option>
                                 ))}
                             </select>
-                            <p className="error-message">{errors.location?.district?.message}</p>
+                            <p className="error-message">{errors.location?.province?.message}</p>
                         </div>
                     </div>
                 </div>
