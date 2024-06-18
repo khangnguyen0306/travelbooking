@@ -81,8 +81,8 @@ const Register = () => {
                 {...register("role_id")}
                 className="input"
               >
-                <option value="2">Customer</option>
-                <option value="3">Hotel owner</option>
+                <option value="3">Customer</option>
+                <option value="2">Hotel owner</option>
               </select>
               <p className="error">{errors.role_id?.message}</p>
             </div>
