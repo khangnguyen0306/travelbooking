@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { hotelApi } from '../../../services/hotelAPI';
 import { Link } from 'react-router-dom';
-import ReactPaginate from "react-paginate";
 import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
@@ -24,37 +23,38 @@ const HotelList = () => {
     const date = useSelector(state => state.hotel?.search?.date);
     const destination = useSelector(state => state.hotel?.search?.destination);
 
-    const [getHotel] = hotelApi.useGetHotelMutation();
-    const [data, setData] = useState([]);
-    const [currentPage, setCurrentPage] = useState(0);
-    const [pageSize] = useState(10);
-    const [totalElements, setTotalElements] = useState(0);
-    const [loading, setLoading] = useState(false);
-    const fetchData = async (page) => {
-        setLoading(true);
-        try {
-            const result = await getHotel({ pageNumber: page, pageSize });
-            setData(result?.data?.data?.content || []);
-            setTotalElements(result?.data?.data?.totalElements || 0);
-            setCurrentPage(page);
-        } catch (error) {
-            console.error("Error fetching hotel data:", error);
-        }
-        setLoading(false);
-    };
+    const { data } = hotelApi.useGetHotelWithPageQuery({ pageNumber: 0, pageSize: 10 });
+    console.log(data);
+    // const [data, setData] = useState([]);
+    // const [currentPage, setCurrentPage] = useState(0);
+    // const [pageSize] = useState(10);
+    // const [totalElements, setTotalElements] = useState(0);
+    // const [loading, setLoading] = useState(false);
+    // const fetchData = async (page) => {
+    //     setLoading(true);
+    //     try {
+    //         const result = await getHotel({ pageNumber: page, pageSize });
+    //         setData(result?.data?.data?.content || []);
+    //         setTotalElements(result?.data?.data?.totalElements || 0);
+    //         setCurrentPage(page);
+    //     } catch (error) {
+    //         console.error("Error fetching hotel data:", error);
+    //     }
+    //     setLoading(false);
+    // };
 
-    useEffect(() => {
-        fetchData(currentPage);
-    }, [currentPage]);
+    // useEffect(() => {
+    //     fetchData(currentPage);
+    // }, [currentPage]);
 
-    const handlePageChange = (page) => {
-        fetchData(page - 1);
-        window.scrollTo({
-            top: 100,
-            left: 0,
-            behavior: 'smooth'
-        });
-    };
+    // const handlePageChange = (page) => {
+    //     fetchData(page - 1);
+    //     window.scrollTo({
+    //         top: 100,
+    //         left: 0,
+    //         behavior: 'smooth'
+    //     });
+    // };
 
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
@@ -201,7 +201,7 @@ const HotelList = () => {
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            {data.length > 0 ? (
+                            {/* {data.length > 0 ? (
                                 <>
                                     {data.map((hotel) => (
                                         <div key={hotel?.id} className="hotel-item">
@@ -254,16 +254,18 @@ const HotelList = () => {
                                         </div>
                                     ))}
                                     <Pagination
+                                        style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}
                                         current={currentPage + 1}
                                         total={totalElements}
                                         pageSize={pageSize}
                                         onChange={handlePageChange}
+                                        showTotal={(total) => `Total ${total} items`}
                                     />
 
                                 </>
                             ) : (
                                 <div className="no-data">No hotels found</div>
-                            )}
+                            )} */}
                         </div>
 
 
