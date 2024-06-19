@@ -1,0 +1,107 @@
+.admin-hotel-details-wrapper {
+  .card {
+    padding: 20px;
+    width: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+    .hotel-info,
+    .partner-info {
+      margin: 0 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .item {
+        width: 132px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .cancel {
+        padding: 12px;
+        background-color: white;
+        border: none;
+        color: var(--blue-main-color);
+        font-size: x-large;
+        cursor: pointer;
+      }
+    }
+
+    .partner-info {
+      margin-top: 16px;
+    }
+
+    .details {
+      display: flex;
+      flex-wrap: wrap;
+
+      .item-100 {
+        margin-bottom: 12px;
+        width: 100%;
+      }
+
+      .item-75 {
+        margin-bottom: 12px;
+        width: 75%;
+      }
+
+      .item-50 {
+        margin-bottom: 12px;
+        width: 50%;
+      }
+
+      .item-25 {
+        margin-bottom: 12px;
+        width: 25%;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+      }
+
+      .input {
+        padding: 12px;
+        width: calc(100% - 20px);
+        min-height: 40px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 1em;
+        resize: vertical;
+
+        &:focus-visible {
+          outline: 1px solid var(--blue-main-color);
+        }
+      }
+
+      h3 {
+        font-size: 1.2em;
+        border-bottom: 2px solid #f1f1f1;
+        padding-bottom: 12px;
+        margin-bottom: 12px;
+      }
+
+      .location {
+        display: flex;
+      }
+
+      .conveniences {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 16px;
+
+        .sub-item {
+          padding: 8px 12px;
+          border: 1px solid var(--blue-main-color);
+          border-radius: 8px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+          font-size: medium;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+}

@@ -32,13 +32,13 @@ const AdminManageUsers = () => {
         setIsModalOpen(true);
     };
     const handleOk = async () => {
-        setIsModalOpen(false);
         try {
             const result = await changeStatus(activeUser);
-            if (result) {
+            if (result?.error?.originalStatus == 200) {
                 notification.success({
                     message: "Change status successfully!"
                 })
+                refetch();
             }
             refetch();
         } catch (error) {
@@ -47,7 +47,7 @@ const AdminManageUsers = () => {
                 message: "Some thing wrong!"
             })
         }
-
+        setIsModalOpen(false);
     };
     const handleCancel = () => {
         setIsModalOpen(false);

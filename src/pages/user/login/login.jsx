@@ -51,7 +51,7 @@ function LoginAdmin() {
     const onSubmit = async (dataObj) => {
         try {
             const result = await login({
-                email_or_phone: dataObj.emailOrPhone,
+                login_identifier: dataObj.emailOrPhone,
                 password: dataObj.password,
             }).unwrap();
             console.log(result);
@@ -103,7 +103,6 @@ function LoginAdmin() {
                             <input
                                 {...register("emailOrPhone")}
                                 className="input"
-                                autoComplete="off"
                                 placeholder="Enter email or phone number"
                             />
                             <p className="error">{errors.emailOrPhone?.message}</p>
@@ -115,7 +114,6 @@ function LoginAdmin() {
                                 {...register("password")}
                                 className="input"
                                 type="password"
-                                autoComplete="off"
                                 placeholder="Enter password"
                             />
                             <p className="error">{errors.password?.message}</p>

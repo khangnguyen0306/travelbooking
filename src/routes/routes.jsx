@@ -26,11 +26,13 @@ const AdminManageBookings = Loadable({ loader: () => import("../pages/admin/Admi
 const AdminManageUsers = Loadable({ loader: () => import("../pages/admin/AdminManageUsers") });
 const AdminManagePartners = Loadable({ loader: () => import("../pages/admin/AdminManagePartners") });
 const AdminManageHotels = Loadable({ loader: () => import("../pages/admin/AdminManageHotels") });
+const AdminHotelDetails = Loadable({ loader: () => import("../pages/admin/AdminManageHotels/Components/AdminHotelDetails") });
 const AdminManageConveniences = Loadable({ loader: () => import("../pages/admin/AdminManageConveniences") });
 
 // partner page
 const ViewBooking = Loadable({ loader: () => import("../pages/partner/ViewBooking/ViewBooking") });
 const ManageHotel = Loadable({ loader: () => import("../pages/partner/ManageHotel/ManageHotel") });
+const PartnerHotelDetails = Loadable({ loader: () => import("../pages/partner/ManageHotel/Components/PartnerHotelDetails") });
 const CreateHotel = Loadable({ loader: () => import("../pages/partner/CreateHotel") });
 const Edit = Loadable({ loader: () => import("../pages/partner/EditHotel/EditHotel") });
 const Room = Loadable({ loader: () => import("../pages/partner/ManageRoom/ManageRoom") });
@@ -140,7 +142,16 @@ export const router = createBrowserRouter([
               },
               {
                 path: "manage-hotels",
-                element: AdminManageHotels,
+                children: [
+                  {
+                    index: true,
+                    element: AdminManageHotels,
+                  },
+                  {
+                    path: "hotel-details/:hotelId",
+                    element: AdminHotelDetails,
+                  }
+                ]
               },
               {
                 path: "manage-conveniences",
@@ -158,8 +169,16 @@ export const router = createBrowserRouter([
               },
               {
                 path: "manage-hotel",
-                element: ManageHotel,
-
+                children: [
+                  {
+                    index: true,
+                    element: ManageHotel,
+                  },
+                  {
+                    path: "hotel-details/:hotelId",
+                    element: PartnerHotelDetails,
+                  }
+                ]
               },
               {
                 path: "manage-hotel/:id/edit",
