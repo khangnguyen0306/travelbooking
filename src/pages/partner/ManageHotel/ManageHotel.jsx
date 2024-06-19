@@ -1,101 +1,272 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useRef } from 'react'
 import "./ManageHotel.scss"
-import { Table, Tag, Pagination } from 'antd';
-import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Table, Tag, Button, Popover, Modal, notification, Input, Space } from 'antd';
+import Highlighter from 'react-highlight-words';
+import {
+    SearchOutlined,
+    CheckCircleOutlined,
+    ExclamationCircleOutlined,
+    SyncOutlined,
+    CloseCircleOutlined,
+    MenuOutlined,
+    PlusCircleOutlined,
+    EditOutlined,
+    BankOutlined
+} from '@ant-design/icons';
+import { useGetHotelForPartnerQuery } from "../../../services/hotelAPI";
 import { Link } from 'react-router-dom';
-import { hotelApi } from "../../../services/hotelAPI";
-const columns = [
-    {
-        title: 'Hotel Name',
-        dataIndex: 'hotel_name',
-        key: 'hotel_name',
-        render: (text) => <a>{text}</a>,
-    },
-    {
-        title: 'Rating',
-        dataIndex: 'rating',
-        key: 'rating',
-    },
-    {
-        title: 'Location',
-        key: 'location',
-        render: (_, record) => (
-            <span>{record.location?.province}</span>
-        ),
-    },
-    {
-        title: 'Brand',
-        dataIndex: 'brand',
-        key: 'brand',
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-        render: (status) => {
-            let color;
-            const lowercaseStatus = status.toLowerCase();
-            switch (lowercaseStatus) {
-                case 'pending':
-                    color = 'processing';
-                    break;
-                case 'REJECTED':
-                    color = 'red';
-                    break;
-                case 'ACTIVE':
-                    color = 'success';
-                    break;
-                case 'INACTIVE':
-                    color = 'warning';
-                    break;
-                case 'APPROVED':
-                    color = 'orange';
-                    break;
-                case 'CLOSED':
-                    color = 'cyan';
-                    break;
-
-            }
-            return (
-                <Tag color={color}>
-                    {status.toUpperCase()}
-                </Tag>
-            );
-        },
-    },
-
-
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <div>
-                <div style={{ marginRight: '8px' }}>
-                    <Link to={`${record.id}/edit`}>Edit</Link>
-                </div>
-                <div>
-                    <Link to={`${record.id}/manage-room`}>Room</Link>
-                </div>
-            </div>
-        ),
-    },
-];
-
-
 
 const ManageHotel = () => {
-    const { data, refetch } = hotelApi.useGetFullHotelQuery();
-    const HotelData = data?.data?.content
+    // call api
+    const { data, refetch } = useGetHotelForPartnerQuery();
 
-    console.log("Hotel data:", data);
+    // search in table
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    // ham xu ly search
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex, customRender) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            confirm({
+                                closeDropdown: false,
+                            });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) => {
+            const keys = dataIndex.split('.');
+            let data = record;
+            keys.forEach(key => {
+                data = data[key];
+            });
+            return data ? data.toString().toLowerCase().includes(value.toLowerCase()) : false;
+        },
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text, record) => {
+            const keys = dataIndex.split('.');
+            let data = record;
+            keys.forEach(key => {
+                data = data ? data[key] : null;
+            });
+            text = data; // update text to be the nested data
+
+            return searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                customRender ? customRender(text, record) : text
+            );
+        },
+    });
+
+    // render column
+    const columns = [
+        {
+            title: 'Hotel Name',
+            dataIndex: 'hotel_name',
+            key: 'hotel_name',
+            ...getColumnSearchProps('hotel_name', (text, record) => (
+                <Link to={`hotel-details/${record.id}`}>{text}</Link>
+            )),
+        },
+        {
+            title: 'Address',
+            dataIndex: 'location.address',
+            key: 'location.address',
+            ...getColumnSearchProps('location.address', (text, record) => record.location.address),
+
+        },
+        {
+            title: 'Province',
+            dataIndex: 'location.province',
+            key: 'location.province',
+            ...getColumnSearchProps('location.province', (text, record) => record.location.province),
+        },
+        {
+            title: 'Status',
+            key: 'status',
+            dataIndex: 'status',
+            width: 150,
+            align: "center",
+            filters: [
+                {
+                    text: 'PENDING',
+                    value: 'PENDING',
+                },
+                {
+                    text: 'APPROVED',
+                    value: 'APPROVED',
+                },
+                {
+                    text: 'REJECTED',
+                    value: 'REJECTED',
+                },
+                {
+                    text: 'ACTIVE',
+                    value: 'ACTIVE',
+                },
+                {
+                    text: 'INACTIVE',
+                    value: 'INACTIVE',
+                },
+                {
+                    text: 'CLOSED',
+                    value: 'CLOSED',
+                },
+            ],
+            onFilter: (value, record) => record.status.indexOf(value) === 0,
+            render: (_, record) => (
+                <div>
+                    {record.status === "APPROVED" &&
+                        < Tag icon={<CheckCircleOutlined />} color="success">
+                            {record.status}
+                        </Tag>
+                    }
+                    {record.status === "PENDING" &&
+                        < Tag icon={< SyncOutlined spin />} color="processing" >
+                            {record.status}
+                        </Tag >
+                    }
+                    {record.status === "REJECTED" &&
+                        < Tag icon={< CloseCircleOutlined />} color="error" >
+                            {record.status}
+                        </Tag >
+                    }
+                    {record.status === "ACTIVE" &&
+                        <Tag icon={<CheckCircleOutlined />} color="success">
+                            {record.status}
+                        </Tag>
+                    }
+                    {record.status === "INACTIVE" &&
+                        <Tag icon={<ExclamationCircleOutlined />} color="warning">
+                            {record.status}
+                        </Tag>
+                    }
+                    {record.status === "CLOSED" &&
+                        <Tag icon={<CloseCircleOutlined />} color="error">
+                            {record.status}
+                        </Tag>
+                    }
+                </div >
+            ),
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            width: 100,
+            align: "center",
+            render: (_, record) => (
+                < Popover content={
+                    < div >
+                        <Button
+                            className='action-item'
+                            icon={<EditOutlined />}
+                        >
+                            <Link className='link' to={`${record.id}/edit`}>Edit</Link>
+                        </Button>
+                        <Button
+                            className='action-item'
+                            icon={<BankOutlined />}
+                        >
+                            <Link className='link' to={`${record.id}/manage-room`}>Room</Link>
+                        </Button>
+                    </div >
+                } trigger="hover" placement='left'>
+                    <Button icon={<MenuOutlined />}></Button>
+                </Popover>
+            ),
+        },
+    ];
 
     return (
-        <div className='manage-hotel-wrapper'>
-            <p><h2 className='title'>Manage Hotels</h2></p>
+        <div className='partner-manage-hotel-wrapper'>
             <div className="action">
-                <div className='search'>
-                    <SearchOutlined className='icon' />
-                    <input className='input' type="text" />
-                </div>
+                <h2>Manage Hotels</h2>
                 <Link className="new-btn" to={"/partner/create-hotel"}>
                     <PlusCircleOutlined />
                     New Hotel
@@ -104,10 +275,8 @@ const ManageHotel = () => {
             <Table
                 bordered={true}
                 columns={columns}
-                dataSource={HotelData}
-                scroll={{ y: 440, }}
+                dataSource={data?.data?.content}
             />
-
         </div>
     )
 }

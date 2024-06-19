@@ -1,48 +1,204 @@
-import React, { useState } from 'react'
+import React, { useState, useRef } from 'react'
 import "./AdminManageHotels.scss";
-import { Table, Tag, Button, Popover, Modal } from 'antd';
+import { Table, Tag, Button, Popover, Modal, notification, Input, Space } from 'antd';
+import Highlighter from 'react-highlight-words';
 import {
     SearchOutlined,
     CheckCircleOutlined,
     ExclamationCircleOutlined,
     SyncOutlined,
-    CloseCircleOutlined
+    CloseCircleOutlined,
+    MenuOutlined
 } from '@ant-design/icons';
+import { useGetFullHotelQuery, useChangeStatusHotelMutation } from '../../../services/hotelAPI';
 import { Link } from 'react-router-dom';
 
 const AdminManageHotels = () => {
+    // hook call api
+    const [changeStatus, { isLoading }] = useChangeStatusHotelMutation()
+    const { data, refetch } = useGetFullHotelQuery();
+
+    // search in table
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+
+    const [statusHotel, setStatusHotel] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
+
+    // ham xu ly modal
     const showModal = () => {
         setIsModalOpen(true);
     };
-    const handleOk = () => {
+    const handleOk = async () => {
+        try {
+            const result = await changeStatus(statusHotel);
+            if (result.data.status == "OK") {
+                notification.success({
+                    message: "Change status successfully!"
+                })
+                refetch();
+            }
+        } catch (error) {
+            console.log(error);
+            notification.error({
+                message: "Some thing wrong!"
+            })
+        }
         setIsModalOpen(false);
     };
     const handleCancel = () => {
         setIsModalOpen(false);
     };
 
+    // ham xu ly search
+    const handleSearch = (selectedKeys, confirm, dataIndex) => {
+        confirm();
+        setSearchText(selectedKeys[0]);
+        setSearchedColumn(dataIndex);
+    };
+    const handleReset = (clearFilters) => {
+        clearFilters();
+        setSearchText('');
+    };
+    const getColumnSearchProps = (dataIndex, customRender) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            confirm({
+                                closeDropdown: false,
+                            });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) => {
+            const keys = dataIndex.split('.');
+            let data = record;
+            keys.forEach(key => {
+                data = data[key];
+            });
+            return data ? data.toString().toLowerCase().includes(value.toLowerCase()) : false;
+        },
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text, record) => {
+            const keys = dataIndex.split('.');
+            let data = record;
+            keys.forEach(key => {
+                data = data ? data[key] : null;
+            });
+            text = data; // update text to be the nested data
+
+            return searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                customRender ? customRender(text, record) : text
+            );
+        },
+    });
+
+    // render - xu ly onChange 
     const columns = [
         {
             title: 'Hotel Name',
-            dataIndex: 'hotelName',
-            key: 'hotelName',
-            render: (text, record) => <Link to={`/admin/hotel-details/${record.id}`}>{text}</Link>,
+            dataIndex: 'hotel_name',
+            key: 'hotel_name',
+            ...getColumnSearchProps('hotel_name', (text, record) => (
+                <Link to={`hotel-details/${record.id}`}>{text}</Link>
+            )),
         },
         {
             title: 'Address',
-            dataIndex: 'address',
-            key: 'address',
+            dataIndex: 'location.address',
+            key: 'location.address',
+            ...getColumnSearchProps('location.address', (text, record) => record.location.address),
+
         },
         {
             title: 'Province',
-            dataIndex: 'province',
-            key: 'province',
+            dataIndex: 'location.province',
+            key: 'location.province',
+            ...getColumnSearchProps('location.province', (text, record) => record.location.province),
         },
         {
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
+            width: 150,
+            align: "center",
             filters: [
                 {
                     text: 'PENDING',
@@ -108,118 +264,130 @@ const AdminManageHotels = () => {
         {
             title: 'Action',
             key: 'action',
+            width: 100,
+            align: "center",
             render: (_, record) => (
                 <>
                     {
                         (record.status === "APPROVED" || record.status === "REJECTED") ||
-                        < Popover style={{ textAlign: "center", }} content={
+                        < Popover content={
                             < div >
                                 {
                                     record.status === "PENDING" && <div>
-                                        <p onClick={showModal} className='action-item'>
-                                            < Tag icon={<CheckCircleOutlined />} color="success">
-                                                APPROVED
-                                            </Tag>
-                                        </p>
-                                        <p onClick={showModal} className='action-item'>
-                                            < Tag icon={< CloseCircleOutlined />} color="error" >
-                                                REJECTED
-                                            </Tag >
-                                        </p>
+                                        <Button
+                                            className='action-item approved'
+                                            icon={<CheckCircleOutlined />}
+                                            onClick={() => {
+                                                setStatusHotel({
+                                                    hotelId: record.id,
+                                                    status: `"APPROVED"`
+                                                })
+                                                showModal()
+                                            }}
+                                        >
+                                            <span className='link'>APPROVED</span>
+                                        </Button>
+                                        <Button
+                                            className='action-item rejected'
+                                            icon={<CloseCircleOutlined />}
+                                            onClick={() => {
+                                                setStatusHotel({
+                                                    hotelId: record.id,
+                                                    status: `"REJECTED"`
+                                                })
+                                                showModal()
+                                            }}
+                                        >
+                                            <span className='link'>REJECTED</span>
+                                        </Button>
                                     </div>
                                 }
                                 {
                                     record.status === "ACTIVE" && <div>
-                                        <p onClick={showModal} className='action-item'>
-                                            <Tag icon={<ExclamationCircleOutlined />} color="warning">
-                                                INACTIVE
-                                            </Tag>
-                                        </p>
-                                        <p onClick={showModal} className='action-item'>
-                                            <Tag icon={<CloseCircleOutlined />} color="error">
-                                                CLOSED
-                                            </Tag>
-                                        </p>
+                                        <Button
+                                            className='action-item approved'
+                                            icon={<ExclamationCircleOutlined />}
+                                            onClick={() => {
+                                                setStatusHotel({
+                                                    hotelId: record.id,
+                                                    status: `"INACTIVE"`
+                                                })
+                                                showModal()
+                                            }}
+                                        >
+                                            <span className='link'>INACTIVE</span>
+                                        </Button>
+                                        <Button
+                                            className='action-item rejected'
+                                            icon={<CloseCircleOutlined />}
+                                            onClick={() => {
+                                                setStatusHotel({
+                                                    hotelId: record.id,
+                                                    status: `"CLOSED"`
+                                                })
+                                                showModal()
+                                            }}
+                                        >
+                                            <span className='link'>CLOSED</span>
+                                        </Button>
                                     </div>
                                 }
                                 {
                                     record.status === "INACTIVE" && <div>
-                                        <p onClick={showModal} className='action-item'>
-                                            <Tag icon={<CheckCircleOutlined />} color="success">
-                                                ACTIVE
-                                            </Tag>
-                                        </p>
-                                        <p onClick={showModal} className='action-item error'>
-                                            <Tag icon={<CloseCircleOutlined />} color="error">
-                                                CLOSED
-                                            </Tag>
-                                        </p>
+                                        <Button
+                                            className='action-item approved'
+                                            icon={<CheckCircleOutlined />}
+                                            onClick={() => {
+                                                setStatusHotel({
+                                                    hotelId: record.id,
+                                                    status: `"ACTIVE"`
+                                                })
+                                                showModal()
+                                            }}
+                                        >
+                                            <span className='link'>ACTIVE</span>
+                                        </Button>
+                                        <Button
+                                            className='action-item rejected'
+                                            icon={<CloseCircleOutlined />}
+                                            onClick={() => {
+                                                setStatusHotel({
+                                                    hotelId: record.id,
+                                                    status: `"CLOSED"`
+                                                })
+                                                showModal()
+                                            }}
+                                        >
+                                            <span className='link'>CLOSED</span>
+                                        </Button>
                                     </div>
                                 }
                                 {
                                     record.status === "CLOSED" && <div>
-                                        <p onClick={showModal} className='action-item'>
-                                            <Tag icon={<CheckCircleOutlined />} color="success">
-                                                ACTIVE
-                                            </Tag>
-                                        </p>
+                                        <Button
+                                            className='action-item approved'
+                                            icon={<CheckCircleOutlined />}
+                                            onClick={() => {
+                                                setStatusHotel({
+                                                    hotelId: record.id,
+                                                    status: `"ACTIVE"`
+                                                })
+                                                showModal()
+                                            }}
+                                        >
+                                            <span className='link'>ACTIVE</span>
+                                        </Button>
                                     </div>
                                 }
                             </div >
-                        } trigger="hover" >
-                            <Button>Change Status</Button>
+                        } trigger="hover" placement='left'>
+                            <Button icon={<MenuOutlined />}></Button>
                         </Popover >
                     }
                 </>
             ),
         },
     ];
-
-    const data = [
-        {
-            "hotelName": "Intercontinental 1",
-            "address": "1 Nam Kỳ khởi nghĩa, Phường Bến Thành, Quận 1",
-            "province": "Ho Chi Minh City",
-            "status": "PENDING",
-            "id": "1"
-        },
-        {
-            "hotelName": "Intercontinental 2",
-            "address": "2 Nam Kỳ khởi nghĩa, Phường Bến Thành, Quận 1",
-            "province": "Ho Chi Minh City",
-            "status": "APPROVED",
-            "id": "2"
-        },
-        {
-            "hotelName": "Intercontinental 3",
-            "address": "3 Nam Kỳ khởi nghĩa, Phường Bến Thành, Quận 1",
-            "province": "Ho Chi Minh City",
-            "status": "REJECTED",
-            "id": "3"
-        },
-        {
-            "hotelName": "Intercontinental 4",
-            "address": "4 Nam Kỳ khởi nghĩa, Phường Bến Thành, Quận 1",
-            "province": "Ho Chi Minh City",
-            "status": "ACTIVE",
-            "id": "4"
-        },
-        {
-            "hotelName": "Intercontinental 5",
-            "address": "5 Nam Kỳ khởi nghĩa, Phường Bến Thành, Quận 1",
-            "province": "Ho Chi Minh City",
-            "status": "INACTIVE",
-            "id": "5"
-        },
-        {
-            "hotelName": "Intercontinental 6",
-            "address": "6 Nam Kỳ khởi nghĩa, Phường Bến Thành, Quận 1",
-            "province": "Ho Chi Minh City",
-            "status": "CLOSED",
-            "id": "6"
-        },
-    ];
-
     const onChange = (pagination, filters, sorter, extra) => {
         console.log('params', pagination, filters, sorter, extra);
     };
@@ -227,22 +395,16 @@ const AdminManageHotels = () => {
     return (
         <div className='admin-manage-hotels-wrapper'>
             <h2 className='title'>List of hotels:</h2>
-            <div className='search'>
-                <SearchOutlined className='icon' />
-                <input className='input' type="text" />
-            </div>
             <Table
                 bordered={true}
                 columns={columns}
-                dataSource={data}
+                dataSource={data?.data?.content}
                 onChange={onChange}
-                scroll={{
-                    y: 440,
-                }}
             />
             <Modal
                 title="Change Status Of Hotel"
                 open={isModalOpen}
+                confirmLoading={isLoading}
                 onOk={handleOk}
                 onCancel={handleCancel}
                 centered

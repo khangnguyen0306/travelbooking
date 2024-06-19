@@ -1,45 +1,23 @@
-$font-content: DM Sans, sans-serif;
-$font-title: DM Serif Display, sans-serif;
-$blue-main-color: #5c98f2;
-
 .admin-manage-hotels-wrapper {
   .title {
     margin: 0 0 16px 0;
   }
-
-  .search {
-    position: relative;
-    margin: 0 0 16px 0;
-    border-radius: 8px;
-    border: 1px solid #797979;
-
-    .icon {
-      position: absolute;
-      padding: 12px;
-      font-size: large;
-    }
-
-    .input {
-      padding: 12px 8px 12px 42px;
-      width: 100%;
-      border-radius: 8px;
-      border: none;
-
-      &:focus-visible {
-        outline: 2px solid $blue-main-color;
-      }
-    }
-  }
 }
 
 .action-item {
-  margin: 0 0 4px 0;
-  padding: 8px;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
+  display: block;
+  margin: 4px 0;
+  width: 120px;
 
-  &:hover {
-    background-color: rgba($color: #dcdcdc, $alpha: 1);
+  .link {
+    margin-left: 8px;
   }
+}
+
+.approved {
+  color: green;
+}
+
+.rejected {
+  color: red;
 }

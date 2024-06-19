@@ -1,4 +1,3 @@
-
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "../config";
 import { selectTokens } from "../slices/auth.slice";
@@ -34,20 +33,12 @@ export const hotelApi = createApi({
                 body: body,
             }),
         }),
-
-        getHotelWithPage: builder.query({
-            query: ({ pageNumber = 0, pageSize = 10 }) => ({
-                url: `hotels/getAllHotels?page=${pageNumber}&size=${pageSize}`,
+        getHotelForPartner: builder.query({
+            query: () => ({
+                url: `hotels/partnerHotels?page=0&size=10000`,
                 method: "GET",
-                params: {
-                    pageable: {
-                        pageNumber,
-                        pageSize,
-                    },
-                },
             }),
         }),
-
         getFullHotel: builder.query({
             query: () => ({
                 url: `hotels/getAllHotels?page=0&size=10000`,
@@ -68,6 +59,22 @@ export const hotelApi = createApi({
                 };
             },
         }),
+        changeStatusHotel: builder.mutation({
+            query: (body) => ({
+                url: `hotels/updateStatus/${body.hotelId}`,
+                method: "PUT",
+                body: body.status,
+                headers: {
+                    'Content-Type': 'application/json', // Sử dụng Content-Type là application/json
+                },
+            }),
+        }),
+        getHotelDetailsForAdmin: builder.query({
+            query: (hotelId) => ({
+                url: `hotels/detail/${hotelId}`,
+                method: "GET",
+            }),
+        })
     }),
 });
 
@@ -75,6 +82,7 @@ export const {
     useCreateHotelMutation,
     usePutLicenseMutation,
     useGetFullHotelQuery,
-    useGetHotelWithPageQuery,
-
+    useGetHotelForPartnerQuery,
+    useChangeStatusHotelMutation,
+    useGetHotelDetailsForAdminQuery,
 } = hotelApi;
