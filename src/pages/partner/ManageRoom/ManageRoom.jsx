@@ -1,113 +1,259 @@
-import React from 'react'
+import React, { useState, useRef } from 'react'
 import "./ManageRoom.scss"
-import { Table, Tag } from 'antd';
-import { SearchOutlined, PlusCircleOutlined } from '@ant-design/icons';
+import { Table, Tag, Button, Popover, Modal, notification, Input, Space } from 'antd';
+import {
+    SearchOutlined,
+    PlusCircleOutlined,
+    CloseCircleOutlined,
+    CheckCircleOutlined,
+    SyncOutlined,
+    EditOutlined,
+    DeleteOutlined,
+    MenuOutlined
+} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 
-const columns = [
-    {
-        title: 'Room Type',
-        dataIndex: 'roomtype',
-        key: 'hotelName',
-        render: (text) => <a>{text}</a>,
-    },
-
-    {
-        title: 'Number Of Rooms',
-        dataIndex: 'number_of_rooms',
-        key: 'number_of_rooms',
-    },
-    {
-        title: 'Price',
-        dataIndex: 'room_price',
-        key: 'room_price',
-    },
-    {
-        title: 'Status',
-        dataIndex: 'status',
-        key: 'status',
-        render: (tags) => (
-            <>
-                {tags?.map((tag) => {
-                    let color;
-                    const lowercaseTag = tag.toLowerCase();
-                    switch (lowercaseTag) {
-                        case 'out of order':
-                            color = 'processing';
-                            break;
-                        case 'occupied':
-                            color = 'red';
-                            break;
-                        case 'available':
-                            color = 'success';
-                            break;
-                        default:
-                            color = 'default'; // Màu mặc định nếu không khớp với bất kỳ trạng thái nào
-                            break;
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag?.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        render: (_, record) => (
-            <div>
-                <div style={{ marginRight: '8px' }}>
-                    <Link>Update</Link>
-                </div>
-                <div>
-                    <Link>Delete</Link>
-                </div>
-            </div>
-        ),
-    },
-];
-
-const data = [
-    {
-        roomtype: "Luxury Room",
-        number_of_rooms: 5,
-        room_price: "25$",
-        status: ["Occupied"],
-        id: 1
-    },
-    {
-        roomtype: "Luxury Room",
-        number_of_rooms: 5,
-        room_price: "25$",
-        status: ["Out Of Order"],
-        id: 3
-    },
-    {
-        roomtype: "Luxury Room",
-        number_of_rooms: 5,
-        room_price: "25$",
-        status: ["Available"],
-        id: 2
-    },
-];
 
 const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
 };
 
 const ManageRoom = () => {
+
+    const [searchText, setSearchText] = useState('');
+    const [searchedColumn, setSearchedColumn] = useState('');
+    const searchInput = useRef(null);
+    const getColumnSearchProps = (dataIndex, customRender) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+            <div
+                style={{
+                    padding: 8,
+                }}
+                onKeyDown={(e) => e.stopPropagation()}
+            >
+                <Input
+                    ref={searchInput}
+                    placeholder={`Search ${dataIndex}`}
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                    style={{
+                        marginBottom: 8,
+                        display: 'block',
+                    }}
+                />
+                <Space>
+                    <Button
+                        type="primary"
+                        onClick={() => handleSearch(selectedKeys, confirm, dataIndex)}
+                        icon={<SearchOutlined />}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Search
+                    </Button>
+                    <Button
+                        onClick={() => clearFilters && handleReset(clearFilters)}
+                        size="small"
+                        style={{
+                            width: 90,
+                        }}
+                    >
+                        Reset
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            confirm({
+                                closeDropdown: false,
+                            });
+                            setSearchText(selectedKeys[0]);
+                            setSearchedColumn(dataIndex);
+                        }}
+                    >
+                        Filter
+                    </Button>
+                    <Button
+                        type="link"
+                        size="small"
+                        onClick={() => {
+                            close();
+                        }}
+                    >
+                        close
+                    </Button>
+                </Space>
+            </div>
+        ),
+        filterIcon: (filtered) => (
+            <SearchOutlined
+                style={{
+                    color: filtered ? '#1677ff' : undefined,
+                }}
+            />
+        ),
+        onFilter: (value, record) => {
+            const keys = dataIndex.split('.');
+            let data = record;
+            keys.forEach(key => {
+                data = data[key];
+            });
+            return data ? data.toString().toLowerCase().includes(value.toLowerCase()) : false;
+        },
+        onFilterDropdownOpenChange: (visible) => {
+            if (visible) {
+                setTimeout(() => searchInput.current?.select(), 100);
+            }
+        },
+        render: (text, record) => {
+            const keys = dataIndex.split('.');
+            let data = record;
+            keys.forEach(key => {
+                data = data ? data[key] : null;
+            });
+            text = data; // update text to be the nested data
+
+            return searchedColumn === dataIndex ? (
+                <Highlighter
+                    highlightStyle={{
+                        backgroundColor: '#ffc069',
+                        padding: 0,
+                    }}
+                    searchWords={[searchText]}
+                    autoEscape
+                    textToHighlight={text ? text.toString() : ''}
+                />
+            ) : (
+                customRender ? customRender(text, record) : text
+            );
+        },
+    });
+
+    const columns = [
+        {
+            title: 'Room Type',
+            dataIndex: 'roomtype',
+            key: 'hotelName',
+            ...getColumnSearchProps('roomtype', (text, record) => (
+                <Link to={`hotel-details/${record.id}`}>{text}</Link>
+            )),
+        },
+
+        {
+            title: 'Number Of Rooms',
+            dataIndex: 'number_of_rooms',
+            key: 'number_of_rooms',
+            sorter: (a, b) => a.number_of_rooms - b.number_of_rooms,
+        },
+        {
+            title: 'Price',
+            dataIndex: 'room_price',
+            key: 'room_price',
+            ...getColumnSearchProps('room_price', (text, record) => record.room_price),
+        },
+        {
+            title: 'Status',
+            dataIndex: 'status',
+            key: 'status',
+            filters: [
+                {
+                    text: 'Out Of Order',
+                    value: 'Out Of Order',
+                },
+                {
+                    text: 'Occupied',
+                    value: 'Occupied',
+                },
+                {
+                    text: 'Available',
+                    value: 'Available',
+                },
+            ],
+            onFilter: (value, record) => record.status.indexOf(value) === 0,
+            render: (_, record) => (
+                <div>
+                    {record.status === "Available" &&
+                        < Tag icon={<CheckCircleOutlined />} color="success">
+                            {record.status}
+                        </Tag>
+                    }
+                    {record.status === "Out Of Order" &&
+                        < Tag icon={< SyncOutlined spin />} color="processing" >
+                            {record.status}
+                        </Tag >
+                    }
+                    {record.status === "Occupied" &&
+                        < Tag icon={< CloseCircleOutlined />} color="error" >
+                            {record.status}
+                        </Tag >
+                    }
+                </div >
+            ),
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            width: '15%',
+            render: (_, record) => (
+                < Popover content={
+                    < div >
+                        <Link className='link' to={`${record.id}/Update`}>
+                            <Button
+                                className='action-item'
+                                icon={<EditOutlined />}
+                            >
+                                Update
+                            </Button>
+                        </Link>
+
+                        <Link className='link' to={`${record.id}/Delete`}>
+                            <Button
+                                className='action-item'
+                                icon={<DeleteOutlined />}
+                            >
+                                Delete
+                            </Button>
+                        </Link>
+                    </div >
+                } trigger="hover" placement='left'>
+                    <Button icon={<MenuOutlined />}></Button>
+                </Popover>
+            ),
+        },
+    ];
+    const data = [
+        {
+            roomtype: "Luxury Room",
+            number_of_rooms: 1,
+            room_price: "25$",
+            status: "Occupied",
+            id: 1
+        },
+        {
+            roomtype: "Luxury Room",
+            number_of_rooms: 5,
+            room_price: "25$",
+            status: "Out Of Order",
+            id: 3
+        },
+        {
+            roomtype: "Luxury Room",
+            number_of_rooms: 51,
+            room_price: "15$",
+            status: "Available",
+            id: 2
+        },
+    ];
+
+
     return (
         <div className='manage-hotel-wrapper'>
             <p><h2 className='title'>Manage Rooms</h2></p>
             <div className="action">
-                <div className='search'>
-                    <SearchOutlined className='icon' />
-                    <input className='input' type="text" />
-                </div>
-                <Link className="new-btn" to={"/partner/create-hotel"}>
+                <Link className="new-btn" to={"create-room"}>
                     <PlusCircleOutlined />
                     New Room
                 </Link>

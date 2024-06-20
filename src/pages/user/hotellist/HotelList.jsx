@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { hotelApi } from '../../../services/hotelAPI';
+import { useGetHotelWithPageQuery } from '../../../services/hotelAPI';
 import { Link } from 'react-router-dom';
 import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
@@ -23,38 +23,28 @@ const HotelList = () => {
     const date = useSelector(state => state.hotel?.search?.date);
     const destination = useSelector(state => state.hotel?.search?.destination);
 
-    const { data } = hotelApi.useGetHotelWithPageQuery({ pageNumber: 0, pageSize: 10 });
-    console.log(data);
-    // const [data, setData] = useState([]);
-    // const [currentPage, setCurrentPage] = useState(0);
-    // const [pageSize] = useState(10);
-    // const [totalElements, setTotalElements] = useState(0);
-    // const [loading, setLoading] = useState(false);
-    // const fetchData = async (page) => {
-    //     setLoading(true);
-    //     try {
-    //         const result = await getHotel({ pageNumber: page, pageSize });
-    //         setData(result?.data?.data?.content || []);
-    //         setTotalElements(result?.data?.data?.totalElements || 0);
-    //         setCurrentPage(page);
-    //     } catch (error) {
-    //         console.error("Error fetching hotel data:", error);
-    //     }
-    //     setLoading(false);
-    // };
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageSize] = useState(10);
 
-    // useEffect(() => {
-    //     fetchData(currentPage);
-    // }, [currentPage]);
+    const { data, error, isLoading } = useGetHotelWithPageQuery({ pageNumber: currentPage, pageSize });
 
-    // const handlePageChange = (page) => {
-    //     fetchData(page - 1);
-    //     window.scrollTo({
-    //         top: 100,
-    //         left: 0,
-    //         behavior: 'smooth'
-    //     });
-    // };
+    useEffect(() => {
+        if (data) {
+            console.log("Fetched data:", data);
+        }
+        if (error) {
+            console.error("Error fetching hotel data:", error);
+        }
+    }, [data, error]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page - 1);
+        window.scrollTo({
+            top: 100,
+            left: 0,
+            behavior: 'smooth'
+        });
+    };
 
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
@@ -84,7 +74,7 @@ const HotelList = () => {
     };
 
     const handleSearchChange = () => {
-        fetchData(0); // Reset to first page on search
+        setCurrentPage(0); // Reset to first page on search
     };
 
     const handleVisibleChange = (visible) => {
@@ -201,9 +191,13 @@ const HotelList = () => {
                     </Col>
                     <Col xs={24} md={18}>
                         <div className="list-hotel">
-                            {/* {data.length > 0 ? (
+                            {isLoading ? (
+                                <div>Loading...</div>
+                            ) : error ? (
+                                <div>Error: {error.message}</div>
+                            ) : data?.data?.content.length > 0 ? (
                                 <>
-                                    {data.map((hotel) => (
+                                    {data.data.content.map((hotel) => (
                                         <div key={hotel?.id} className="hotel-item">
                                             {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
                                             <img src={hotel?.imgUrl} alt={hotel?.hotel_name} className="hotel-img" />
@@ -256,19 +250,16 @@ const HotelList = () => {
                                     <Pagination
                                         style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}
                                         current={currentPage + 1}
-                                        total={totalElements}
+                                        total={data?.data?.totalElements}
                                         pageSize={pageSize}
                                         onChange={handlePageChange}
                                         showTotal={(total) => `Total ${total} items`}
                                     />
-
                                 </>
                             ) : (
                                 <div className="no-data">No hotels found</div>
-                            )} */}
+                            )}
                         </div>
-
-
                     </Col>
                 </Row>
             </div>

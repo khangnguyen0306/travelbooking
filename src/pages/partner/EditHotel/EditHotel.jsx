@@ -21,7 +21,7 @@ const EditHotel = () => {
     };
     return (
         <div>
-            <h3 style={{ color: "red", marginBottom: "20px" }}>You can only update photos, not hotel information (hotel information is unchanged from the original you registered)</h3>
+            <h3 style={{ color: "red", marginBottom: "20px" }}>You can only update photos and status, not hotel information (hotel information is unchanged from the original you registered)</h3>
             <Form
                 name="validate_other"
 
@@ -63,8 +63,8 @@ const EditHotel = () => {
                         <Button type="primary" htmlType="submit">
                             Submit
                         </Button>
-                        <Button htmlType="reset">reset</Button>
-                        <Link to={'/partner/manage-hotel'}><Button danger>cancel</Button></Link>
+                        <Button htmlType="reset">Reset</Button>
+                        <Link to={'/partner/manage-hotel'}><Button danger>Cancel</Button></Link>
                     </Space>
                 </Form.Item>
             </Form>
