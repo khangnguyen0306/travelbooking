@@ -6,7 +6,7 @@ import Step3 from "./Components/Step3";
 import { Steps } from 'antd';
 
 function PaymentPage() {
-    const [current, setCurrent] = useState(1);
+    const [current, setCurrent] = useState(0);
     const next = () => {
         setCurrent(current + 1);
     };
