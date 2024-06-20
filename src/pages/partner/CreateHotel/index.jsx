@@ -4,7 +4,8 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { VietnameseProvinces } from "../../../utils/utils";
 import { useDispatch } from "react-redux";
-import { notification } from "antd";
+import { notification, Button, Upload } from "antd";
+import { UploadOutlined } from '@ant-design/icons';
 import { hotelApi } from "../../../services/hotelAPI";
 
 const schema = yup.object().shape({
@@ -40,10 +41,13 @@ function CreateHotel() {
         reset,
         formState: { errors },
         control,
+        setValue,
+        watch,
     } = useForm({
         resolver: yupResolver(schema),
     });
 
+    const businessLicense = watch("businessLicense");
 
     const onSubmit = async (data) => {
         const conveniences = Object.keys(data.conveniences).map(key => ({
@@ -52,7 +56,7 @@ function CreateHotel() {
         data.conveniences = conveniences;
 
         // Check if businessLicense file is selected
-        if (!data.businessLicense || data.businessLicense.length === 0) {
+        if (!businessLicense || businessLicense.length === 0) {
             notification.error({
                 message: "Error",
                 description: "Business license file is required.",
@@ -61,7 +65,7 @@ function CreateHotel() {
         }
 
         const formData = new FormData();
-        formData.append("license", data.businessLicense[0]);
+        formData.append("license", businessLicense[0]);
 
         // Log formData content for debugging
         for (let pair of formData.entries()) {
@@ -72,7 +76,7 @@ function CreateHotel() {
             const response = await createHotel(data).unwrap();
             console.log("Created hotel response:", response);
 
-            await putLicense({ idHotel: response?.data?.id, license: data.businessLicense[0] }).unwrap();
+            await putLicense({ idHotel: response?.data?.id, license: businessLicense[0] }).unwrap();
 
             notification.success({
                 message: "Success",
@@ -115,7 +119,31 @@ function CreateHotel() {
                 </div>
                 <div className="item-100">
                     <label>Business License*</label>
-                    <input className="input" type="file" {...register('businessLicense')} placeholder="Enter hotel name" multiple={false} />
+                    {/* <input className="input" type="file" {...register('businessLicense')} /> */}
+                    <Controller
+                        name="businessLicense"
+                        control={control}
+                        render={({ field: { onChange, onBlur, value, ref } }) => (
+                            <Upload
+                                listType="picture"
+                                beforeUpload={file => {
+                                    onChange([file]);
+                                    return false;
+                                }}
+                                onRemove={() => {
+                                    onChange([]);
+                                }}
+                                fileList={value ? value.map(file => ({
+                                    uid: file.uid,
+                                    name: file.name,
+                                    status: 'done',
+                                    url: URL.createObjectURL(file)
+                                })) : []}
+                            >
+                                <Button icon={<UploadOutlined />}>Upload</Button>
+                            </Upload>
+                        )}
+                    />
                     <p className="error-message">{errors.businessLicense?.message}</p>
                 </div>
                 <div className="item-100">

@@ -38,6 +38,7 @@ const Edit = Loadable({ loader: () => import("../pages/partner/EditHotel/EditHot
 const Room = Loadable({ loader: () => import("../pages/partner/ManageRoom/ManageRoom") });
 const CreateRoom = Loadable({ loader: () => import("../pages/partner/CreateRoom/CreateRoom") });
 
+
 const Admin = Loadable({
   loader: () => import("../pages/admin/Admin"),
 });
