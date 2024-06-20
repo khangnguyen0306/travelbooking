@@ -115,8 +115,8 @@ function CreateHotel() {
                 </div>
                 <div className="item-100">
                     <label>Business License*</label>
-                    <input className="input" type="file" {...register('businessLicense')} placeholder="Enter hotel name" multiple={false}
-                    />                    <p className="error-message">{errors.businessLicense?.message}</p>
+                    <input className="input" type="file" {...register('businessLicense')} placeholder="Enter hotel name" multiple={false} />
+                    <p className="error-message">{errors.businessLicense?.message}</p>
                 </div>
                 <div className="item-100">
                     <h3>Location:</h3>

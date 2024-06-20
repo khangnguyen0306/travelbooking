@@ -200,7 +200,7 @@ const ManageRoom = () => {
             render: (_, record) => (
                 < Popover content={
                     < div >
-                        <Link className='link' to={`${record.id}/Update`}>
+                        <Link className='link' to={`${record.id}/update`}>
                             <Button
                                 className='action-item'
                                 icon={<EditOutlined />}
@@ -209,7 +209,7 @@ const ManageRoom = () => {
                             </Button>
                         </Link>
 
-                        <Link className='link' to={`${record.id}/Delete`}>
+                        <Link className='link' to={`${record.id}/delete`}>
                             <Button
                                 className='action-item'
                                 icon={<DeleteOutlined />}

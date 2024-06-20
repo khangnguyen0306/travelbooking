@@ -47,7 +47,7 @@ export const hotelApi = createApi({
         }),
         getHotelForPartner: builder.query({
             query: () => ({
-                url: `hotels/partnerHotels?page=0&size=10000`,
+                url: `hotels/getPartnerHotels?page=0&size=10000`,
                 method: "GET",
             }),
         }),

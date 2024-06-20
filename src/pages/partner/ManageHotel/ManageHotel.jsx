@@ -23,6 +23,11 @@ const ManageHotel = () => {
     // search in table
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [statusHotel, setStatusHotel] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
     const searchInput = useRef(null);
 
     // ham xu ly search
@@ -243,15 +248,47 @@ const ManageHotel = () => {
             key: 'action',
             width: '10%',
             align: "center",
+            sorter: (a, b) => a.status.localeCompare(b.status),
             render: (_, record) => (
+                record.status !== "PENDING" &&
                 < Popover content={
                     < div >
+                        {
+                            record.status === "ACTIVE" && <div>
+                                <Button
+                                    className='action-item approved'
+                                    icon={<ExclamationCircleOutlined />}
+                                    onClick={() => {
+                                        setStatusHotel({
+                                            hotelId: record.id,
+                                            status: `"INACTIVE"`
+                                        })
+                                        showModal()
+                                    }}
+                                >
+                                    <span className='link'>INACTIVE</span>
+                                </Button>
+                                <Button
+                                    className='action-item rejected'
+                                    icon={<CloseCircleOutlined />}
+                                    onClick={() => {
+                                        setStatusHotel({
+                                            hotelId: record.id,
+                                            status: `"CLOSED"`
+                                        })
+                                        showModal()
+                                    }}
+                                >
+                                    <span className='link'>CLOSED</span>
+                                </Button>
+                            </div>
+                        }
                         <Link className='link' to={`${record.id}/edit`}>
                             <Button
                                 className='action-item'
                                 icon={<EditOutlined />}
                             >
-                                Edit
+                                <span className='link'>Edit</span>
                             </Button>
                         </Link>
 
@@ -260,7 +297,7 @@ const ManageHotel = () => {
                                 className='action-item'
                                 icon={<BankOutlined />}
                             >
-                                Room
+                                <span className='link'>Room</span>
                             </Button>
                         </Link>
                     </div >
