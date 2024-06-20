@@ -10,13 +10,13 @@ import {
     CloseCircleOutlined,
     MenuOutlined
 } from '@ant-design/icons';
-import { useGetFullHotelQuery, useChangeStatusHotelMutation } from '../../../services/hotelAPI';
+import { useChangeStatusHotelMutation, useGetHotelForAdminQuery } from '../../../services/hotelAPI';
 import { Link } from 'react-router-dom';
 
 const AdminManageHotels = () => {
     // hook call api
     const [changeStatus, { isLoading }] = useChangeStatusHotelMutation()
-    const { data, refetch } = useGetFullHotelQuery();
+    const { data, refetch } = useGetHotelForAdminQuery();
 
     // search in table
     const [searchText, setSearchText] = useState('');
