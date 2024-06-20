@@ -83,8 +83,8 @@ const SlideShow = ({ bigImages, smallImages }) => {
                     <Button onClick={handleDownload} style={{ marginRight: '4rem' }}> Tải xuống <DownloadOutlined /></Button>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '100%' }}>
                         <Button onClick={goToPrevious}><LeftOutlined /></Button>
-                        <img src={bigImages[currentImageIndex]} alt={`Lightbox ${currentImageIndex}`}
-                            style={{ width: '120vh', height: '80vh', margin: '0 3rem' }} />
+                        {/* <img src={bigImages[currentImageIndex]} alt={`Lightbox ${currentImageIndex}`}
+                            style={{ width: '120vh', height: '80vh', margin: '0 3rem' }} /> */}
                         <Button onClick={goToNext}><RightOutlined /></Button>
                     </div>
 

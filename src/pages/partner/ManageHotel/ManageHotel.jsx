@@ -13,11 +13,12 @@ import {
     EditOutlined,
     BankOutlined
 } from '@ant-design/icons';
-import { useGetHotelForPartnerQuery } from "../../../services/hotelAPI";
+import { useGetHotelForPartnerQuery, useChangeStatusHotelMutation } from "../../../services/hotelAPI";
 import { Link } from 'react-router-dom';
 
 const ManageHotel = () => {
     // call api
+    const [changeStatus, { isLoading }] = useChangeStatusHotelMutation()
     const { data, refetch } = useGetHotelForPartnerQuery();
 
     // search in table
@@ -27,6 +28,26 @@ const ManageHotel = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const showModal = () => {
         setIsModalOpen(true);
+    };
+    const handleOk = async () => {
+        try {
+            const result = await changeStatus(statusHotel);
+            if (result.data.status == "OK") {
+                notification.success({
+                    message: "Change status successfully!"
+                })
+                refetch();
+            }
+        } catch (error) {
+            console.log(error);
+            notification.error({
+                message: "Some thing wrong!"
+            })
+        }
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
     };
     const searchInput = useRef(null);
 
@@ -248,7 +269,6 @@ const ManageHotel = () => {
             key: 'action',
             width: '10%',
             align: "center",
-            sorter: (a, b) => a.status.localeCompare(b.status),
             render: (_, record) => (
                 record.status !== "PENDING" &&
                 < Popover content={
@@ -280,6 +300,53 @@ const ManageHotel = () => {
                                     }}
                                 >
                                     <span className='link'>CLOSED</span>
+                                </Button>
+                            </div>
+                        }
+                        {
+                            record.status === "INACTIVE" && <div>
+                                <Button
+                                    className='action-item approved'
+                                    icon={<CheckCircleOutlined />}
+                                    onClick={() => {
+                                        setStatusHotel({
+                                            hotelId: record.id,
+                                            status: `"ACTIVE"`
+                                        })
+                                        showModal()
+                                    }}
+                                >
+                                    <span className='link'>ACTIVE</span>
+                                </Button>
+                                <Button
+                                    className='action-item rejected'
+                                    icon={<CloseCircleOutlined />}
+                                    onClick={() => {
+                                        setStatusHotel({
+                                            hotelId: record.id,
+                                            status: `"CLOSED"`
+                                        })
+                                        showModal()
+                                    }}
+                                >
+                                    <span className='link'>CLOSED</span>
+                                </Button>
+                            </div>
+                        }
+                        {
+                            record.status === "CLOSED" && <div>
+                                <Button
+                                    className='action-item approved'
+                                    icon={<CheckCircleOutlined />}
+                                    onClick={() => {
+                                        setStatusHotel({
+                                            hotelId: record.id,
+                                            status: `"ACTIVE"`
+                                        })
+                                        showModal()
+                                    }}
+                                >
+                                    <span className='link'>ACTIVE</span>
                                 </Button>
                             </div>
                         }
@@ -322,6 +389,20 @@ const ManageHotel = () => {
                 columns={columns}
                 dataSource={data?.data?.content}
             />
+            <Modal
+                title="Change Status Of Hotel"
+                open={isModalOpen}
+                confirmLoading={isLoading}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                centered
+                width={"400px"}
+                style={{
+                    zIndex: "9999",
+                }}
+            >
+                <p>Are you sure to do that?</p>
+            </Modal>
         </div>
     )
 }
