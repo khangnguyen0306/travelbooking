@@ -25,7 +25,6 @@ const AdminManageUsers = () => {
     // active-inactive user
     const [activeUser, setActiveUser] = useState({});
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     // ham xu ly modal - active-inactive user
     const showModal = (body) => {
         setActiveUser(body)
