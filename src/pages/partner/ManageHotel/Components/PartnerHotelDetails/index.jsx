@@ -12,7 +12,6 @@ import {
 function PartnerHotelDetails() {
     const params = useParams();
     const { data } = useGetHotelDetailsForAdminQuery(params.hotelId);
-    console.log(data);
 
     // Sử dụng reduce để gộp các key có giá trị là true thành một mảng duy nhất
     const finalConveniences = data?.data?.conveniences.reduce((acc, convenience) => {

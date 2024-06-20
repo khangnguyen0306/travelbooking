@@ -33,6 +33,18 @@ export const hotelApi = createApi({
                 body: body,
             }),
         }),
+        getHotelWithPage: builder.query({
+            query: ({ pageNumber = 0, pageSize = 10 }) => ({
+                url: `hotels/getAllHotels?page=${pageNumber}&size=${pageSize}`,
+                method: "GET",
+                params: {
+                    pageable: {
+                        pageNumber,
+                        pageSize,
+                    },
+                },
+            }),
+        }),
         getHotelForPartner: builder.query({
             query: () => ({
                 url: `hotels/partnerHotels?page=0&size=10000`,
@@ -81,6 +93,7 @@ export const hotelApi = createApi({
 export const {
     useCreateHotelMutation,
     usePutLicenseMutation,
+    useGetHotelWithPageQuery,
     useGetFullHotelQuery,
     useGetHotelForPartnerQuery,
     useChangeStatusHotelMutation,

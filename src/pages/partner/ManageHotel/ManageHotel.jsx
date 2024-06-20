@@ -150,6 +150,7 @@ const ManageHotel = () => {
             title: 'Hotel Name',
             dataIndex: 'hotel_name',
             key: 'hotel_name',
+            width: '35%',
             ...getColumnSearchProps('hotel_name', (text, record) => (
                 <Link to={`hotel-details/${record.id}`}>{text}</Link>
             )),
@@ -158,6 +159,7 @@ const ManageHotel = () => {
             title: 'Address',
             dataIndex: 'location.address',
             key: 'location.address',
+            width: '20%',
             ...getColumnSearchProps('location.address', (text, record) => record.location.address),
 
         },
@@ -165,13 +167,14 @@ const ManageHotel = () => {
             title: 'Province',
             dataIndex: 'location.province',
             key: 'location.province',
+            width: '20%',
             ...getColumnSearchProps('location.province', (text, record) => record.location.province),
         },
         {
             title: 'Status',
             key: 'status',
             dataIndex: 'status',
-            width: 150,
+            width: '15%',
             align: "center",
             filters: [
                 {
@@ -238,23 +241,28 @@ const ManageHotel = () => {
         {
             title: 'Action',
             key: 'action',
-            width: 100,
+            width: '10%',
             align: "center",
             render: (_, record) => (
                 < Popover content={
                     < div >
-                        <Button
-                            className='action-item'
-                            icon={<EditOutlined />}
-                        >
-                            <Link className='link' to={`${record.id}/edit`}>Edit</Link>
-                        </Button>
-                        <Button
-                            className='action-item'
-                            icon={<BankOutlined />}
-                        >
-                            <Link className='link' to={`${record.id}/manage-room`}>Room</Link>
-                        </Button>
+                        <Link className='link' to={`${record.id}/edit`}>
+                            <Button
+                                className='action-item'
+                                icon={<EditOutlined />}
+                            >
+                                Edit
+                            </Button>
+                        </Link>
+
+                        <Link className='link' to={`${record.id}/manage-room`}>
+                            <Button
+                                className='action-item'
+                                icon={<BankOutlined />}
+                            >
+                                Room
+                            </Button>
+                        </Link>
                     </div >
                 } trigger="hover" placement='left'>
                     <Button icon={<MenuOutlined />}></Button>
