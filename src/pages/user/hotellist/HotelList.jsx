@@ -5,7 +5,7 @@ import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
 import { setGuests, setRooms, setDate, setDestination } from '../../../slices/hotelSlice';
-import { Col, Row, DatePicker, Space, InputNumber, Checkbox, Select, Rate, Button, notification, Popover, Pagination } from "antd";
+import { Col, Row, DatePicker, InputNumber, Checkbox, Select, Rate, Button, notification, Popover, Pagination, Spin } from "antd";
 import { VietnameseProvinces } from "../../../utils/utils";
 import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
@@ -102,153 +102,131 @@ const HotelList = () => {
 
     return (
         <div className='container-hotel-hotelSearch'>
-            <div className='listhotel-filter'>
-                <div className="search-layout-hotels">
-                    <div className="search-content-container-hotels">
-                        <Space direction="vertical" size={12}>
-                            <RangePicker
-                                value={date ? date.map(d => dayjs(d)) : null}
-                                disabledDate={disabledDate}
-                                format={dateFormat}
-                                onChange={handleDateChange}
-                                placeholder={["Check In", "CheckOut"]}
-                            />
-                        </Space>
-                    </div>
-                    <div className="search-content-container-hotels">
-                        <Select
-                            value={destination}
-                            onChange={handleDestinationChange}
-                            showSearch
-                            style={{
-                                width: 286,
-                                border: 'none',
-                                color: '#8c8c8c',
-                                fontSize: '16px'
-                            }}
-                            placeholder="Location"
-                            optionFilterProp="children"
-                            filterOption={(input, option) => (option?.children ?? '').toLowerCase().indexOf(input.toLowerCase()) >= 0}
-                            filterSort={(optionA, optionB) => optionA.children.localeCompare(optionB.children)}
-                        >
-                            {VietnameseProvinces.map((province, index) => (
-                                <Select.Option key={index} value={province}>
-                                    {province}
-                                </Select.Option>
-                            ))}
-                        </Select>
-                    </div>
-                    <div className="search-content-container-hotels">
-                        <Popover
-                            content={content}
-                            title="Select Guests and Rooms"
-                            trigger="click"
-                            open={visible}
-                            onOpenChange={handleVisibleChange}
-                        >
-                            <Button className='button-guest' >
-                                {guests} Guests, {rooms} Room(s) <UserOutlined />
-                            </Button>
-                        </Popover>
-                    </div>
-                    <Button type="text" onClick={handleSearchChange} className="search-layout-hotels-btn">
-                        <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
-                            <p><SearchOutlined /></p>
-                        </div>
-                    </Button>
+            <div className="search-layout-hotels">
+                <div className='body'>
+                    <RangePicker
+                        className='item'
+                        value={date ? date.map(d => dayjs(d)) : null}
+                        disabledDate={disabledDate}
+                        format={dateFormat}
+                        onChange={handleDateChange}
+                        placeholder={["Check In", "CheckOut"]}
+                    />
+                    <Select
+                        className='item'
+                        value={destination}
+                        onChange={handleDestinationChange}
+                        showSearch
+                        placeholder="Location"
+                        optionFilterProp="children"
+                        filterOption={(input, option) => (option?.children ?? '').toLowerCase().indexOf(input.toLowerCase()) >= 0}
+                        filterSort={(optionA, optionB) => optionA.children.localeCompare(optionB.children)}
+                    >
+                        {VietnameseProvinces.map((province, index) => (
+                            <Select.Option key={index} value={province}>
+                                {province}
+                            </Select.Option>
+                        ))}
+                    </Select>
+                    <Popover
+                        content={content}
+                        title="Select Guests and Rooms"
+                        trigger="click"
+                        open={visible}
+                        onOpenChange={handleVisibleChange}
+                    >
+                        <Button className='item button-guest' >
+                            {guests} Guests, {rooms} Room(s) <UserOutlined />
+                        </Button>
+                    </Popover>
                 </div>
+                <Button type="text" onClick={handleSearchChange} className="search-layout-hotels-btn">
+                    <div style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}>
+                        <p><SearchOutlined /></p>
+                    </div>
+                </Button>
             </div>
             <div className="hotel">
-                <Row>
-                    <Col xs={24} md={6}>
-                        <div className="filter">
-                            <div className='facilities'>
-                                Facilities
-                                <div className="facilities-check-box">
-                                    <div><Checkbox>Air Conditioner</Checkbox></div>
-                                    <div><Checkbox>Free Wifi</Checkbox></div>
-                                    <div><Checkbox>Free Breakfast</Checkbox></div>
-                                    <div><Checkbox>Free Parking</Checkbox></div>
-                                    <div><Checkbox>Heater</Checkbox></div>
-                                </div>
-                            </div>
-                            <div className='facilities'>
-                                Rating
-                                <div className="facilities-check-box">
-                                    <div><Checkbox><Rate value={1} disabled /></Checkbox></div>
-                                    <div><Checkbox><Rate value={2} disabled /></Checkbox></div>
-                                    <div><Checkbox><Rate value={3} disabled /></Checkbox></div>
-                                    <div><Checkbox><Rate value={4} disabled /></Checkbox></div>
-                                    <div><Checkbox><Rate value={5} disabled /></Checkbox></div>
-                                </div>
-                            </div>
-                            <Space direction="vertical" style={{ width: '100%' }}>
-                                <Button className="btn add-to-cart" type="button">
-                                    Search Room
-                                </Button>
-                            </Space>
+                <div className="filter">
+                    <div className='facilities'>
+                        Facilities
+                        <div className="facilities-check-box">
+                            <div><Checkbox>Air Conditioner</Checkbox></div>
+                            <div><Checkbox>Free Wifi</Checkbox></div>
+                            <div><Checkbox>Free Breakfast</Checkbox></div>
+                            <div><Checkbox>Free Parking</Checkbox></div>
+                            <div><Checkbox>Heater</Checkbox></div>
                         </div>
-                    </Col>
-                    <Col xs={24} md={18}>
-                        <div className="list-hotel">
-                            {isLoading ? (
-                                <div>Loading...</div>
-                            ) : error ? (
-                                <div>Error: {error.message}</div>
-                            ) : data?.data?.content.length > 0 ? (
+                    </div>
+                    <div className='facilities'>
+                        Rating
+                        <div className="facilities-check-box">
+                            <div><Checkbox><Rate value={1} disabled /></Checkbox></div>
+                            <div><Checkbox><Rate value={2} disabled /></Checkbox></div>
+                            <div><Checkbox><Rate value={3} disabled /></Checkbox></div>
+                            <div><Checkbox><Rate value={4} disabled /></Checkbox></div>
+                            <div><Checkbox><Rate value={5} disabled /></Checkbox></div>
+                        </div>
+                    </div>
+                    <Button className="btn" type="button">
+                        Search Room
+                    </Button>
+                </div>
+                <div className="list-hotel">
+                    <Spin spinning={isLoading}>
+                        {data?.data?.content.length > 0
+                            ?
+                            (
                                 <>
                                     {data.data.content.map((hotel) => (
                                         <div key={hotel?.id} className="hotel-item">
                                             {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
                                             <img src={hotel?.imgUrl} alt={hotel?.hotel_name} className="hotel-img" />
                                             <div className="hotel-info">
-                                                <h2 className="hotel-name">{hotel?.hotel_name}</h2>
-                                                <p className="hotel-description">{hotel?.description}</p>
-                                                <div className='hotel-conveniences'>
-                                                    {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
-                                                        hotel?.conveniences.map((convenience, index) => {
-                                                            const trueConveniences = [];
-                                                            if (convenience.bar) trueConveniences.push("Bar");
-                                                            if (convenience.free_breakfast) trueConveniences.push("Breakfast");
-                                                            if (convenience.free_internet) trueConveniences.push("Internet");
-                                                            if (convenience.laundry) trueConveniences.push("Laundry");
-                                                            if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
-                                                            if (convenience.pool) trueConveniences.push("Pool");
-                                                            if (convenience.reception_24h) trueConveniences.push("24h Reception");
-                                                            if (convenience.restaurant) trueConveniences.push("Restaurant");
-                                                            return (
-                                                                <div key={index} className="convenience-list">
-                                                                    {trueConveniences.map((item, idx) => (
-                                                                        <span key={idx} className="convenience-item">{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
-                                                                    ))}
-                                                                </div>
-                                                            );
-                                                        })
-                                                    ) : (
-                                                        <p className="no-conveniences">No conveniences available</p>
-                                                    )}
+                                                <div className='body-start'>
+                                                    <h2 className="hotel-name">{hotel?.hotel_name}</h2>
+                                                    <div className="hotel-rating">
+                                                        <Rate allowHalf value={hotel?.rating} disabled />
+                                                        <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
+                                                    </div>
+                                                    <div className='hotel-conveniences'>
+                                                        {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
+                                                            hotel?.conveniences.map((convenience, index) => {
+                                                                const trueConveniences = [];
+                                                                if (convenience.bar) trueConveniences.push("Bar");
+                                                                if (convenience.free_breakfast) trueConveniences.push("Breakfast");
+                                                                if (convenience.free_internet) trueConveniences.push("Internet");
+                                                                if (convenience.laundry) trueConveniences.push("Laundry");
+                                                                if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
+                                                                if (convenience.pool) trueConveniences.push("Pool");
+                                                                if (convenience.reception_24h) trueConveniences.push("24h Reception");
+                                                                if (convenience.restaurant) trueConveniences.push("Restaurant");
+                                                                return (
+                                                                    <>
+                                                                        {trueConveniences.map((item, idx) => (
+                                                                            <span key={idx} className="convenience-item">{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
+                                                                        ))}
+                                                                    </>
+                                                                );
+                                                            })
+                                                        ) : (
+                                                            <p className="no-conveniences">No conveniences available</p>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                                <div className="hotel-rating">
-                                                    <Rate allowHalf value={hotel?.rating} disabled />
-                                                    <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
+                                                <div className='body-end'>
+                                                    <div className="hotel-price">
+                                                        From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
+                                                    </div>
+                                                    <Link className="hotel-book-now" to={`/hotel-detail/${hotel?.id}`}>
+                                                        DETAIL
+                                                    </Link>
                                                 </div>
-                                                <Row>
-                                                    <Col xs={24} md={14}>
-                                                        <Link to={`/hotel-detail/${hotel?.id}`}>
-                                                            <div className="hotel-book-now">DETAIL</div>
-                                                        </Link>
-                                                    </Col>
-                                                    <Col xs={24} md={10}>
-                                                        <div className="hotel-price">
-                                                            From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
-                                                        </div>
-                                                    </Col>
-                                                </Row>
                                             </div>
                                         </div>
                                     ))}
                                     <Pagination
-                                        style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '20px' }}
+                                        className='pagination-container'
                                         current={currentPage + 1}
                                         total={data?.data?.totalElements}
                                         pageSize={pageSize}
@@ -256,12 +234,14 @@ const HotelList = () => {
                                         showTotal={(total) => `Total ${total} items`}
                                     />
                                 </>
-                            ) : (
+                            )
+                            :
+                            (
                                 <div className="no-data">No hotels found</div>
-                            )}
-                        </div>
-                    </Col>
-                </Row>
+                            )
+                        }
+                    </Spin>
+                </div>
             </div>
         </div>
     );
