@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "../config";
 import { selectTokens } from "../slices/auth.slice";
 
+const currentUnixTimestamp = Math.floor(Date.now() / 1000);
+
 // Base query with Authorization header
 const baseQueryWithAuth = fetchBaseQuery({
     baseUrl: API_BASE_URL,
@@ -47,13 +49,19 @@ export const hotelApi = createApi({
         }),
         getHotelForPartner: builder.query({
             query: () => ({
-                url: `hotels/getPartnerHotels?page=0&size=10000`,
+                url: `hotels/getPartnerHotels?page=0&size=${currentUnixTimestamp}`,
                 method: "GET",
             }),
         }),
         getFullHotel: builder.query({
             query: () => ({
-                url: `hotels/getAllHotels?page=0&size=10000`,
+                url: `hotels/getAllHotels?page=0&size=${currentUnixTimestamp}`,
+                method: "GET",
+            }),
+        }),
+        getHotelForAdmin: builder.query({
+            query: () => ({
+                url: `hotels/getAdminHotels?page=0&size=${currentUnixTimestamp}`,
                 method: "GET",
             }),
         }),
@@ -95,6 +103,7 @@ export const {
     usePutLicenseMutation,
     useGetHotelWithPageQuery,
     useGetFullHotelQuery,
+    useGetHotelForAdminQuery,
     useGetHotelForPartnerQuery,
     useChangeStatusHotelMutation,
     useGetHotelDetailsForAdminQuery,

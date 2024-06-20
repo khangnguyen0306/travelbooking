@@ -73,6 +73,7 @@ $blue-main-color: #5c98f2;
     }
 
     .info {
+      position: relative;
       display: flex;
       gap: 40px;
       border-bottom: 1px solid #b3b2b2;
@@ -152,7 +153,10 @@ $blue-main-color: #5c98f2;
       }
 
       .booking {
+        position: sticky;
+        top: 100px;
         width: 24%;
+        height: fit-content;
       }
     }
 
