@@ -8,7 +8,7 @@ const Login = Loadable({ loader: () => import("../pages/user/login/login") });
 const errorPage = Loadable({ loader: () => import("../pages/error/Error") });
 const RoomDetailsPage = Loadable({ loader: () => import("../pages/user/roomDetailsPage") });
 const HotelList = Loadable({ loader: () => import("../pages/user/hotellist/HotelList") });
-const HotelDetail = Loadable({ loader: () => import("../pages/user/roomLisst/HotelDetail") });
+const HotelDetail = Loadable({ loader: () => import("../pages/user/hotelDetailsPage/HotelDetailsPage") });
 const Register = Loadable({ loader: () => import("../pages/user/register/Register") });
 
 const Profile = Loadable({ loader: () => import("../pages/user/profile/Components/Profile/Profile") });
