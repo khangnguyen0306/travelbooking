@@ -37,7 +37,7 @@ export const hotelApi = createApi({
         }),
         getHotelWithPage: builder.query({
             query: ({ pageNumber = 0, pageSize = 10 }) => ({
-                url: `hotels/getAllHotels?page=${pageNumber}&size=${pageSize}`,
+                url: `hotels/get-hotels?page=${pageNumber}&size=${pageSize}`,
                 method: "GET",
                 params: {
                     pageable: {
@@ -49,19 +49,19 @@ export const hotelApi = createApi({
         }),
         getHotelForPartner: builder.query({
             query: () => ({
-                url: `hotels/getPartnerHotels?page=0&size=${currentUnixTimestamp}`,
+                url: `hotels/get-hotels?page=0&size=${currentUnixTimestamp}`,
                 method: "GET",
             }),
         }),
         getFullHotel: builder.query({
             query: () => ({
-                url: `hotels/getAllHotels?page=0&size=${currentUnixTimestamp}`,
+                url: `hotels/get-hotels?page=0&size=${currentUnixTimestamp}`,
                 method: "GET",
             }),
         }),
         getHotelForAdmin: builder.query({
             query: () => ({
-                url: `hotels/getAdminHotels?page=0&size=${currentUnixTimestamp}`,
+                url: `hotels/get-hotels?page=0&size=${currentUnixTimestamp}`,
                 method: "GET",
             }),
         }),

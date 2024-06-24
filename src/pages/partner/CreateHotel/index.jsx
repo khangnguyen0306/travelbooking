@@ -63,7 +63,7 @@ function CreateHotel() {
             });
             return;
         }
-
+        console.log(data)
         const formData = new FormData();
         formData.append("license", businessLicense[0]);
 
@@ -119,7 +119,6 @@ function CreateHotel() {
                 </div>
                 <div className="item-100">
                     <label>Business License*</label>
-                    {/* <input className="input" type="file" {...register('businessLicense')} /> */}
                     <Controller
                         name="businessLicense"
                         control={control}
