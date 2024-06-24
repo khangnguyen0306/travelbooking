@@ -94,6 +94,12 @@ export const hotelApi = createApi({
                 url: `hotels/detail/${hotelId}`,
                 method: "GET",
             }),
+        }),
+        getHotelDetailsForGuest: builder.query({
+            query: (hotelId) => ({
+                url: `hotels/detail/${hotelId}`,
+                method: "GET",
+            }),
         })
     }),
 });
@@ -107,4 +113,5 @@ export const {
     useGetHotelForPartnerQuery,
     useChangeStatusHotelMutation,
     useGetHotelDetailsForAdminQuery,
+    useGetHotelDetailsForGuestQuery
 } = hotelApi;

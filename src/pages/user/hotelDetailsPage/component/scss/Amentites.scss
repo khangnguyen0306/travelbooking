@@ -1,0 +1,36 @@
+.amentites-section-wrapper {
+  padding: 60px 0 0;
+
+  .about-hotel-title {
+    margin: 20px 0;
+    text-align: center;
+    font-size: x-large;
+    font-family: var(--font-title);
+  }
+
+  .hotel-conveniences {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    gap: 8px;
+
+    .convenience-item {
+      padding: 24px;
+      width: 24%;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      font-size: medium;
+    }
+
+    .no-conveniences {
+      padding: 24px;
+      width: 100%;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      font-size: medium;
+      text-align: center;
+    }
+  }
+}
