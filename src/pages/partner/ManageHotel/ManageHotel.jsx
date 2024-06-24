@@ -186,7 +186,7 @@ const ManageHotel = () => {
             dataIndex: 'location.address',
             key: 'location.address',
             width: '20%',
-            ...getColumnSearchProps('location.address', (text, record) => record.location.address),
+            ...getColumnSearchProps('location.address', (text, record) => record?.location?.address),
 
         },
         {
@@ -194,7 +194,7 @@ const ManageHotel = () => {
             dataIndex: 'location.province',
             key: 'location.province',
             width: '20%',
-            ...getColumnSearchProps('location.province', (text, record) => record.location.province),
+            ...getColumnSearchProps('location.province', (text, record) => record?.location?.province),
         },
         {
             title: 'Status',
