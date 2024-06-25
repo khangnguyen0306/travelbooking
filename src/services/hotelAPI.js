@@ -68,13 +68,34 @@ export const hotelApi = createApi({
         putLicense: builder.mutation({
             query: ({ idHotel, license }) => {
                 const formData = new FormData();
-                formData.append('license', license);
+                license.forEach(file => {
+                    formData.append('license', file);
+                });
+
+                for (let pair of formData.entries()) {
+                    console.log(`${pair[0]}, ${pair[1]}`);
+                }
+
+                return {
+                    url: `hotels/update-business-license/${idHotel}`,
+                    method: 'PUT',
+                    body: formData,
+                };
+            },
+        }),
+
+        putHotelImage: builder.mutation({
+            query: ({ idHotel, images }) => {
+                const formData = new FormData();
+                images.forEach((image, index) => {
+                    formData.append('images', image.originFileObj);
+                });
                 for (let pair of formData.entries()) {
                     console.log(`${pair[0]}, ${pair[1]}`);
                 }
                 return {
-                    url: `hotels/update-business-license/${idHotel}`,
-                    method: 'PUT',
+                    url: `hotels/upload-images/${idHotel}`,
+                    method: 'POST',
                     body: formData,
                 };
             },
@@ -107,4 +128,5 @@ export const {
     useGetHotelForPartnerQuery,
     useChangeStatusHotelMutation,
     useGetHotelDetailsForAdminQuery,
+    usePutHotelImageMutation,
 } = hotelApi;
