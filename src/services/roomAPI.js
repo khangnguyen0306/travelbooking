@@ -1,13 +1,56 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "../config";
+import { selectTokens } from "../slices/auth.slice";
 
-// Define a service using a base URL and expected endpoints
+const baseQueryWithAuth = fetchBaseQuery({
+    baseUrl: API_BASE_URL,
+    prepareHeaders: (headers, { getState }) => {
+        const token = selectTokens(getState());
+        if (token) {
+            headers.append("Authorization", `Bearer ${token}`);
+        }
+        return headers;
+    },
+});
+
+// Base query without Authorization header
+const baseQueryWithoutAuth = fetchBaseQuery({
+    baseUrl: API_BASE_URL,
+    prepareHeaders: (headers) => {
+        return headers;
+    },
+});
+
+
 export const roomApi = createApi({
     reducerPath: "roomManagement",
-    // Tag types are used for caching and invalidation.
-    tagTypes: ["roomList"],
-    baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
+    baseQuery: baseQueryWithAuth,
     endpoints: (builder) => ({
+        createRoom: builder.mutation({
+            query: (body) => ({
+                url: `room-types/create`,
+                method: "POST",
+                body: body,
+            }),
+        }),
+        putRoomImage: builder.mutation({
+            query: ({ roomTypeId, images }) => {
+                const formData = new FormData();
+                images.forEach((image, index) => {
+                    formData.append('images', image);
+                });
+                for (let pair of formData.entries()) {
+                    console.log(`${pair[0]}, ${pair[1]}`);
+                }
+                return {
+                    url: `room-types/upload-images/${roomTypeId}`,
+                    method: 'POST',
+                    body: formData,
+                };
+            },
+        }),
+
+
         getHotelList: builder.query({
             query: () => `hotellist`,
             providesTags: (result, _error, _arg) =>
@@ -42,16 +85,7 @@ export const roomApi = createApi({
             query: (id) => `hotellist/${id}`,
             providesTags: (result, error, id) => [{ type: "HotelsList", id }]
         }),
-        addroom: builder.mutation({
-            query: (body) => {
-                return {
-                    method: "POST",
-                    url: `room`,
-                    body,
-                };
-            },
-            invalidatesTags: [{ type: "room", id: "LIST" }],
-        }),
+
         editroom: builder.mutation({
             query: (payload) => {
                 return {
@@ -78,12 +112,12 @@ export const roomApi = createApi({
 
 
 export const {
+    useCreateRoomMutation,
+    usePutRoomImageMutation,
     useGetHotelListQuery,
     useGetHotelDetailQuery,
     useGetHotelByIdQuery,
     useGetRoomQuery,
-    useGetRoomByIdQuery,
-    useAddroomMutation,
     useEditroomMutation,
     useDeleteroomMutation,
 } = roomApi;

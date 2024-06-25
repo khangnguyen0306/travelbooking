@@ -13,7 +13,7 @@ const schema = yup.object().shape({
     description: yup.string().required("This field is required").trim(),
     brand: yup.string(),
     hotel_name: yup.string().required("This field is required").trim(),
-    businessLicense: yup.mixed().required("This field is required"),
+    businessLicense: yup.array().of(yup.mixed().required("This field is required")).min(1, "Business license file is required"),
     conveniences: yup.object().shape({
         free_breakfast: yup.boolean(),
         pick_up_drop_off: yup.boolean(),
@@ -55,28 +55,25 @@ function CreateHotel() {
         }));
         data.conveniences = conveniences;
 
-        // Check if businessLicense file is selected
+        // Check if businessLicense files are selected
         if (!businessLicense || businessLicense.length === 0) {
             notification.error({
                 message: "Error",
-                description: "Business license file is required.",
+                description: "Business license files are required.",
             });
             return;
         }
-        console.log(data)
-        const formData = new FormData();
-        formData.append("license", businessLicense[0]);
 
-        // Log formData content for debugging
-        for (let pair of formData.entries()) {
-            console.log(`${pair[0]}, ${pair[1]}`);
-        }
+        const formData = new FormData();
+        businessLicense.forEach(file => {
+            formData.append('license', file);
+        });
 
         try {
             const response = await createHotel(data).unwrap();
             console.log("Created hotel response:", response);
 
-            await putLicense({ idHotel: response?.data?.id, license: businessLicense[0] }).unwrap();
+            await putLicense({ idHotel: response?.data?.id, license: formData }).unwrap();
 
             notification.success({
                 message: "Success",
@@ -125,19 +122,25 @@ function CreateHotel() {
                         render={({ field: { onChange, onBlur, value, ref } }) => (
                             <Upload
                                 listType="picture"
-                                beforeUpload={file => {
-                                    onChange([file]);
-                                    return false;
+                                beforeUpload={(file) => {
+                                    // Append the new file to the existing value array
+                                    const newValue = [...(value || []), file];
+                                    onChange(newValue);
+                                    return false; // Prevent default upload behavior
                                 }}
-                                onRemove={() => {
-                                    onChange([]);
+                                onRemove={(file) => {
+                                    // Remove the file from value array
+                                    const newValue = (value || []).filter(
+                                        (item) => item.uid !== file.uid
+                                    );
+                                    onChange(newValue);
                                 }}
-                                fileList={value ? value.map(file => ({
+                                fileList={(value || []).map((file) => ({
                                     uid: file.uid,
                                     name: file.name,
-                                    status: 'done',
+                                    status: "done",
                                     url: URL.createObjectURL(file)
-                                })) : []}
+                                }))}
                             >
                                 <Button icon={<UploadOutlined />}>Upload</Button>
                             </Upload>
