@@ -50,17 +50,13 @@ export const roomApi = createApi({
             },
         }),
 
-
-        getHotelList: builder.query({
-            query: () => `hotellist`,
-            providesTags: (result, _error, _arg) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: "room", id })),
-                        { type: "room", id: "LIST" },
-                    ]
-                    : [{ type: "room", id: "LIST" }],
+        getAllRoom: builder.query({
+            query: (hotelId) => ({
+                url: `room-types/get-all-room/${hotelId}`,
+                method: "GET",
+            }),
         }),
+
         getRoom: builder.query({
             query: (hotelId) => `hotellist/${hotelId}/roomlist`,
             providesTags: (result, _error, _arg) =>
@@ -114,7 +110,7 @@ export const roomApi = createApi({
 export const {
     useCreateRoomMutation,
     usePutRoomImageMutation,
-    useGetHotelListQuery,
+    useGetAllRoomQuery,
     useGetHotelDetailQuery,
     useGetHotelByIdQuery,
     useGetRoomQuery,

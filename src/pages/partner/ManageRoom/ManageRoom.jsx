@@ -11,14 +11,16 @@ import {
     DeleteOutlined,
     MenuOutlined
 } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
-
+import { Link, useParams } from 'react-router-dom';
+import { roomApi } from '../../../services/roomAPI';
 
 const onChange = (pagination, filters, sorter, extra) => {
     console.log('params', pagination, filters, sorter, extra);
 };
 
 const ManageRoom = () => {
+    const { id } = useParams();
+    const { data, refetch } = roomApi.useGetAllRoomQuery(id);
 
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
@@ -135,9 +137,9 @@ const ManageRoom = () => {
     const columns = [
         {
             title: 'Room Type',
-            dataIndex: 'roomtype',
-            key: 'hotelName',
-            ...getColumnSearchProps('roomtype', (text, record) => (
+            dataIndex: 'room_type_name',
+            key: 'room_type_name',
+            ...getColumnSearchProps('room_type_name', (text, record) => (
                 <Link to={`hotel-details/${record.id}`}>{text}</Link>
             )),
         },
@@ -160,32 +162,32 @@ const ManageRoom = () => {
             key: 'status',
             filters: [
                 {
-                    text: 'Out Of Order',
-                    value: 'Out Of Order',
+                    text: 'UNAVAILABLE',
+                    value: 'UNAVAILABLE',
                 },
                 {
-                    text: 'Occupied',
-                    value: 'Occupied',
+                    text: 'DISABLED',
+                    value: 'DISABLED',
                 },
                 {
-                    text: 'Available',
-                    value: 'Available',
+                    text: 'AVAILABLE',
+                    value: 'AVAILABLE',
                 },
             ],
             onFilter: (value, record) => record.status.indexOf(value) === 0,
             render: (_, record) => (
                 <div>
-                    {record.status === "Available" &&
+                    {record.status === "AVAILABLE" &&
                         < Tag icon={<CheckCircleOutlined />} color="success">
                             {record.status}
                         </Tag>
                     }
-                    {record.status === "Out Of Order" &&
+                    {record.status === "UNAVAILABLE" &&
                         < Tag icon={< SyncOutlined spin />} color="processing" >
                             {record.status}
                         </Tag >
                     }
-                    {record.status === "Occupied" &&
+                    {record.status === "DISABLED" &&
                         < Tag icon={< CloseCircleOutlined />} color="error" >
                             {record.status}
                         </Tag >
@@ -224,30 +226,6 @@ const ManageRoom = () => {
             ),
         },
     ];
-    const data = [
-        {
-            roomtype: "Luxury Room",
-            number_of_rooms: 1,
-            room_price: "25$",
-            status: "Occupied",
-            id: 1
-        },
-        {
-            roomtype: "Luxury Room",
-            number_of_rooms: 5,
-            room_price: "25$",
-            status: "Out Of Order",
-            id: 3
-        },
-        {
-            roomtype: "Luxury Room",
-            number_of_rooms: 51,
-            room_price: "15$",
-            status: "Available",
-            id: 2
-        },
-    ];
-
 
     return (
         <div className='manage-hotel-wrapper'>
@@ -261,7 +239,7 @@ const ManageRoom = () => {
             <Table
                 bordered={true}
                 columns={columns}
-                dataSource={data}
+                dataSource={data?.data?.content || []}
                 onChange={onChange}
                 scroll={{
                     y: 440,
