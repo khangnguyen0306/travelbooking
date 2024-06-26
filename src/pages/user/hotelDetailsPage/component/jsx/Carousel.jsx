@@ -11,7 +11,7 @@ const Carousel = ({ images }) => {
         if (!container) return;
 
         let interval = setInterval(() => {
-            container.scrollLeft += 625; // Điều chỉnh tốc độ cuộn ở đây
+            container.scrollLeft += 612; // Điều chỉnh tốc độ cuộn ở đây
             if (Math.ceil(container.scrollLeft) >= container.scrollWidth - container.clientWidth) {
                 container.scrollLeft = 0; // Quay lại đầu khi cuộn tới cuối
             }
