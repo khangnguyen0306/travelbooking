@@ -181,13 +181,12 @@ const HotelList = () => {
                                     {data.data.content.map((hotel) => (
                                         <div key={hotel?.id} className="hotel-item">
                                             {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
-                                            <img src={hotel?.imgUrl} alt={hotel?.hotel_name} className="hotel-img" />
+                                            <img src={hotel?.image_urls?.[0].url} alt={hotel?.hotel_name} className="hotel-img" />
                                             <div className="hotel-info">
                                                 <div className='body-start'>
                                                     <h2 className="hotel-name">{hotel?.hotel_name}</h2>
                                                     <div className="hotel-rating">
                                                         <Rate allowHalf value={hotel?.rating} disabled />
-                                                        <span>({hotel?.reviews} Review{hotel?.reviews > 1 && 's'})</span>
                                                     </div>
                                                     <div className='hotel-conveniences'>
                                                         {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
@@ -215,8 +214,8 @@ const HotelList = () => {
                                                     </div>
                                                 </div>
                                                 <div className='body-end'>
-                                                    <div className="hotel-price">
-                                                        From <span className="hotel-original-price">{hotel?.originalPrice && <del>${hotel?.originalPrice}</del>}</span> <span className="hotel-current-price"><ins>${hotel?.price ? hotel?.price : hotel?.discountPrice}</ins></span>
+                                                    <div className="infomation">
+                                                        Click on details to see more information.
                                                     </div>
                                                     <Link className="hotel-book-now" to={`/hotel-detail/${hotel?.id}`}>
                                                         DETAIL

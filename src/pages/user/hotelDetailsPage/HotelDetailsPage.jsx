@@ -11,7 +11,6 @@ import { useGetHotelDetailsForGuestQuery } from '../../../services/hotelAPI';
 const RoomlistDetail = () => {
     const { hotelId } = useParams('hotelId');
     const { data, isLoading } = useGetHotelDetailsForGuestQuery(hotelId);
-    console.log(data?.data);
 
     // scroll to About page
     const hotelAboutRef = useRef(null);
@@ -19,10 +18,10 @@ const RoomlistDetail = () => {
         hotelAboutRef.current.scrollIntoView({ behavior: 'smooth' });
     };
 
-    // scroll to Amentites page
-    const amentitesRef = useRef(null);
-    const scrollToAmentites = () => {
-        amentitesRef.current.scrollIntoView({ behavior: 'smooth' });
+    // scroll to Room page
+    const roomRef = useRef(null);
+    const scrollToRoom = () => {
+        roomRef.current.scrollIntoView({ behavior: 'smooth' });
     };
 
     const HeaderParams = {
@@ -42,20 +41,20 @@ const RoomlistDetail = () => {
     }
 
     const RoomListParams = {
-        hotelId: hotelId
+        roomTypes: data?.data?.roomTypes
     }
 
     return (
         <div className="hotel-details-page-wrapper">
             <Spin spinning={isLoading}>
-                <HeaderHotel data={HeaderParams} toHotelAbout={scrollToHotelAbout} toAmentites={scrollToAmentites} />
+                <HeaderHotel data={HeaderParams} toHotelAbout={scrollToHotelAbout} toRoom={scrollToRoom} />
                 <div ref={hotelAboutRef}>
                     <HotelAbout data={AboutParams} />
                 </div>
-                <div ref={amentitesRef}>
-                    <Amentites data={AmentitesParams} />
+                <Amentites data={AmentitesParams} />
+                <div ref={roomRef}>
+                    <Roomlist {...RoomListParams} />
                 </div>
-                <Roomlist {...RoomListParams} />
             </Spin>
         </div>
     );

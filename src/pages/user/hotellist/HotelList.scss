@@ -101,6 +101,11 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         background-color: white;
         overflow: hidden;
+        transition: all 0.4s ease;
+
+        &:hover {
+          box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
 
         .hotel-img {
           width: 30%;
@@ -155,30 +160,25 @@
             align-items: center;
             justify-content: space-between;
 
-            .hotel-price {
-              font-size: 1.2rem;
+            .infomation {
+              color: gray;
               font-weight: bold;
-
-              .hotel-original-price {
-                text-decoration: line-through;
-                color: #888;
-              }
-
-              .hotel-current-price {
-                color: #000;
-              }
             }
 
             .hotel-book-now {
               display: inline-block;
               padding: 8px 16px;
               border-radius: 8px;
+              border: 1px solid var(--blue-main-color);
               background-color: var(--blue-main-color);
               color: white;
+              font-weight: bold;
               transition: all ease-in-out 0.2s;
 
               &:hover {
-                transform: scale(1.02);
+                border: 1px solid var(--blue-main-color);
+                background-color: white;
+                color: var(--blue-main-color);
               }
             }
           }

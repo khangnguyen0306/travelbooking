@@ -12,7 +12,7 @@ const Amentites = ({ data }) => {
                         if (convenience.free_breakfast) trueConveniences.push("Breakfast");
                         if (convenience.free_internet) trueConveniences.push("Internet");
                         if (convenience.laundry) trueConveniences.push("Laundry");
-                        if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
+                        if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up / Drop-Off");
                         if (convenience.pool) trueConveniences.push("Pool");
                         if (convenience.reception_24h) trueConveniences.push("24h Reception");
                         if (convenience.restaurant) trueConveniences.push("Restaurant");
