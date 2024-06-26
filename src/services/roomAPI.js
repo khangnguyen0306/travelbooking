@@ -61,6 +61,30 @@ export const roomApi = createApi({
                     ]
                     : [{ type: "room", id: "LIST" }],
         }),
+        putRoomImage: builder.mutation({
+            query: ({ roomTypeId, images }) => {
+                const formData = new FormData();
+                images.forEach((image, index) => {
+                    formData.append('images', image);
+                });
+                for (let pair of formData.entries()) {
+                    console.log(`${pair[0]}, ${pair[1]}`);
+                }
+                return {
+                    url: `room-types/upload-images/${roomTypeId}`,
+                    method: 'POST',
+                    body: formData,
+                };
+            },
+        }),
+
+        getAllRoom: builder.query({
+            query: (hotelId) => ({
+                url: `room-types/get-all-room/${hotelId}`,
+                method: "GET",
+            }),
+        }),
+
         getRoom: builder.query({
             query: (hotelId) => `hotellist/${hotelId}/roomlist`,
             providesTags: (result, _error, _arg) =>
@@ -114,6 +138,7 @@ export const roomApi = createApi({
 export const {
     useCreateRoomMutation,
     usePutRoomImageMutation,
+    useGetAllRoomQuery,
     useGetHotelListQuery,
     useGetHotelDetailQuery,
     useGetHotelByIdQuery,

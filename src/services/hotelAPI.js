@@ -134,6 +134,6 @@ export const {
     useGetHotelForPartnerQuery,
     useChangeStatusHotelMutation,
     useGetHotelDetailsForAdminQuery,
+    useGetHotelDetailsForGuestQuery,
     usePutHotelImageMutation,
-    useGetHotelDetailsForGuestQuery
 } = hotelApi;
