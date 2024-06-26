@@ -1,5 +1,4 @@
 import '../scss/HotelAbout.scss';
-import React from 'react';
 import { Card } from 'antd';
 import Carousel from './Carousel';
 

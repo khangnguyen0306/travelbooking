@@ -1,9 +1,20 @@
+import { useEffect } from "react";
 import "./RoomDetailsPage.scss";
 import { Rate, Avatar, FloatButton } from "antd";
 import { UserOutlined } from '@ant-design/icons';
 import BookingForm from "./Components/BookingForm";
+import { useParams } from "react-router-dom";
 
 function RoomDetailsPage() {
+    const params = useParams();
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, []);
+
     return (
         <div className="wrapper-room-detail-page">
             <div className="container">

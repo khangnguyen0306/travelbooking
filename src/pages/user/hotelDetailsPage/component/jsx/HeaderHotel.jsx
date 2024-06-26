@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { Rate } from 'antd'
 import { EnvironmentFilled, RightOutlined } from '@ant-design/icons';
 
-const HeaderHotel = ({ data, toHotelAbout, toAmentites }) => {
+const HeaderHotel = ({ data, toHotelAbout, toRoom }) => {
     return (
         <div className='header-hotelDetail-container'>
             <div className='left'>
@@ -14,8 +14,8 @@ const HeaderHotel = ({ data, toHotelAbout, toAmentites }) => {
                     </Link>
                 </div>
                 <div className="card-header">
-                    <p className="title">Main utilities</p>
-                    <Link className="link" onClick={toAmentites} >
+                    <p className="title">Room list</p>
+                    <Link className="link" onClick={toRoom} >
                         View more <RightOutlined />
                     </Link>
                 </div>

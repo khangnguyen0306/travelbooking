@@ -1,151 +1,119 @@
-$font-content: DM Sans, sans-serif;
-$font-title: DM Serif Display, sans-serif;
-$blue-main-color: #5c98f2;
-$grey-content-color: #8c8c8c;
+.rooms-section-wrapper {
+  padding: 60px 0 0;
 
-* {
-    font-family: $font-content;
-}
+  .rooms-section-title {
+    margin: 20px 0;
+    text-align: center;
+    font-size: x-large;
+    font-family: var(--font-title);
+  }
 
-.room-list-hotel-page {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-
-    .room-list-hotel-title {
-        width: 100%;
-        background-color: #ece9ee;
-        text-align: center;
-        height: 40vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 2rem;
-
-        p {
-            font-family: $font-title;
-            font-size: 63px;
-        }
-    }
-
-    .toggle-roomlist {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #fff;
-        background-color: $blue-main-color;
-        padding: 1rem 1.2rem;
-        width: 60%;
-        margin-bottom: 1rem;
-        border-radius: 0.7rem;
-    }
-
-    .filter-options-layout-room-list {
-        font-size: 16px;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 10px;
-        margin-bottom: 30px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-        & p:first-child {
-            font-family: $font-content;
-            font-size: 16px;
-            font-weight: 700;
-        }
-
-        .filter-options-roomlist {
-
-            padding: 1.5rem 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 3rem;
-        }
-    }
-
-    .room-list-hotel-page-title {}
-
+  .rooms-list {
     .room-card {
+      display: flex;
+      align-items: center;
+      margin: 0 0 40px;
+      height: 220px;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      background-color: white;
+      transition: all 0.4s ease;
+
+      &:hover {
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+      }
+
+      .roomType-img {
+        width: 30%;
+        height: 220px;
+        border-radius: 8px 0 0 8px;
+        object-fit: cover;
+      }
+
+      .roomType-info {
+        flex: 1;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-bottom: 60px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        transition: box-shadow 0.3s ease;
-        padding-right: 4rem;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 20px;
+        height: 100%;
 
-        &:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        .body-start {
+          .roomType-name {
+            margin-bottom: 8px;
+            font-size: x-large;
+          }
+
+          .more-info {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 40px;
+
+            .info-item {
+              color: gray;
+              font-weight: bold;
+            }
+          }
+
+          .roomType-conveniences {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+
+            .convenience-item {
+              padding: 8px;
+              border-radius: 8px;
+              background-color: whitesmoke;
+              color: gray;
+            }
+
+            .no-conveniences {
+              padding: 8px;
+              width: 100%;
+              border-radius: 8px;
+              background-color: whitesmoke;
+              color: gray;
+              font-size: 16px;
+              text-align: center;
+            }
+          }
         }
 
-        .room-info {
-            padding: 0 0 0 40px;
+        .body-end {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
 
-            .room-type {
-                font-family: $font-title;
-                font-size: 30px;
-                font-weight: 500;
-                margin-bottom: 20px;
+          .price {
+            font-size: medium;
+            font-weight: bold;
+
+            .number {
+              color: black;
+              font-size: larger;
             }
+          }
 
-            .room-desc {
-                color: $grey-content-color;
-                line-height: 1.7;
-                font-size: 15px;
-                margin-bottom: 30px;
+          .roomType-book-now {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: 1px solid var(--blue-main-color);
+            background-color: var(--blue-main-color);
+            color: white;
+            font-weight: bold;
+            transition: all ease-in-out 0.2s;
+
+            &:hover {
+              border: 1px solid var(--blue-main-color);
+              background-color: white;
+              color: var(--blue-main-color);
             }
-
-            .price-btn-book {
-                background-color: rgba($color: #fdf9f9, $alpha: 0);
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 20px;
-
-
-                .btn-book-now {
-                    font-size: 13px;
-                    text-transform: uppercase;
-                    font-weight: 600;
-                    letter-spacing: 2px;
-                    border: none;
-                    cursor: pointer;
-                    background-color: rgba($color: #fdf9f9, $alpha: 0);
-                    margin-right: 5rem;
-                    border-bottom: 2px solid #fff;
-                    position: relative;
-                    padding-bottom: 10px;
-                    color: black !important;
-
-                    &::before {
-                        content: "";
-                        position: absolute;
-                        bottom: 0;
-                        left: 0;
-                        width: 0;
-                        height: 2px;
-                        background-color: #808080;
-                        transition: width 0.4s ease;
-                    }
-
-                    &:hover::before {
-                        width: 100%;
-                        left: 0;
-                    }
-                }
-
-                .price {
-                    font-family: $font-title;
-                    font-size: 25px;
-                    font-weight: 500;
-                    margin-bottom: 5px;
-
-                }
-
-            }
+          }
         }
+      }
     }
+  }
 }
