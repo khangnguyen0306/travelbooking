@@ -12,7 +12,6 @@ import {
 function AdminHotelDetails() {
     const params = useParams();
     const { data } = useGetHotelDetailsForAdminQuery(params.hotelId);
-    console.log(data);
 
     // Sử dụng reduce để gộp các key có giá trị là true thành một mảng duy nhất
     const finalConveniences = data?.data?.conveniences.reduce((acc, convenience) => {
@@ -86,11 +85,13 @@ function AdminHotelDetails() {
                     </div>
                     <div className="item-100">
                         <label>Business License</label>
-                        <p className="input">
-                            <a href={data?.data?.business_license} target="_blank" rel="noopener noreferrer">
-                                {data?.data?.business_license}
-                            </a>
-                        </p>
+                        {data?.data?.business_license?.map((item, index) => (
+                            <p key={index} className="input">
+                                <a href={item?.business_license_url} target="_blank" rel="noopener noreferrer">
+                                    Business License Image No {index + 1}
+                                </a>
+                            </p>
+                        ))}
                     </div>
                     <div className="item-100">
                         <h3>Location:</h3>

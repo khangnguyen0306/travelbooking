@@ -33,8 +33,8 @@ const RoomlistDetail = () => {
     };
 
     const AboutParams = {
-        hotelDescription: data?.data?.description,
-        hotelImage: data?.data?.image_urls
+        description: data?.data?.description,
+        images_urls: data?.data?.image_urls
     }
 
     const AmentitesParams = {
