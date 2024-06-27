@@ -17,11 +17,11 @@ const Amentites = ({ data }) => {
                         if (convenience.reception_24h) trueConveniences.push("24h Reception");
                         if (convenience.restaurant) trueConveniences.push("Restaurant");
                         return (
-                            <>
+                            <span key={index} className="convenience-item">
                                 {trueConveniences.map((item, idx) => (
-                                    <span key={idx} className="convenience-item">{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
+                                    <span key={idx} >{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
                                 ))}
-                            </>
+                            </span>
                         );
                     })
                 ) : (

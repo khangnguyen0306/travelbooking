@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "../config";
 import { selectTokens } from "../slices/auth.slice";
 
+const currentUnixTimestamp = Math.floor(Date.now() / 1000);
+
 const baseQueryWithAuth = fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
@@ -54,6 +56,18 @@ export const roomApi = createApi({
                 method: "GET",
             }),
         }),
+        getRoomDetail: builder.query({
+            query: (roomId) => ({
+                url: `room-types/get-room/${roomId}`,
+                method: "GET",
+            }),
+        }),
+        getRoomListForUser: builder.query({
+            query: (hotelId) => ({
+                url: `room-types/get-all-room-status/${hotelId}?page=0&size=${currentUnixTimestamp}`,
+                method: "GET",
+            }),
+        }),
     }),
 });
 
@@ -62,4 +76,6 @@ export const {
     useCreateRoomMutation,
     usePutRoomImageMutation,
     useGetAllRoomQuery,
+    useGetRoomDetailQuery,
+    useGetRoomListForUserQuery
 } = roomApi;

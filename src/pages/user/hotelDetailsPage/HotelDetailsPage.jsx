@@ -1,5 +1,5 @@
 import "./HotelDetailsPage.scss";
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Spin } from 'antd';
 import { useParams } from 'react-router-dom';
 import HeaderHotel from './component/jsx/HeaderHotel';
@@ -7,10 +7,12 @@ import HotelAbout from './component/jsx/HotelAbout';
 import Amentites from './component/jsx/Amentites';
 import Roomlist from './component/jsx/Roomlist';
 import { useGetHotelDetailsForGuestQuery } from '../../../services/hotelAPI';
+import { useGetRoomListForUserQuery } from '../../../services/roomAPI';
 
 const RoomlistDetail = () => {
     const { hotelId } = useParams('hotelId');
     const { data, isLoading } = useGetHotelDetailsForGuestQuery(hotelId);
+    const { data: RoomList } = useGetRoomListForUserQuery(hotelId);
 
     // scroll to About page
     const hotelAboutRef = useRef(null);
@@ -41,8 +43,15 @@ const RoomlistDetail = () => {
     }
 
     const RoomListParams = {
-        roomTypes: data?.data?.roomTypes
+        roomTypes: RoomList?.data?.content
     }
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, []);
 
     return (
         <div className="hotel-details-page-wrapper">
