@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import "../scss/Carousel.scss"
+import "./Carousel.scss"
 import { Image } from 'antd';
 
 const Carousel = ({ images }) => {
@@ -26,7 +26,8 @@ const Carousel = ({ images }) => {
         <div className="slideshow" ref={containerRef}>
             <Image.PreviewGroup>
                 {images?.map((image, index) => (
-                    <Image key={index} className='hotel-img' src={image?.url} alt={""} />
+                    <Image key={index} className='room-img' src={image?.image_url
+                    } alt={""} />
                 ))}
             </Image.PreviewGroup>
         </div>
