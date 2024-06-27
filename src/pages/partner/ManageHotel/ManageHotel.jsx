@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import "./ManageHotel.scss"
+import React, { useState, useRef, useEffect } from 'react';
+import "./ManageHotel.scss";
 import { Table, Tag, Button, Popover, Modal, notification, Input, Space } from 'antd';
 import Highlighter from 'react-highlight-words';
 import {
@@ -18,8 +18,11 @@ import { Link } from 'react-router-dom';
 
 const ManageHotel = () => {
     // call api
-    const [changeStatus, { isLoading }] = useChangeStatusHotelMutation()
+    const [changeStatus, { isLoading }] = useChangeStatusHotelMutation();
     const { data, refetch } = useGetHotelForPartnerQuery();
+
+    // trạng thái để theo dõi thay đổi trạng thái của khách sạn
+    const [hasStatusChanged, setHasStatusChanged] = useState(false);
 
     // search in table
     const [searchText, setSearchText] = useState('');
@@ -35,14 +38,14 @@ const ManageHotel = () => {
             if (result.data.status == "OK") {
                 notification.success({
                     message: "Change status successfully!"
-                })
-                refetch();
+                });
+                setHasStatusChanged(true); // cập nhật trạng thái đã thay đổi
             }
         } catch (error) {
             console.log(error);
             notification.error({
                 message: "Some thing wrong!"
-            })
+            });
         }
         setIsModalOpen(false);
     };
@@ -375,6 +378,14 @@ const ManageHotel = () => {
         },
     ];
 
+    // sử dụng useEffect để tự động làm mới dữ liệu khi thay đổi trạng thái
+    useEffect(() => {
+        if (!hasStatusChanged) {
+            refetch();
+            setHasStatusChanged(false); // reset trạng thái
+        }
+    }, [hasStatusChanged, refetch]);
+
     return (
         <div className='partner-manage-hotel-wrapper'>
             <div className="action">
@@ -404,7 +415,7 @@ const ManageHotel = () => {
                 <p>Are you sure to do that?</p>
             </Modal>
         </div>
-    )
-}
+    );
+};
 
-export default ManageHotel
+export default ManageHotel;

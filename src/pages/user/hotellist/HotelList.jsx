@@ -181,7 +181,11 @@ const HotelList = () => {
                                     {data.data.content.map((hotel) => (
                                         <div key={hotel?.id} className="hotel-item">
                                             {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
-                                            <img src={hotel?.image_urls?.[0].url} alt={hotel?.hotel_name} className="hotel-img" />
+                                            <img
+                                                src={hotel?.image_urls?.[0]?.url || 'default_image_url.jpg'}
+                                                alt={hotel?.hotel_name || 'Default Hotel Name'}
+                                                className="hotel-img"
+                                            />
                                             <div className="hotel-info">
                                                 <div className='body-start'>
                                                     <h2 className="hotel-name">{hotel?.hotel_name}</h2>
@@ -201,17 +205,20 @@ const HotelList = () => {
                                                                 if (convenience.reception_24h) trueConveniences.push("24h Reception");
                                                                 if (convenience.restaurant) trueConveniences.push("Restaurant");
                                                                 return (
-                                                                    <>
+                                                                    <React.Fragment key={index}>
                                                                         {trueConveniences.map((item, idx) => (
-                                                                            <span key={idx} className="convenience-item">{item}{idx < trueConveniences.length - 1 ? ', ' : ''}</span>
+                                                                            <span key={`${index}-${idx}`} className="convenience-item">
+                                                                                {item}{idx < trueConveniences.length - 1 ? ', ' : ''}
+                                                                            </span>
                                                                         ))}
-                                                                    </>
+                                                                    </React.Fragment>
                                                                 );
                                                             })
                                                         ) : (
                                                             <p className="no-conveniences">No conveniences available</p>
                                                         )}
                                                     </div>
+
                                                 </div>
                                                 <div className='body-end'>
                                                     <div className="infomation">
