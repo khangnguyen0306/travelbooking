@@ -23,7 +23,6 @@ const baseQueryWithoutAuth = fetchBaseQuery({
     },
 });
 
-
 export const roomApi = createApi({
     reducerPath: "roomManagement",
     baseQuery: baseQueryWithAuth,
@@ -51,89 +50,12 @@ export const roomApi = createApi({
                 };
             },
         }),
-
-
-        getHotelList: builder.query({
-            query: () => `hotellist`,
-            providesTags: (result, _error, _arg) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: "room", id })),
-                        { type: "room", id: "LIST" },
-                    ]
-                    : [{ type: "room", id: "LIST" }],
-        }),
-        putRoomImage: builder.mutation({
-            query: ({ roomTypeId, images }) => {
-                const formData = new FormData();
-                images.forEach((image, index) => {
-                    formData.append('images', image);
-                });
-                for (let pair of formData.entries()) {
-                    console.log(`${pair[0]}, ${pair[1]}`);
-                }
-                return {
-                    url: `room-types/upload-images/${roomTypeId}`,
-                    method: 'POST',
-                    body: formData,
-                };
-            },
-        }),
-
         getAllRoom: builder.query({
             query: (hotelId) => ({
                 url: `room-types/get-all-room/${hotelId}`,
                 method: "GET",
             }),
         }),
-
-        getRoom: builder.query({
-            query: (hotelId) => `hotellist/${hotelId}/roomlist`,
-            providesTags: (result, _error, _arg) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: "room", id })),
-                        { type: "room", id: "LIST" },
-                    ]
-                    : [{ type: "room", id: "LIST" }],
-        }),
-        getHotelDetail: builder.query({
-            query: () => `hotellist/roomlist`,
-            providesTags: (result, _error, _arg) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: "room", id })),
-                        { type: "room", id: "LIST" },
-                    ]
-                    : [{ type: "room", id: "LIST" }],
-        }),
-        getHotelById: builder.query({
-            query: (id) => `hotellist/${id}`,
-            providesTags: (result, error, id) => [{ type: "HotelsList", id }]
-        }),
-
-        editroom: builder.mutation({
-            query: (payload) => {
-                return {
-                    method: "PUT",
-                    url: `room/` + payload.id,
-                    body: payload.body,
-                };
-            },
-            invalidatesTags: (res, err, arg) => [{ type: "room", id: arg.id }],
-        }),
-        deleteroom: builder.mutation({
-            query: (payload) => {
-                return {
-                    method: "DELETE",
-                    url: `room/` + payload.id,
-                };
-            },
-            invalidatesTags: (_res, _err, _arg) => [
-                { type: "room", id: "LIST" },
-            ],
-        }),
-        // Cái này của Thắng làm nhaa ai mà xóa thì tới công chiện vs chụy đó
         getRoomDetail: builder.query({
             query: (roomId) => ({
                 url: `room-types/get-room/${roomId}`,
@@ -154,13 +76,6 @@ export const {
     useCreateRoomMutation,
     usePutRoomImageMutation,
     useGetAllRoomQuery,
-    useGetHotelListQuery,
-    useGetHotelDetailQuery,
-    useGetHotelByIdQuery,
-    useGetRoomQuery,
-    useEditroomMutation,
-    useDeleteroomMutation,
-    // Cái này của Thắng làm nhaa ai mà xóa thì tới công chiện vs chụy đó
     useGetRoomDetailQuery,
     useGetRoomListForUserQuery
 } = roomApi;
