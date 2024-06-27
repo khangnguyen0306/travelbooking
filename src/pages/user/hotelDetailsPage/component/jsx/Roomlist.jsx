@@ -8,7 +8,11 @@ const RoomList = ({ roomTypes }) => {
       <div className='rooms-list'>
         {roomTypes?.map((roomType, index) => (
           <div key={index} className="room-card">
-            <img src={roomType?.image_urls?.[0].image_url} alt={roomType?.roomType_name} className="roomType-img" />
+            <img
+              src={roomType?.image_urls?.[0]?.image_url || 'default_image_url_here'}
+              alt={roomType?.roomType_name || 'default_roomType_name'}
+              className="roomType-img"
+            />
             <div className="roomType-info">
               <div className='body-start'>
                 <h2 className="roomType-name">{roomType?.room_type_name}</h2>
