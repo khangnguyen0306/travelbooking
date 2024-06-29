@@ -111,12 +111,12 @@ function Step1({ nextStep }) {
                     <div className="detail-price">
                         <div className="item">
                             <span className="sub-title">Room Price</span>
-                            <span className="price">{(roomPrice * rooms).toLocaleString()} VND</span>
+                            <span className="price">{(roomPrice * rooms * daysBetween(date?.[1], date?.[0])).toLocaleString()} VND</span>
                         </div>
                     </div>
                     <div className="total-price">
                         <span className="sub-title">Total price</span>
-                        <span className="price">{(roomPrice * rooms).toLocaleString()} VND</span>
+                        <span className="price">{(roomPrice * rooms * daysBetween(date?.[1], date?.[0])).toLocaleString()} VND</span>
                     </div>
                     <button
                         className="continue"
@@ -137,16 +137,16 @@ function Step1({ nextStep }) {
                     <div className="date-range">
                         <div className="check-in">
                             <p className="title">Check in</p>
-                            <p className="date">{date?.[0]}</p>
+                            <p className="date">{date?.[0]?.slice(8, 10)}-{date?.[0]?.slice(5, 7)}-{date?.[0]?.slice(0, 4)}</p>
                             <p className="time">From 14:00</p>
                         </div>
                         <div className="night">
-                            <p className="number">1 night</p>
+                            <p className="number">{daysBetween(date?.[1], date?.[0])} night</p>
                             <p className="arrow">{"---------->"}</p>
                         </div>
                         <div className="check-out">
                             <p className="title">Check out</p>
-                            <p className="date">{date?.[1]}</p>
+                            <p className="date">{date?.[1]?.slice(8, 10)}-{date?.[1]?.slice(5, 7)}-{date?.[1]?.slice(0, 4)}</p>
                             <p className="time">Before 12:00</p>
                         </div>
                     </div>
@@ -157,7 +157,7 @@ function Step1({ nextStep }) {
                 </div>
                 <div className="detail-price">
                     <span className="title">Total Room Price</span>
-                    <span className="price">{(roomPrice * rooms).toLocaleString()} VND</span>
+                    <span className="price">{(roomPrice * rooms * daysBetween(date?.[1], date?.[0])).toLocaleString()} VND</span>
                 </div>
             </div>
         </div>
