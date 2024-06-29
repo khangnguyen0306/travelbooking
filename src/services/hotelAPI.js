@@ -121,7 +121,14 @@ export const hotelApi = createApi({
                 url: `hotels/detail/${hotelId}`,
                 method: "GET",
             }),
-        })
+        }),
+        postFilterHotel: builder.mutation({
+            query: (body) => ({
+                url: `hotels/filter`,
+                method: "POST",
+                body: body,
+            }),
+        }),
     }),
 });
 
@@ -136,4 +143,5 @@ export const {
     useGetHotelDetailsForAdminQuery,
     useGetHotelDetailsForGuestQuery,
     usePutHotelImageMutation,
+    usePostFilterHotelMutation,
 } = hotelApi;
