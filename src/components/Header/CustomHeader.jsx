@@ -4,14 +4,14 @@ import { Dropdown, Space, Avatar, notification } from "antd";
 import { DownOutlined, UserOutlined } from "@ant-design/icons";
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { logOut, selectCurrentUser } from "../../slices/auth.slice";
+import { logOut } from "../../slices/auth.slice";
 
 const CustomHeader = () => {
     const dispatch = useDispatch();
     const location = useLocation();
     const navigate = useNavigate();
     const selectedKey = location.pathname;
-    const user = useSelector(selectCurrentUser);
+    const fullName = useSelector(state => state.auth.fullName);
 
     const handleLogout = () => {
         dispatch(logOut());
@@ -40,7 +40,7 @@ const CustomHeader = () => {
                     }}
                     icon={<UserOutlined />}
                 />
-                <p>{user?.userName || 'User'} <DownOutlined /></p>
+                <p>{fullName} <DownOutlined /></p>
             </Space>
         </Dropdown>
     );
@@ -55,7 +55,7 @@ const CustomHeader = () => {
                 <Link className={`link-item ${selectedKey === "/view-hotels" && "isSelected"}`} to="/view-hotels">View Hotels</Link>
             </div>
             <div className="header-actions">
-                {user ? renderProfileDropdown() : (
+                {fullName ? renderProfileDropdown() : (
                     <Link to='/login' className="login-btn">
                         Login
                     </Link>

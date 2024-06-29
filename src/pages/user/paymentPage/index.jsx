@@ -1,5 +1,5 @@
 import "./PaymentPage.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Step1 from "./Components/Step1";
 import Step2 from "./Components/Step2";
 import Step3 from "./Components/Step3";
@@ -31,6 +31,13 @@ function PaymentPage() {
         key: item.title,
         title: item.title,
     }));
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, []);
 
     return (
         <div className="payment-wrapper">

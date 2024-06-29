@@ -3,17 +3,46 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const schema = yup
     .object({
         fullname: yup.string().required("First and last name is a required field").min(2, "First and last name must be at least 2 characters").trim(),
         email: yup.string().required("Email is a required field").email("Invalid email.").trim(),
         phone: yup.string().required("Phone is required field.").length(10, "Phone number must have 10 digits").trim(),
-        guestFullname: yup.string().min(2, "Fullname must be at least 2 characters").trim(),
     })
     .required()
 
+function daysBetween(date1, date2) {
+    // Chuyển đổi các chuỗi ngày thành đối tượng Date
+    var d1 = new Date(date1);
+    var d2 = new Date(date2);
+
+    // Lấy thời gian dưới dạng mili giây
+    var time1 = d1.getTime();
+    var time2 = d2.getTime();
+
+    // Tính hiệu số giữa hai ngày
+    var timeDifference = Math.abs(time2 - time1);
+
+    // Chia cho số mili giây trong một ngày
+    var dayDifference = Math.ceil(timeDifference / (1000 * 60 * 60 * 24));
+
+    return dayDifference;
+}
+
 function Step1({ nextStep }) {
+    const token = useSelector(state => state.auth.token);
+    const fullName = useSelector(state => state.auth.fullName);
+    const email = useSelector(state => state.auth.email);
+    const phoneNumber = useSelector(state => state.auth.phoneNumber);
+    const date = useSelector(state => state.booking.date);
+    const rooms = useSelector(state => state.booking.rooms);
+    const hotelName = useSelector(state => state.booking.hotelName);
+    const roomName = useSelector(state => state.booking.roomTypeName);
+    const roomPrice = useSelector(state => state.booking.roomPrice);
+    const roomImage = useSelector(state => state.booking.roomImage);
+
     const {
         setValue,
         getValues,
@@ -36,15 +65,17 @@ function Step1({ nextStep }) {
                 className="info-for-guest"
                 onSubmit={handleSubmit(onSubmit)}
             >
+
                 <div className="contact-info">
-                    <h3 className="title">Contact information (for E-voucher)</h3>
-                    <p className="description">Please fill in all information correctly to ensure you receive your booking confirmation (E-voucher) via email.</p>
+                    <h3 className="title">Contact information</h3>
                     <div className="fullname">
                         <p className="sub-title">First and last name</p>
                         <input
                             {...register("fullname")}
                             className="input"
                             placeholder="As in Passport/ID card/CCCD (no names/special characters)"
+                            defaultValue={fullName}
+                            disabled={fullName && true}
                         />
                         <p className="error">{errors.fullname?.message}</p>
                     </div>
@@ -55,6 +86,8 @@ function Step1({ nextStep }) {
                                 {...register("email")}
                                 className="input"
                                 placeholder="We will send an e-voucher to this email."
+                                defaultValue={email}
+                                disabled={email && true}
                             />
                             <p className="error">{errors.email?.message}</p>
                         </div>
@@ -66,60 +99,24 @@ function Step1({ nextStep }) {
                                 type="tel"
                                 pattern="[0]{1}[0-9]{9}"
                                 placeholder="Ex: 0987654321"
+                                defaultValue={phoneNumber}
+                                disabled={phoneNumber && true}
                             />
                             <p className="error">{errors.phone?.message}</p>
                         </div>
                     </div>
-                    <div className="book-for">
-                        <div
-                            className="selection"
-                            onClick={() => {
-                                setType(0);
-                                setValue("guestFullname", getValues("fullname"))
-                            }}
-                        >
-                            <input type="radio" checked={type === 0} />
-                            <span>I am a guest</span>
-                        </div>
-                        <div
-                            className="selection"
-                            onClick={() => {
-                                setType(1);
-                                setValue("guestFullname", "")
-                            }}
-                        >
-                            <input type="radio" checked={type === 1} />
-                            <span>I'm booking for someone else</span>
-                        </div>
-                    </div>
-                    {
-                        type === 1 &&
-                        <div className="guest-fullname">
-                            <p className="sub-title">Guest's full name</p>
-                            <input
-                                {...register("guestFullname")}
-                                className="input"
-                                placeholder="Enter the name of the guest who will be staying."
-                            />
-                            <p className="error">{errors.guestFullname?.message}</p>
-                        </div>
-                    }
                 </div>
                 <div className="price-info">
                     <h3 className="title">Price details</h3>
                     <div className="detail-price">
                         <div className="item">
-                            <span className="sub-title">Room Rates</span>
-                            <span className="price">329,218 VND</span>
-                        </div>
-                        <div className="item">
-                            <span className="sub-title">Taxes and fees</span>
-                            <span className="price">44,115 VND</span>
+                            <span className="sub-title">Room Price</span>
+                            <span className="price">{(roomPrice * rooms).toLocaleString()} VND</span>
                         </div>
                     </div>
                     <div className="total-price">
                         <span className="sub-title">Total price</span>
-                        <span className="price">373,333 VND</span>
+                        <span className="price">{(roomPrice * rooms).toLocaleString()} VND</span>
                     </div>
                     <button
                         className="continue"
@@ -131,33 +128,36 @@ function Step1({ nextStep }) {
             </form>
             <div className="info-hotel-room">
                 <div className="detail-info">
-                    <h3 className="hotel-name">Hotel name</h3>
+                    <h3 className="hotel-name">{hotelName}</h3>
                     <img
                         className="room-img"
-                        src="https://demo.goodlayers.com/traveltour/homepages/main5/wp-content/uploads/sites/6/2022/08/collov-home-design-LSpkE5OCD_8-unsplash-900x500.jpg"
+                        src={roomImage}
                         alt="Room name"
                     />
                     <div className="date-range">
                         <div className="check-in">
                             <p className="title">Check in</p>
-                            <p className="date">Date check in</p>
+                            <p className="date">{date?.[0]}</p>
                             <p className="time">From 14:00</p>
                         </div>
                         <div className="night">
-                            <p className="number">Number night</p>
+                            <p className="number">1 night</p>
                             <p className="arrow">{"---------->"}</p>
                         </div>
                         <div className="check-out">
                             <p className="title">Check out</p>
-                            <p className="date">Date check out</p>
+                            <p className="date">{date?.[1]}</p>
                             <p className="time">Before 12:00</p>
                         </div>
                     </div>
-                    <h3 className="room-name">(Number x) Room name</h3>
+                    <div className="price-detail">
+                        <h3 className="room-name">({rooms} x) {roomName}</h3>
+                        <span>{roomPrice?.toLocaleString()} VND</span>
+                    </div>
                 </div>
                 <div className="detail-price">
                     <span className="title">Total Room Price</span>
-                    <span className="price">336,000 VND</span>
+                    <span className="price">{(roomPrice * rooms).toLocaleString()} VND</span>
                 </div>
             </div>
         </div>

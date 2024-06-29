@@ -1,14 +1,29 @@
 import "./BookingForm.scss";
 import React, { useState } from 'react';
 import { Modal } from 'antd';
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setRoomInfo } from "../../../../../slices/bookingSlice";
 
-function BookingForm() {
+function BookingForm({ data }) {
     const token = useSelector(state => state?.auth?.token);
-    console.log(token);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
 
+    const handleClickBooking = () => {
+        if (!token) {
+            setIsModalOpen(!isModalOpen)
+        } else {
+            dispatch(setRoomInfo({
+                roomTypeId: data?.id,
+                roomTypeName: data?.room_type_name,
+                roomPrice: data?.room_price,
+                roomImage: data?.image_urls?.[0]?.image_url
+            }));
+            navigate("/payment")
+        }
+    }
     return (
         <>
             <div className="form-booking" >
@@ -21,9 +36,7 @@ function BookingForm() {
                 </button>
                 <button
                     className="btn"
-                    onClick={() => {
-                        setIsModalOpen(!isModalOpen)
-                    }}
+                    onClick={handleClickBooking}
                 >
                     BOOK NOW
                 </button>
