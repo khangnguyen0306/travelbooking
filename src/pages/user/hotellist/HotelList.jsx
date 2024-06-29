@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
-import { setGuests, setRooms, setDate, setDestination } from '../../../slices/hotelSlice';
+import { setGuests, setRooms, setDate, setDestination } from '../../../slices/bookingSlice';
 import { Col, Row, DatePicker, InputNumber, Checkbox, Select, Rate, Button, notification, Popover, Pagination, Spin } from "antd";
 import { VietnameseProvinces } from "../../../utils/utils";
 import dayjs from 'dayjs';
