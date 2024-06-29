@@ -1,15 +1,13 @@
-
 import { combineReducers } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage"; // Sử dụng localStorage
-import roomReducer from "../slices/room.slice";
-import { roomApi } from "../services/roomAPI";
 import { authApi } from "../services/authAPI";
 import authReducer from "../slices/auth.slice";
+import bookingReducer from "../slices/bookingSlice";
 import { hotelApi } from "../services/hotelAPI";
-import hotelReducer from "../slices/bookingSlice";
 import { userApi } from "../services/userAPI";
+
 const persistConfig = {
   key: "root",
   storage,
@@ -19,25 +17,20 @@ const staticReducers = {
   theme: "theme",
 };
 
-const authrersistedReducer = persistReducer(persistConfig, authReducer);
-const hotelrersistedReducer = persistReducer(persistConfig, hotelReducer);
-const roompersistedReducer = persistReducer(persistConfig, roomReducer);
+const authpersistedReducer = persistReducer(persistConfig, authReducer);
+const bookingpersistedReducer = persistReducer(persistConfig, bookingReducer);
+
 export const store = configureStore({
   reducer: {
-
-    [roomApi.reducerPath]: roomApi.reducer,
-    room: roompersistedReducer,
     [authApi.reducerPath]: authApi.reducer,
-    auth: authrersistedReducer,
+    auth: authpersistedReducer,
+    booking: bookingpersistedReducer,
     [hotelApi.reducerPath]: hotelApi.reducer,
-    hotel: hotelReducer,
-    hotel: hotelrersistedReducer,
     [userApi.reducerPath]: userApi.reducer,
 
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      roomApi.middleware,
       authApi.middleware,
       hotelApi.middleware,
       userApi.middleware,

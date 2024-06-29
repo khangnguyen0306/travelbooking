@@ -54,10 +54,9 @@ function LoginAdmin() {
                 login_identifier: dataObj.emailOrPhone,
                 password: dataObj.password,
             }).unwrap();
-            console.log(result);
             if (result) {
+                console.log(result);
                 dispatch(setUser(result.data.roles));
-                console.log(result.data.roles)
                 dispatch(setToken(result.data.token));
                 localStorage.setItem("token", result.data.token);
                 const role = result.data.roles[0];

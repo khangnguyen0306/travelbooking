@@ -18,24 +18,15 @@ const disabledDate = (current) => {
 const HotelList = () => {
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
-    const guests = useSelector(state => state.hotel?.search?.guests);
-    const rooms = useSelector(state => state.hotel?.search?.rooms);
-    const date = useSelector(state => state.hotel?.search?.date);
-    const destination = useSelector(state => state.hotel?.search?.destination);
+    const guests = useSelector(state => state.booking.guests);
+    const rooms = useSelector(state => state.booking.rooms);
+    const date = useSelector(state => state.booking.date);
+    const destination = useSelector(state => state.booking.destination);
 
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize] = useState(10);
 
-    const { data, error, isLoading } = useGetHotelWithPageQuery({ pageNumber: currentPage, pageSize });
-
-    useEffect(() => {
-        if (data) {
-            console.log("Fetched data:", data);
-        }
-        if (error) {
-            console.error("Error fetching hotel data:", error);
-        }
-    }, [data, error]);
+    const { data, isLoading } = useGetHotelWithPageQuery({ pageNumber: currentPage, pageSize });
 
     const handlePageChange = (page) => {
         setCurrentPage(page - 1);
@@ -67,7 +58,7 @@ const HotelList = () => {
 
     const handleDateChange = (dates) => {
         if (dates) {
-            const formattedDates = dates.map(date => date.format(dateFormat));
+            const formattedDates = dates?.map(date => date?.format(dateFormat));
             dispatch(setDate(formattedDates));
         } else {
             dispatch(setDate([]));
@@ -92,12 +83,12 @@ const HotelList = () => {
     const defaultDates = [defaultStartDate, defaultEndDate];
 
     // Convert the date strings back to dayjs objects
-    const dateObjects = date.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+    const dateObjects = date?.length ? date?.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
 
     useEffect(() => {
         // Set default dates on component mount if date is empty
-        if (date.length === 0) {
-            const formattedDates = defaultDates.map(date => date.format(dateFormat));
+        if (date?.length === 0) {
+            const formattedDates = defaultDates?.map(date => date?.format(dateFormat));
             dispatch(setDate(formattedDates));
         }
     }, [dispatch, date]);

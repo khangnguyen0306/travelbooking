@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const bookingSlice = createSlice({
-    name: 'hotel',
+    name: 'booking',
     initialState: {
         guests: 1,
         rooms: 1,
@@ -10,16 +10,16 @@ const bookingSlice = createSlice({
     },
     reducers: {
         setGuests: (state, action) => {
-            state.search.guests = action.payload;
+            state.guests = action.payload;
         },
         setRooms: (state, action) => {
-            state.search.rooms = action.payload;
+            state.rooms = action.payload;
         },
         setDate: (state, action) => {
-            state.search.date = action.payload;
+            state.date = action.payload;
         },
         setDestination: (state, action) => {
-            state.search.destination = action.payload;
+            state.destination = action.payload;
         }
     }
 });

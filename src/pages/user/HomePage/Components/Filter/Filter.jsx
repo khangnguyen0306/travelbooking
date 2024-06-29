@@ -21,10 +21,10 @@ const disabledDate = (current) => {
 const Filter = () => {
     const [visible, setVisible] = useState(false);
     const dispatch = useDispatch();
-    const guests = useSelector((state) => state.hotel.search.guests);
-    const rooms = useSelector((state) => state.hotel.search.rooms);
-    const date = useSelector((state) => state.hotel.search.date);
-    const destination = useSelector((state) => state.hotel.search.destination);
+    const guests = useSelector((state) => state.booking.guests);
+    const rooms = useSelector((state) => state.booking.rooms);
+    const date = useSelector((state) => state.booking.date);
+    const destination = useSelector((state) => state.booking.destination);
 
     // Calculate default dates for tomorrow and the day after
     const defaultStartDate = dayjs().add(1, 'day');
@@ -32,14 +32,12 @@ const Filter = () => {
     const defaultDates = [defaultStartDate, defaultEndDate];
 
     // Convert the date strings back to dayjs objects
-    const dateObjects = date.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
 
     useEffect(() => {
-        const defaultDates = [defaultStartDate.format(dateFormat), defaultEndDate.format(dateFormat)];
+        const defaultDates = [defaultStartDate?.format(dateFormat), defaultEndDate?.format(dateFormat)];
         dispatch(setDate(defaultDates));
-        localStorage.setItem('hotelDates', JSON.stringify(defaultDates));
     }, [dispatch]);
-
 
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
@@ -86,14 +84,13 @@ const Filter = () => {
 
     const handleDateChange = (dates) => {
         if (dates) {
-            const formattedDates = dates.map(date => date.format(dateFormat));
+            const formattedDates = dates?.map(date => date?.format(dateFormat));
             dispatch(setDate(formattedDates));
-            localStorage.setItem('hotelDates', JSON.stringify(formattedDates));
         } else {
             dispatch(setDate([]));
-            localStorage.removeItem('hotelDates');
         }
     };
+
     const handleDestinationChange = (value) => {
         dispatch(setDestination(value));
     };
