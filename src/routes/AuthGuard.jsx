@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 const AuthGuard = ({ allowedRoles, children }) => {
   const tokenFromRedux = useSelector(selectCurrentToken);
-  const role = useSelector(state => state.booking.role);
+  const role = useSelector(state => state.auth.role);
   const location = useLocation();
   const token = tokenFromRedux || sessionStorage.getItem('token') || localStorage.getItem('token');
 
