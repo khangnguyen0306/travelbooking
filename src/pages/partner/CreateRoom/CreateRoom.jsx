@@ -110,7 +110,6 @@ function CreateRoom() {
         }
     };
 
-
     return (
         <div className="create-hotel-wrapper">
             <h2 className="title">New Room</h2>

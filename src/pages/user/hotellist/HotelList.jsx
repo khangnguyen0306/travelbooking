@@ -12,7 +12,7 @@ const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
 
 const disabledDate = (current) => {
-    return current && current < dayjs().endOf('day');
+    return current && current < dayjs().startOf('day');
 };
 
 const HotelList = () => {
@@ -66,7 +66,12 @@ const HotelList = () => {
     };
 
     const handleDateChange = (dates) => {
-        dispatch(setDate(dates));
+        if (dates) {
+            const formattedDates = dates.map(date => date.format(dateFormat));
+            dispatch(setDate(formattedDates));
+        } else {
+            dispatch(setDate([]));
+        }
     };
 
     const handleDestinationChange = (value) => {
@@ -80,6 +85,22 @@ const HotelList = () => {
     const handleVisibleChange = (visible) => {
         setVisible(visible);
     };
+
+    // Calculate default dates for tomorrow and the day after
+    const defaultStartDate = dayjs().add(1, 'day');
+    const defaultEndDate = dayjs().add(2, 'day');
+    const defaultDates = [defaultStartDate, defaultEndDate];
+
+    // Convert the date strings back to dayjs objects
+    const dateObjects = date.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+
+    useEffect(() => {
+        // Set default dates on component mount if date is empty
+        if (date.length === 0) {
+            const formattedDates = defaultDates.map(date => date.format(dateFormat));
+            dispatch(setDate(formattedDates));
+        }
+    }, [dispatch, date]);
 
     const content = (
         <div>
@@ -106,11 +127,11 @@ const HotelList = () => {
                 <div className='body'>
                     <RangePicker
                         className='item'
-                        value={date ? date.map(d => dayjs(d)) : null}
+                        value={dateObjects.length ? dateObjects : null}
                         disabledDate={disabledDate}
                         format={dateFormat}
                         onChange={handleDateChange}
-                        placeholder={["Check In", "CheckOut"]}
+                        placeholder={["Check In", "Check Out"]}
                     />
                     <Select
                         className='item'

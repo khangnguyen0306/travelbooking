@@ -71,7 +71,6 @@ function CreateHotel() {
 
         try {
             const response = await createHotel(data).unwrap();
-            console.log("Created hotel response:", response);
 
             await putLicense({ idHotel: response?.data?.id, license: formData }).unwrap();
 
@@ -85,8 +84,6 @@ function CreateHotel() {
                 message: "Error",
                 description: error.message,
             });
-            console.log("Error:", error.message);
-            console.log("Submitted data:", data);
         }
     };
 

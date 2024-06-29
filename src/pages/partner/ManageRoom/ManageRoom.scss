@@ -37,6 +37,8 @@ $blue-main-color: #5c98f2;
             }
         }
 
+
+
         .new-btn {
             display: flex;
             align-items: center;
@@ -54,6 +56,16 @@ $blue-main-color: #5c98f2;
             &:hover {
                 transform: scale(1.02);
             }
+        }
+    }
+
+    .action-item {
+        display: block;
+        margin: 4px 0;
+        width: 120px;
+
+        .link {
+            margin-left: 8px;
         }
     }
 }

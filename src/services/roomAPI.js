@@ -57,8 +57,8 @@ export const roomApi = createApi({
             }),
         }),
         getRoomDetail: builder.query({
-            query: (roomId) => ({
-                url: `room-types/get-room/${roomId}`,
+            query: (roomTypeId) => ({
+                url: `room-types/get-room/${roomTypeId}`,
                 method: "GET",
             }),
         }),
@@ -68,14 +68,24 @@ export const roomApi = createApi({
                 method: "GET",
             }),
         }),
+        updateStatus: builder.mutation({
+            query: (body) => ({
+                url: `room-types/updateStatus/${body.roomTypeId}`,
+                method: "PUT",
+                body: body.status,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            }),
+        }),
     }),
 });
-
 
 export const {
     useCreateRoomMutation,
     usePutRoomImageMutation,
     useGetAllRoomQuery,
     useGetRoomDetailQuery,
-    useGetRoomListForUserQuery
+    useGetRoomListForUserQuery,
+    useUpdateStatusMutation,
 } = roomApi;
