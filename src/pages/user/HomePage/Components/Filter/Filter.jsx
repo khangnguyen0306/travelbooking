@@ -14,6 +14,7 @@ import { setGuests, setRooms, setDestination, setDate } from '../../../../../sli
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
+const storageFormat = 'YYYY-MM-DD'; // Define the format for local storage
 const disabledDate = (current) => {
     return current && current < dayjs().startOf('day');
 };
@@ -31,11 +32,11 @@ const Filter = () => {
     const defaultEndDate = dayjs().add(2, 'day');
     const defaultDates = [defaultStartDate, defaultEndDate];
 
-    // Convert the date strings back to dayjs objects
-    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+    // Convert the date strings back to dayjs objects using dateFormat for UI
+    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, storageFormat).format(dateFormat)) : defaultDates;
 
     useEffect(() => {
-        const defaultDates = [defaultStartDate?.format(dateFormat), defaultEndDate?.format(dateFormat)];
+        const defaultDates = [defaultStartDate?.format(storageFormat), defaultEndDate?.format(storageFormat)];
         dispatch(setDate(defaultDates));
     }, [dispatch]);
 
@@ -81,10 +82,9 @@ const Filter = () => {
         </div>
     );
 
-
     const handleDateChange = (dates) => {
         if (dates) {
-            const formattedDates = dates?.map(date => date?.format(dateFormat));
+            const formattedDates = dates?.map(date => date?.format(storageFormat));
             dispatch(setDate(formattedDates));
         } else {
             dispatch(setDate([]));
@@ -116,7 +116,7 @@ const Filter = () => {
                     disabledDate={disabledDate}
                     format={dateFormat}
                     onChange={handleDateChange}
-                    value={dateObjects.length ? dateObjects : null} // Use the dateObjects array here
+                    value={dateObjects.length ? dateObjects.map(date => dayjs(date, dateFormat)) : null} // Use the dateObjects array here
                     placeholder={["Check In", "Check Out"]}
                 />
                 <Select

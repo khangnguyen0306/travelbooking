@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useGetHotelWithPageQuery } from '../../../services/hotelAPI';
-import { Link } from 'react-router-dom';
+import { useGetHotelWithPageQuery, usePostFilterHotelMutation } from '../../../services/hotelAPI';
+import { Form, Link } from 'react-router-dom';
 import './HotelList.scss';
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from 'react-redux';
@@ -18,15 +18,27 @@ const disabledDate = (current) => {
 const HotelList = () => {
     const dispatch = useDispatch();
     const [visible, setVisible] = useState(false);
-    const guests = useSelector(state => state.booking.guests);
-    const rooms = useSelector(state => state.booking.rooms);
-    const date = useSelector(state => state.booking.date);
-    const destination = useSelector(state => state.booking.destination);
+    const guests = useSelector(state => state.hotel?.search?.guests);
+    const rooms = useSelector(state => state.hotel?.search?.rooms);
+    const date = useSelector(state => state.hotel?.search?.date);
+    const destination = useSelector(state => state.hotel?.search?.destination);
 
     const [currentPage, setCurrentPage] = useState(0);
     const [pageSize] = useState(10);
+    const [filters, setFilters] = useState({});
+    const { data, error, isLoading } = useGetHotelWithPageQuery({ pageNumber: currentPage, pageSize });
+    const [filterOptions, { isLoading: isFiltering }] = usePostFilterHotelMutation();
+    const [selectedFacilities, setSelectedFacilities] = useState([]);
+    const [selectedRatings, setSelectedRatings] = useState([]);
 
-    const { data, isLoading } = useGetHotelWithPageQuery({ pageNumber: currentPage, pageSize });
+    useEffect(() => {
+        if (data) {
+            // console.log("Fetched data:", data);
+        }
+        if (error) {
+            console.error("Error fetching hotel data:", error);
+        }
+    }, [data, error]);
 
     const handlePageChange = (page) => {
         setCurrentPage(page - 1);
@@ -35,6 +47,47 @@ const HotelList = () => {
             left: 0,
             behavior: 'smooth'
         });
+    };
+
+    const handleFilter = async () => {
+        const facilitiesMapping = {
+            freeBreakfast: null,
+            pickUpDropOff: null,
+            restaurant: null,
+            bar: null,
+            pool: null,
+            freeInternet: null,
+            reception24h: null,
+            laundry: null
+        };
+
+        selectedFacilities.forEach(facility => {
+            facilitiesMapping[facility] = "true";
+        });
+
+        const body = {
+            rating: selectedRatings.length > 0 ? selectedRatings[selectedRatings.length - 1].toString() : null,
+            freeBreakfast: facilitiesMapping.freeBreakfast,
+            pickUpDropOff: facilitiesMapping.pickUpDropOff,
+            restaurant: facilitiesMapping.restaurant,
+            bar: facilitiesMapping.bar,
+            pool: facilitiesMapping.pool,
+            freeInternet: facilitiesMapping.freeInternet,
+            reception24h: facilitiesMapping.reception24h,
+            laundry: facilitiesMapping.laundry,
+            page: currentPage,
+            size: pageSize
+        };
+
+        try {
+            const response = await filterOptions(body).unwrap();
+            console.log("Filtering with:", body, "Response:", response);
+            setFilters(response);
+        } catch (error) {
+            console.error("Error filtering hotels:", error);
+            setFilters({ data: { content: [] } });
+
+        }
     };
 
     const handleRoomsChange = (value) => {
@@ -58,7 +111,7 @@ const HotelList = () => {
 
     const handleDateChange = (dates) => {
         if (dates) {
-            const formattedDates = dates?.map(date => date?.format(dateFormat));
+            const formattedDates = dates.map(date => date.format(dateFormat));
             dispatch(setDate(formattedDates));
         } else {
             dispatch(setDate([]));
@@ -83,12 +136,12 @@ const HotelList = () => {
     const defaultDates = [defaultStartDate, defaultEndDate];
 
     // Convert the date strings back to dayjs objects
-    const dateObjects = date?.length ? date?.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
 
     useEffect(() => {
         // Set default dates on component mount if date is empty
         if (date?.length === 0) {
-            const formattedDates = defaultDates?.map(date => date?.format(dateFormat));
+            const formattedDates = defaultDates.map(date => date.format(dateFormat));
             dispatch(setDate(formattedDates));
         }
     }, [dispatch, date]);
@@ -111,6 +164,16 @@ const HotelList = () => {
             </Row>
         </div>
     );
+
+    const handleFacilityChange = (checkedValues) => {
+        setSelectedFacilities(checkedValues);
+    };
+
+    const handleRatingChange = (checkedValues) => {
+        setSelectedRatings(checkedValues);
+    };
+    const filterUpdate = filters?.data?.content;
+    console.log("Filters:", filterUpdate);
 
     return (
         <div className='container-hotel-hotelSearch'>
@@ -159,107 +222,105 @@ const HotelList = () => {
                 </Button>
             </div>
             <div className="hotel">
-                <div className="filter">
+                <Form className="filter">
                     <div className='facilities'>
                         Facilities
-                        <div className="facilities-check-box">
-                            <div><Checkbox>Air Conditioner</Checkbox></div>
-                            <div><Checkbox>Free Wifi</Checkbox></div>
-                            <div><Checkbox>Free Breakfast</Checkbox></div>
-                            <div><Checkbox>Free Parking</Checkbox></div>
-                            <div><Checkbox>Heater</Checkbox></div>
-                        </div>
+                        <Checkbox.Group className="facilities-check-box" onChange={handleFacilityChange}>
+                            <div><Checkbox value="freeBreakfast">Free Breakfast</Checkbox></div>
+                            <div><Checkbox value="pickUpDropOff">Pick Up Drop Off</Checkbox></div>
+                            <div><Checkbox value="restaurant">Restaurant</Checkbox></div>
+                            <div><Checkbox value="bar">Bar</Checkbox></div>
+                            <div><Checkbox value="pool">Pool</Checkbox></div>
+                            <div><Checkbox value="freeInternet">Free Internet</Checkbox></div>
+                            <div><Checkbox value="reception24h">Reception 24h</Checkbox></div>
+                            <div><Checkbox value="laundry">Laundry</Checkbox></div>
+                        </Checkbox.Group>
                     </div>
                     <div className='facilities'>
                         Rating
-                        <div className="facilities-check-box">
-                            <div><Checkbox><Rate value={1} disabled /></Checkbox></div>
-                            <div><Checkbox><Rate value={2} disabled /></Checkbox></div>
-                            <div><Checkbox><Rate value={3} disabled /></Checkbox></div>
-                            <div><Checkbox><Rate value={4} disabled /></Checkbox></div>
-                            <div><Checkbox><Rate value={5} disabled /></Checkbox></div>
-                        </div>
+                        <Checkbox.Group className="facilities-check-box" onChange={handleRatingChange}>
+                            <div><Checkbox value={1}><Rate value={1} disabled /></Checkbox></div>
+                            <div><Checkbox value={2}><Rate value={2} disabled /></Checkbox></div>
+                            <div><Checkbox value={3}><Rate value={3} disabled /></Checkbox></div>
+                            <div><Checkbox value={4}><Rate value={4} disabled /></Checkbox></div>
+                            <div><Checkbox value={5}><Rate value={5} disabled /></Checkbox></div>
+                        </Checkbox.Group>
                     </div>
-                    <Button className="btn" type="button">
+                    <Button className="btn" type="button" onClick={handleFilter}>
                         Search Room
                     </Button>
-                </div>
+                </Form>
                 <div className="list-hotel">
-                    <Spin spinning={isLoading}>
-                        {data?.data?.content.length > 0
-                            ?
-                            (
-                                <>
-                                    {data.data.content.map((hotel) => (
-                                        <div key={hotel?.id} className="hotel-item">
-                                            {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
-                                            <img
-                                                src={hotel?.image_urls?.[0]?.url || 'default_image_url.jpg'}
-                                                alt={hotel?.hotel_name || 'Default Hotel Name'}
-                                                className="hotel-img"
-                                            />
-                                            <div className="hotel-info">
-                                                <div className='body-start'>
-                                                    <h2 className="hotel-name">{hotel?.hotel_name}</h2>
-                                                    <div className="hotel-rating">
-                                                        <Rate allowHalf value={hotel?.rating} disabled />
-                                                    </div>
-                                                    <div className='hotel-conveniences'>
-                                                        {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
-                                                            hotel?.conveniences.map((convenience, index) => {
-                                                                const trueConveniences = [];
-                                                                if (convenience.bar) trueConveniences.push("Bar");
-                                                                if (convenience.free_breakfast) trueConveniences.push("Breakfast");
-                                                                if (convenience.free_internet) trueConveniences.push("Internet");
-                                                                if (convenience.laundry) trueConveniences.push("Laundry");
-                                                                if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
-                                                                if (convenience.pool) trueConveniences.push("Pool");
-                                                                if (convenience.reception_24h) trueConveniences.push("24h Reception");
-                                                                if (convenience.restaurant) trueConveniences.push("Restaurant");
-                                                                return (
-                                                                    <React.Fragment key={index}>
-                                                                        {trueConveniences.map((item, idx) => (
-                                                                            <span key={`${index}-${idx}`} className="convenience-item">
-                                                                                {item}{idx < trueConveniences.length - 1 ? ', ' : ''}
-                                                                            </span>
-                                                                        ))}
-                                                                    </React.Fragment>
-                                                                );
-                                                            })
-                                                        ) : (
-                                                            <p className="no-conveniences">No conveniences available</p>
-                                                        )}
-                                                    </div>
-
+                    <Spin spinning={isLoading || isFiltering}>
+                        {filters?.data?.content?.length > 0 ? (
+                            <>
+                                {filterUpdate.map((hotel) => (
+                                    <div key={hotel?.id} className="hotel-item">
+                                        {hotel?.discount && <div className="hotel-discount">{hotel?.discount}</div>}
+                                        <img
+                                            src={hotel?.image_urls?.[0]?.url || 'default_image_url.jpg'}
+                                            alt={hotel?.hotel_name || 'Default Hotel Name'}
+                                            className="hotel-img"
+                                        />
+                                        <div className="hotel-info">
+                                            <div className='body-start'>
+                                                <h2 className="hotel-name">{hotel?.hotel_name}</h2>
+                                                <div className="hotel-rating">
+                                                    <Rate allowHalf value={hotel?.rating} disabled />
                                                 </div>
-                                                <div className='body-end'>
-                                                    <div className="infomation">
-                                                        Click on details to see more information.
-                                                    </div>
-                                                    <Link className="hotel-book-now" to={`/hotel-detail/${hotel?.id}`}>
-                                                        DETAIL
-                                                    </Link>
+                                                <div className='hotel-conveniences'>
+                                                    {hotel?.conveniences && hotel?.conveniences.length > 0 ? (
+                                                        hotel?.conveniences.map((convenience, index) => {
+                                                            const trueConveniences = [];
+                                                            if (convenience.bar) trueConveniences.push("Bar");
+                                                            if (convenience.free_breakfast) trueConveniences.push("Breakfast");
+                                                            if (convenience.free_internet) trueConveniences.push("Internet");
+                                                            if (convenience.laundry) trueConveniences.push("Laundry");
+                                                            if (convenience.pick_up_drop_off) trueConveniences.push("Pick-Up/Drop-Off");
+                                                            if (convenience.pool) trueConveniences.push("Pool");
+                                                            if (convenience.reception_24h) trueConveniences.push("24h Reception");
+                                                            if (convenience.restaurant) trueConveniences.push("Restaurant");
+                                                            return (
+                                                                <React.Fragment key={index}>
+                                                                    {trueConveniences.map((item, idx) => (
+                                                                        <span key={`${index}-${idx}`} className="convenience-item">
+                                                                            {item}{idx < trueConveniences.length - 1 ? ', ' : ''}
+                                                                        </span>
+                                                                    ))}
+                                                                </React.Fragment>
+                                                            );
+                                                        })
+                                                    ) : (
+                                                        <p className="no-conveniences">No conveniences available</p>
+                                                    )}
                                                 </div>
                                             </div>
+                                            <div className='body-end'>
+                                                <div className="infomation">
+                                                    Click on details to see more information.
+                                                </div>
+                                                <Link className="hotel-book-now" to={`/hotel-detail/${hotel?.id}`}>
+                                                    DETAIL
+                                                </Link>
+                                            </div>
                                         </div>
-                                    ))}
-                                    <Pagination
-                                        className='pagination-container'
-                                        current={currentPage + 1}
-                                        total={data?.data?.totalElements}
-                                        pageSize={pageSize}
-                                        onChange={handlePageChange}
-                                        showTotal={(total) => `Total ${total} items`}
-                                    />
-                                </>
-                            )
-                            :
-                            (
-                                <div className="no-data">No hotels found</div>
-                            )
-                        }
+                                    </div>
+                                ))}
+                                <Pagination
+                                    className='pagination-container'
+                                    current={currentPage + 1}
+                                    total={filters?.data?.totalElements}
+                                    pageSize={pageSize}
+                                    onChange={handlePageChange}
+                                    showTotal={(total) => `Total ${total} items`}
+                                />
+                            </>
+                        ) : (
+                            <div className="no-data">No hotels found</div>
+                        )}
                     </Spin>
                 </div>
+
             </div>
         </div>
     );
