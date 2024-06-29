@@ -2,6 +2,7 @@ import React from 'react'
 import './Feedback.scss'
 import { UserOutlined } from '@ant-design/icons';
 import { Carousel, Rate, Avatar } from 'antd';
+import {icons} from '../../../../../utils/icons';
 
 const Feedback = () => {
 
