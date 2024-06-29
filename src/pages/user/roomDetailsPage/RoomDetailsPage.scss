@@ -1,23 +1,15 @@
-$font-content: DM Sans, sans-serif;
-$font-title: DM Serif Display, sans-serif;
-$blue-main-color: #5c98f2;
-
 .wrapper-room-detail-page {
-  min-height: 100vh;
-  padding-top: 100px;
-  font-family: $font-content;
+  padding: 100px 10% 0;
+  width: 100%;
+  font-family: var(--font-content);
   background-color: white;
 
   .container {
-    margin: 0 5%;
-    width: 90%;
-    padding: 60px;
-
     .heading {
-      margin: 0 0 20px 0;
+      margin: 0 0 20px;
 
       .name {
-        font-size: 44px;
+        font-size: xx-large;
       }
 
       .feedback {
@@ -31,122 +23,78 @@ $blue-main-color: #5c98f2;
         }
 
         .review {
-          color: #8c8c8c;
+          color: gray;
         }
       }
     }
 
     .overview {
       margin: 0 0 40px 0;
+      display: flex;
+      gap: 80px;
 
       .item {
-        display: inline-block;
-        width: 200px;
-        color: #8c8c8c;
-        font-size: 17px;
-      }
-    }
-
-    .img {
-      margin: 0 0 40px 0;
-      width: 100%;
-      display: flex;
-      gap: 12px;
-
-      .main-img {
-        width: 60%;
-        height: 412px;
-      }
-
-      .sub-img {
-        width: 40%;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-
-        .item {
-          width: 48%;
-          height: 50%;
-          height: 200px;
-        }
+        color: gray;
+        font-size: larger;
       }
     }
 
     .info {
       position: relative;
       display: flex;
+      justify-content: space-between;
       gap: 40px;
-      border-bottom: 1px solid #b3b2b2;
+      border-bottom: 1px solid gray;
 
       .details {
-        width: 76%;
-        color: #8c8c8c;
+        width: 70%;
+        color: gray;
 
         .price {
           padding: 0 0 40px 0;
-          border-bottom: 1px solid #b3b2b2;
+          border-bottom: 1px solid gray;
 
           .from {
-            color: #0f0f0f;
-            font-size: 22px;
+            color: black;
+            font-size: x-large;
           }
 
           .per {
-            font-size: 17px;
+            font-size: large;
           }
         }
 
         .description {
           padding: 40px 0;
-          border-bottom: 1px solid #b3b2b2;
-          font-size: 18px;
+          border-bottom: 1px solid gray;
+          font-size: larger;
+          line-height: 32px;
           text-align: justify;
         }
 
         .amenities {
           padding: 40px 0;
-          border-bottom: 1px solid #b3b2b2;
 
           .section {
             .title {
-              padding: 0 0 20px 0;
-              color: #383838;
-              font-size: 25px;
+              padding: 0 0 40px;
+              color: black;
+              font-size: x-large;
             }
 
             .list {
-              padding: 0 0 40px 0;
               display: flex;
               flex-wrap: wrap;
               gap: 40px;
 
               .item {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 2%;
-                width: 30%;
-                height: 84px;
-                border: 1px solid #b3b2b2;
+                padding: 20px;
+                width: calc(30% - 20px);
+                min-width: 200px;
+                border: 1px solid gray;
                 border-radius: 8px;
-                font-size: 17px;
+                font-size: medium;
               }
-            }
-          }
-        }
-
-        .rules {
-          padding: 40px 0;
-
-          .title {
-            padding: 0 0 20px 0;
-            color: #383838;
-            font-size: 25px;
-          }
-
-          .list {
-            .item {
-              font-size: 18px;
             }
           }
         }
@@ -155,108 +103,53 @@ $blue-main-color: #5c98f2;
       .booking {
         position: sticky;
         top: 100px;
-        width: 24%;
+        margin: 0 0 20px;
+        width: 280px;
         height: fit-content;
       }
     }
 
     .more-rooms {
       padding: 80px 0;
-      border-bottom: 1px solid #b3b2b2;
+      border-bottom: 1px solid gray;
+      text-align: right;
 
       .title {
-        margin: 0 0 40px 0;
-        color: #383838;
-        font-size: 31px;
-        text-align: center;
+        margin: 0 0 8px;
+        color: black;
+        font-size: x-large;
       }
 
-      .list-rooms {
-        display: flex;
-        gap: 40px;
+      .description {
+        margin: 0 0 20px;
+        font-size: large;
+      }
 
-        .item {
-          border: 1px solid back;
+      .see-more {
+        padding: 16px 20px;
+        border: 1px solid var(--blue-main-color);
+        background-color: var(--blue-main-color);
+        color: white;
+        border-radius: 50px;
+        font-weight: bolder;
+        font-size: medium;
+        transition: all ease-in-out 0.2s;
+        cursor: pointer;
 
-          .meta {
-            position: relative;
-
-            .sale-off {
-              position: absolute;
-              top: 12px;
-              right: 12px;
-              padding: 2.8%;
-              border-radius: 8px;
-              background-color: $blue-main-color;
-              color: white;
-            }
-
-            .img {
-              .thumb {
-                width: 100%;
-              }
-            }
-
-            .price {
-              position: absolute;
-              left: 25px;
-              bottom: 10px;
-              padding: 2.8%;
-              background-color: black;
-              color: white;
-              font-size: 20px;
-              font-weight: bold;
-
-              .old {
-                font-size: 14px;
-                color: #a4a4a4;
-                text-decoration: line-through;
-                font-weight: normal;
-              }
-            }
-          }
-
-          .name {
-            display: block;
-            margin: 0 0 20px 0;
-            color: black;
-            font-size: 30px;
-            font-weight: bold;
-          }
-
-          .sub-overview {
-            margin: 0 0 20px 0;
-
-            .item {
-              display: inline-block;
-              width: 120px;
-              color: #848484;
-              font-size: 14px;
-            }
-          }
-
-          .booking {
-            color: black;
-            font-size: 13px;
-            font-weight: 500;
-
-            &:hover {
-              text-decoration: underline;
-              text-underline-offset: 8px;
-            }
-          }
+        &:hover {
+          transform: scale(1.02);
         }
       }
     }
 
     .feedback {
       padding: 0 0 20px 0;
-      border-bottom: 1px solid #b3b2b2;
+      border-bottom: 1px solid gray;
 
       .total {
         padding: 20px 0 20px 0;
         margin: 0 0 40px 0;
-        border-bottom: 1px solid #b3b2b2;
+        border-bottom: 1px solid gray;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -274,14 +167,14 @@ $blue-main-color: #5c98f2;
 
         .sort {
           .title {
-            margin: 0 15px 0 0;
+            margin: 0 0 0 15px;
             font-size: 15px;
-            color: #272727;
+            color: black;
             font-weight: bold;
           }
 
           .btn {
-            margin: 0 15px 0 0;
+            margin: 0 0 0 15px;
             background-color: transparent;
             border: none;
             outline: none;

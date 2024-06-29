@@ -2,6 +2,8 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { API_BASE_URL } from "../config";
 import { selectTokens } from "../slices/auth.slice";
 
+const currentUnixTimestamp = Math.floor(Date.now() / 1000);
+
 const baseQueryWithAuth = fetchBaseQuery({
     baseUrl: API_BASE_URL,
     prepareHeaders: (headers, { getState }) => {
@@ -20,7 +22,6 @@ const baseQueryWithoutAuth = fetchBaseQuery({
         return headers;
     },
 });
-
 
 export const roomApi = createApi({
     reducerPath: "roomManagement",
@@ -49,87 +50,23 @@ export const roomApi = createApi({
                 };
             },
         }),
-
-
-        getHotelList: builder.query({
-            query: () => `hotellist`,
-            providesTags: (result, _error, _arg) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: "room", id })),
-                        { type: "room", id: "LIST" },
-                    ]
-                    : [{ type: "room", id: "LIST" }],
-        }),
-        putRoomImage: builder.mutation({
-            query: ({ roomTypeId, images }) => {
-                const formData = new FormData();
-                images.forEach((image, index) => {
-                    formData.append('images', image);
-                });
-                for (let pair of formData.entries()) {
-                    console.log(`${pair[0]}, ${pair[1]}`);
-                }
-                return {
-                    url: `room-types/upload-images/${roomTypeId}`,
-                    method: 'POST',
-                    body: formData,
-                };
-            },
-        }),
-
         getAllRoom: builder.query({
             query: (hotelId) => ({
                 url: `room-types/get-all-room/${hotelId}`,
                 method: "GET",
             }),
         }),
-
-        getRoom: builder.query({
-            query: (hotelId) => `hotellist/${hotelId}/roomlist`,
-            providesTags: (result, _error, _arg) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: "room", id })),
-                        { type: "room", id: "LIST" },
-                    ]
-                    : [{ type: "room", id: "LIST" }],
+        getRoomDetail: builder.query({
+            query: (roomId) => ({
+                url: `room-types/get-room/${roomId}`,
+                method: "GET",
+            }),
         }),
-        getHotelDetail: builder.query({
-            query: () => `hotellist/roomlist`,
-            providesTags: (result, _error, _arg) =>
-                result
-                    ? [
-                        ...result.map(({ id }) => ({ type: "room", id })),
-                        { type: "room", id: "LIST" },
-                    ]
-                    : [{ type: "room", id: "LIST" }],
-        }),
-        getHotelById: builder.query({
-            query: (id) => `hotellist/${id}`,
-            providesTags: (result, error, id) => [{ type: "HotelsList", id }]
-        }),
-
-        editroom: builder.mutation({
-            query: (payload) => {
-                return {
-                    method: "PUT",
-                    url: `room/` + payload.id,
-                    body: payload.body,
-                };
-            },
-            invalidatesTags: (res, err, arg) => [{ type: "room", id: arg.id }],
-        }),
-        deleteroom: builder.mutation({
-            query: (payload) => {
-                return {
-                    method: "DELETE",
-                    url: `room/` + payload.id,
-                };
-            },
-            invalidatesTags: (_res, _err, _arg) => [
-                { type: "room", id: "LIST" },
-            ],
+        getRoomListForUser: builder.query({
+            query: (hotelId) => ({
+                url: `room-types/get-all-room-status/${hotelId}?page=0&size=${currentUnixTimestamp}`,
+                method: "GET",
+            }),
         }),
     }),
 });
@@ -139,10 +76,6 @@ export const {
     useCreateRoomMutation,
     usePutRoomImageMutation,
     useGetAllRoomQuery,
-    useGetHotelListQuery,
-    useGetHotelDetailQuery,
-    useGetHotelByIdQuery,
-    useGetRoomQuery,
-    useEditroomMutation,
-    useDeleteroomMutation,
+    useGetRoomDetailQuery,
+    useGetRoomListForUserQuery
 } = roomApi;
