@@ -4,24 +4,27 @@ const authSlice = createSlice({
     name: "auth",
     initialState: {
         token: sessionStorage.getItem("token") || null,
-        user: null,
+        fullName: null,
+        email: null,
+        phoneNumber: null,
+        role: null
     },
     reducers: {
         setToken: (state, action) => {
             state.token = action.payload;
             sessionStorage.setItem("token", action.payload);
         },
-        setUser: (state, action) => {
-            state.user = action.payload;
-        },
-        setCredentials: (state, action) => {
-            const { user, accessToken } = action.payload;
-            state.user = user;
-            state.token = accessToken;
-            sessionStorage.setItem("token", accessToken);
+        setInfo: (state, action) => {
+            state.fullName = action.payload.fullName;
+            state.email = action.payload.email;
+            state.phoneNumber = action.payload.phoneNumber;
+            state.role = action.payload.role;
         },
         logOut: (state, action) => {
-            state.user = null;
+            state.fullName = null;
+            state.email = null;
+            state.phoneNumber = null;
+            state.role = null;
             state.token = null;
             sessionStorage.removeItem("token");
             localStorage.removeItem("token");
@@ -32,8 +35,7 @@ const authSlice = createSlice({
     },
 });
 
-export const { setToken, setUser, setCredentials, logOut } = authSlice.actions;
+export const { setToken, setInfo, logOut } = authSlice.actions;
 export default authSlice.reducer;
-export const selectCurrentUser = (state) => state.auth.user;
 export const selectCurrentToken = (state) => state.auth.token;
 export const { selectTokens } = authSlice.selectors;

@@ -17,17 +17,11 @@ $gray-color: #687176;
       padding: 24px;
       background-color: white;
       border-radius: 8px;
-      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 12px;
 
       .title {
         margin: 0 0 16px 0;
         font-size: 20px;
-        color: $black-color;
-      }
-
-      .description {
-        margin: 0 0 16px 0;
-        color: $gray-color;
       }
 
       .fullname {
@@ -46,7 +40,7 @@ $gray-color: #687176;
 
       .sub-title {
         margin: 0 0 4px 0;
-        color: $gray-color;
+        color: gray;
       }
 
       .input {
@@ -55,10 +49,10 @@ $gray-color: #687176;
         width: 100%;
         height: 40px;
         border-radius: 6px;
-        border: 1px solid $gray-color;
+        border: 1px solid gray;
 
         &:focus-visible {
-          outline: $blue-main-color auto 1px;
+          outline: var(--blue-main-color) auto 1px;
         }
       }
 
@@ -66,40 +60,13 @@ $gray-color: #687176;
         color: red;
         font-weight: 500;
       }
-
-      .book-for {
-        display: flex;
-        gap: 4%;
-
-        .selection {
-          display: flex;
-          align-items: center;
-          cursor: pointer;
-
-          input {
-            margin: 0 8px 0 0;
-            width: 16px;
-            height: 16px;
-          }
-
-          span {
-            color: $black-color;
-            font-size: 16px;
-            font-weight: 500;
-          }
-        }
-      }
-
-      .guest-fullname {
-        margin: 16px 0 0 0;
-      }
     }
 
     .price-info {
       padding: 24px;
       background-color: white;
       border-radius: 8px;
-      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 12px;
 
       .title {
         margin: 0 0 16px 0;
@@ -108,7 +75,7 @@ $gray-color: #687176;
 
       .detail-price {
         margin: 0 0 16px 0;
-        border-bottom: 1px solid $gray-color;
+        border-bottom: 1px solid gray;
 
         .item {
           margin: 0 0 8px 0;
@@ -117,13 +84,13 @@ $gray-color: #687176;
 
           .sub-title,
           .price {
-            color: $gray-color;
+            color: gray;
             font-size: 16px;
             font-weight: 500;
           }
 
           .price {
-            color: $black-color;
+            color: black;
           }
         }
       }
@@ -135,13 +102,13 @@ $gray-color: #687176;
 
         .sub-title,
         .price {
-          color: $black-color;
+          color: black;
           font-size: 20px;
           font-weight: 700;
         }
 
         .price {
-          color: $blue-main-color;
+          color: var(--blue-main-color);
         }
       }
 
@@ -151,7 +118,8 @@ $gray-color: #687176;
         border: none;
         outline: none;
         border-radius: 8px;
-        background-color: rgba($color: $blue-main-color, $alpha: 0.84);
+        border: 1px solid var(--blue-main-color);
+        background-color: var(--blue-main-color);
         color: white;
         font-size: larger;
         font-weight: bold;
@@ -159,7 +127,8 @@ $gray-color: #687176;
         cursor: pointer;
 
         &:hover {
-          background-color: rgba($color: $blue-main-color, $alpha: 1);
+          background-color: white;
+          color: var(--blue-main-color);
         }
       }
     }
@@ -171,20 +140,22 @@ $gray-color: #687176;
     padding: 24px;
     background-color: white;
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 12px;
 
     .detail-info {
-      border-bottom: 1px solid $gray-color;
+      border-bottom: 1px solid gray;
 
       .hotel-name {
         margin: 0 0 16px 0;
-        color: $black-color;
         font-size: 16px;
       }
 
       .room-img {
         margin: 0 0 16px 0;
         width: 100%;
+        height: 200px;
+        border-radius: 8px;
+        object-fit: cover;
       }
 
       .date-range {
@@ -198,43 +169,47 @@ $gray-color: #687176;
         .check-out {
           padding: 8px;
           width: 124px;
-          border: 1px solid $gray-color;
+          border: 1px solid gray;
           border-radius: 8px;
-          box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+          box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 12px;
 
           .title {
-            color: $gray-color;
+            color: gray;
             font-size: 11px;
           }
 
           .date {
-            color: $black-color;
             font-size: 12px;
             font-weight: 700;
           }
 
           .time {
-            color: $gray-color;
+            color: gray;
             font-size: 11px;
           }
         }
 
         .night {
           .number {
-            color: $gray-color;
+            color: gray;
             font-size: 11px;
           }
 
           .arrow {
-            color: $gray-color;
+            color: gray;
           }
         }
       }
 
-      .room-name {
+      .price-detail {
         margin: 0 0 16px 0;
-        color: $black-color;
-        font-size: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .room-name {
+          font-size: 16px;
+        }
       }
     }
 
@@ -246,7 +221,6 @@ $gray-color: #687176;
       font-weight: 700;
 
       .title {
-        color: $black-color;
         font-size: 14px;
       }
 

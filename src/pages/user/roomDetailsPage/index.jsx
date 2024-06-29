@@ -66,7 +66,7 @@ function RoomDetailsPage() {
                             </div>
                         </div>
                         <div className="booking">
-                            <BookingForm />
+                            <BookingForm data={data?.data} />
                         </div>
                     </div>
                     <div className="more-rooms">

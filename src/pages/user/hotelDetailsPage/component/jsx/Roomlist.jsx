@@ -1,7 +1,11 @@
+import { useDispatch } from "react-redux";
 import "../scss/RoomList.scss"
 import { Link } from 'react-router-dom';
+import { setHotelName } from "../../../../../slices/bookingSlice";
 
-const RoomList = ({ roomTypes }) => {
+const RoomList = ({ roomTypes, hotel_name }) => {
+  const dispatch = useDispatch();
+
   return (
     <div className="rooms-section-wrapper">
       <p className='rooms-section-title'>Room List</p>
@@ -44,7 +48,9 @@ const RoomList = ({ roomTypes }) => {
                 <div className="price">
                   From <span className='number'>{roomType?.room_price?.toLocaleString()}</span> VND
                 </div>
-                <Link className="roomType-book-now" to={`/room-details/${roomType?.id}`}>
+                <Link className="roomType-book-now" to={`/room-details/${roomType?.id}`} onClick={() => {
+                  dispatch(setHotelName(hotel_name))
+                }}>
                   DETAIL
                 </Link>
               </div>
