@@ -55,7 +55,6 @@ function LoginAdmin() {
                 password: dataObj.password,
             }).unwrap();
             if (result) {
-                console.log(result);
                 dispatch(setInfo({
                     fullName: result?.data?.fullName,
                     email: result?.data?.email,
@@ -64,7 +63,7 @@ function LoginAdmin() {
                 }));
                 dispatch(setToken(result.data.token));
                 localStorage.setItem("token", result.data.token);
-                const role = result.data.roles[0];
+                const role = result?.data?.roles?.[0];
                 const defaultPath = navigateByRoles[role] || "/";
                 const from = location.state?.from?.pathname || defaultPath;
                 navigate(from);
