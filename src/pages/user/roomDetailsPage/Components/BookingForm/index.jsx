@@ -2,8 +2,11 @@ import "./BookingForm.scss";
 import React, { useState } from 'react';
 import { Modal } from 'antd';
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function BookingForm() {
+    const token = useSelector(state => state?.auth?.token);
+    console.log(token);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (

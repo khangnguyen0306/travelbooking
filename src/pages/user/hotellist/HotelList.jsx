@@ -28,15 +28,6 @@ const HotelList = () => {
 
     const { data, error, isLoading } = useGetHotelWithPageQuery({ pageNumber: currentPage, pageSize });
 
-    useEffect(() => {
-        if (data) {
-            console.log("Fetched data:", data);
-        }
-        if (error) {
-            console.error("Error fetching hotel data:", error);
-        }
-    }, [data, error]);
-
     const handlePageChange = (page) => {
         setCurrentPage(page - 1);
         window.scrollTo({
@@ -92,12 +83,12 @@ const HotelList = () => {
     const defaultDates = [defaultStartDate, defaultEndDate];
 
     // Convert the date strings back to dayjs objects
-    const dateObjects = date.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
 
     useEffect(() => {
         // Set default dates on component mount if date is empty
-        if (date.length === 0) {
-            const formattedDates = defaultDates.map(date => date.format(dateFormat));
+        if (date?.length === 0) {
+            const formattedDates = defaultDates?.map(date => date.format(dateFormat));
             dispatch(setDate(formattedDates));
         }
     }, [dispatch, date]);

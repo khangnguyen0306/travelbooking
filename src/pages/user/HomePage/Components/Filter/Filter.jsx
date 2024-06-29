@@ -32,11 +32,11 @@ const Filter = () => {
     const defaultDates = [defaultStartDate, defaultEndDate];
 
     // Convert the date strings back to dayjs objects
-    const dateObjects = date.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
 
     useEffect(() => {
-        if (date.length === 0) {
-            const formattedDates = defaultDates.map(date => date.format(dateFormat));
+        if (date?.length === 0) {
+            const formattedDates = defaultDates?.map(date => date?.format(dateFormat));
             dispatch(setDate(formattedDates));
         }
     }, [dispatch, date]);
@@ -85,7 +85,7 @@ const Filter = () => {
 
     const handleDateChange = (dates) => {
         if (dates) {
-            const formattedDates = dates.map(date => date.format(dateFormat));
+            const formattedDates = dates?.map(date => date?.format(dateFormat));
             dispatch(setDate(formattedDates));
         } else {
             dispatch(setDate([]));
