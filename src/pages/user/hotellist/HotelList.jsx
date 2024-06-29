@@ -10,7 +10,7 @@ import { VietnameseProvinces } from "../../../utils/utils";
 import dayjs from 'dayjs';
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
-
+const storageFormat = 'YYYY-MM-DD';
 const disabledDate = (current) => {
     return current && current < dayjs().startOf('day');
 };
@@ -111,7 +111,7 @@ const HotelList = () => {
 
     const handleDateChange = (dates) => {
         if (dates) {
-            const formattedDates = dates.map(date => date.format(dateFormat));
+            const formattedDates = dates.map(date => date.format(storageFormat));
             dispatch(setDate(formattedDates));
         } else {
             dispatch(setDate([]));
@@ -136,15 +136,12 @@ const HotelList = () => {
     const defaultDates = [defaultStartDate, defaultEndDate];
 
     // Convert the date strings back to dayjs objects
-    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+    const dateObjects = date?.length ? date.map(dateString => dayjs(dateString, storageFormat).format(dateFormat)) : defaultDates;
 
     useEffect(() => {
-        // Set default dates on component mount if date is empty
-        if (date?.length === 0) {
-            const formattedDates = defaultDates.map(date => date.format(dateFormat));
-            dispatch(setDate(formattedDates));
-        }
-    }, [dispatch, date]);
+        const defaultDates = [defaultStartDate?.format(storageFormat), defaultEndDate?.format(storageFormat)];
+        dispatch(setDate(defaultDates));
+    }, [dispatch]);
 
     const content = (
         <div>
@@ -181,7 +178,7 @@ const HotelList = () => {
                 <div className='body'>
                     <RangePicker
                         className='item'
-                        value={dateObjects.length ? dateObjects : null}
+                        value={dateObjects.length ? dateObjects.map(date => dayjs(date, dateFormat)) : null} // Use the dateObjects array here
                         disabledDate={disabledDate}
                         format={dateFormat}
                         onChange={handleDateChange}
