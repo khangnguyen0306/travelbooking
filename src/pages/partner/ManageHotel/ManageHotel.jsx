@@ -35,7 +35,7 @@ const ManageHotel = () => {
     const handleOk = async () => {
         try {
             const result = await changeStatus(statusHotel);
-            if (result.data.status == "OK") {
+            if (result.data.status === "OK") {
                 notification.success({
                     message: "Change status successfully!"
                 });
@@ -285,8 +285,8 @@ const ManageHotel = () => {
                                         setStatusHotel({
                                             hotelId: record.id,
                                             status: `"INACTIVE"`
-                                        })
-                                        showModal()
+                                        });
+                                        showModal();
                                     }}
                                 >
                                     <span className='link'>INACTIVE</span>
@@ -298,8 +298,8 @@ const ManageHotel = () => {
                                         setStatusHotel({
                                             hotelId: record.id,
                                             status: `"CLOSED"`
-                                        })
-                                        showModal()
+                                        });
+                                        showModal();
                                     }}
                                 >
                                     <span className='link'>CLOSED</span>
@@ -315,8 +315,8 @@ const ManageHotel = () => {
                                         setStatusHotel({
                                             hotelId: record.id,
                                             status: `"ACTIVE"`
-                                        })
-                                        showModal()
+                                        });
+                                        showModal();
                                     }}
                                 >
                                     <span className='link'>ACTIVE</span>
@@ -328,8 +328,8 @@ const ManageHotel = () => {
                                         setStatusHotel({
                                             hotelId: record.id,
                                             status: `"CLOSED"`
-                                        })
-                                        showModal()
+                                        });
+                                        showModal();
                                     }}
                                 >
                                     <span className='link'>CLOSED</span>
@@ -345,8 +345,8 @@ const ManageHotel = () => {
                                         setStatusHotel({
                                             hotelId: record.id,
                                             status: `"ACTIVE"`
-                                        })
-                                        showModal()
+                                        });
+                                        showModal();
                                     }}
                                 >
                                     <span className='link'>ACTIVE</span>
@@ -380,7 +380,7 @@ const ManageHotel = () => {
 
     // sử dụng useEffect để tự động làm mới dữ liệu khi thay đổi trạng thái
     useEffect(() => {
-        if (!hasStatusChanged) {
+        if (hasStatusChanged) { // Đúng điều kiện
             refetch();
             setHasStatusChanged(false); // reset trạng thái
         }

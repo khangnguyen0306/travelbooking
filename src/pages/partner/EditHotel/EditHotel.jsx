@@ -15,10 +15,11 @@ const EditHotel = () => {
         setFileList([]); // Xóa danh sách file
     };
     const onFinish = async () => {
-        if (fileList.length === 0) {
+
+        if (fileList.length < 4) {
             notification.error({
                 message: "Error",
-                description: "Hotel image file is required.",
+                description: "You must upload at least 4 images.",
             });
             return;
         }

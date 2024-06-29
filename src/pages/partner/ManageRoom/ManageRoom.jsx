@@ -21,9 +21,32 @@ const onChange = (pagination, filters, sorter, extra) => {
 const ManageRoom = () => {
     const { id } = useParams();
     const { data, refetch } = roomApi.useGetAllRoomQuery(id);
+    const [changeStatus, { isLoading }] = roomApi.useUpdateStatusMutation();
 
     const [searchText, setSearchText] = useState('');
     const [searchedColumn, setSearchedColumn] = useState('');
+    const [statusRoom, setStatusRoom] = useState({});
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const handleOk = async () => {
+        try {
+            const result = await changeStatus(statusRoom);
+            if (result.data.status === "OK") {
+                notification.success({
+                    message: "Change status successfully!"
+                });
+                setHasStatusChanged(true); // cập nhật trạng thái đã thay đổi
+            }
+        } catch (error) {
+            console.log(error);
+            notification.error({
+                message: "Some thing wrong!"
+            });
+        }
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
     const searchInput = useRef(null);
     const getColumnSearchProps = (dataIndex, customRender) => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
@@ -140,7 +163,7 @@ const ManageRoom = () => {
             dataIndex: 'room_type_name',
             key: 'room_type_name',
             ...getColumnSearchProps('room_type_name', (text, record) => (
-                <Link to={`hotel-details/${record.id}`}>{text}</Link>
+                <Link to={`room-details/${record.id}`}>{text}</Link>
             )),
         },
 
@@ -207,7 +230,7 @@ const ManageRoom = () => {
                                 className='action-item'
                                 icon={<EditOutlined />}
                             >
-                                Update
+                                <span className='link'>Update</span>
                             </Button>
                         </Link>
 
@@ -216,7 +239,7 @@ const ManageRoom = () => {
                                 className='action-item'
                                 icon={<DeleteOutlined />}
                             >
-                                Delete
+                                <span className='link'>Disable</span>
                             </Button>
                         </Link>
                     </div >
@@ -245,7 +268,20 @@ const ManageRoom = () => {
                     y: 440,
                 }}
             />
-
+            <Modal
+                title="Change Status Of Room"
+                open={isModalOpen}
+                confirmLoading={isLoading}
+                onOk={handleOk}
+                onCancel={handleCancel}
+                centered
+                width={"400px"}
+                style={{
+                    zIndex: "9999",
+                }}
+            >
+                <p>Are you sure to do that?</p>
+            </Modal>
         </div>
     )
 }

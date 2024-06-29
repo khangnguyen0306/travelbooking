@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import "./Filter.scss"
+import "./Filter.scss";
 import { Col, Row, Select, InputNumber, Popover, Button, notification } from "antd";
 import { SearchOutlined, UserOutlined } from "@ant-design/icons";
 import IMG from '../../../../../assets/photo-3-1485152074061.jpg';
@@ -10,11 +10,12 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Link } from 'react-router-dom';
 import { setGuests, setRooms, setDestination, setDate } from '../../../../../slices/hotelSlice';
+
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
 const dateFormat = 'DD/MM/YYYY';
 const disabledDate = (current) => {
-    return current && current < dayjs().endOf('day');
+    return current && current < dayjs().startOf('day');
 };
 
 const Filter = () => {
@@ -24,6 +25,21 @@ const Filter = () => {
     const rooms = useSelector((state) => state.hotel.search.rooms);
     const date = useSelector((state) => state.hotel.search.date);
     const destination = useSelector((state) => state.hotel.search.destination);
+
+    // Calculate default dates for tomorrow and the day after
+    const defaultStartDate = dayjs().add(1, 'day');
+    const defaultEndDate = dayjs().add(2, 'day');
+    const defaultDates = [defaultStartDate, defaultEndDate];
+
+    // Convert the date strings back to dayjs objects
+    const dateObjects = date.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
+
+    useEffect(() => {
+        if (date.length === 0) {
+            const formattedDates = defaultDates.map(date => date.format(dateFormat));
+            dispatch(setDate(formattedDates));
+        }
+    }, [dispatch, date]);
 
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
@@ -37,7 +53,7 @@ const Filter = () => {
             notification.warning({
                 message: "Warning!",
                 description: "Mỗi phòng tối đa 6 người."
-            })
+            });
             dispatch(setGuests(rooms * 6));
         } else {
             dispatch(setGuests(value));
@@ -47,6 +63,7 @@ const Filter = () => {
     const handleVisibleChange = (visible) => {
         setVisible(visible);
     };
+
     const content = (
         <div>
             <Row gutter={[16, 16]}>
@@ -63,37 +80,26 @@ const Filter = () => {
                     <InputNumber min={1} max={10} value={rooms} onChange={handleRoomsChange} />
                 </Col>
             </Row>
-
         </div>
     );
-    console.log("destination: " + destination);
-    console.log("guests: " + guests);
-    console.log("rooms: " + rooms);
-    console.log("date: " + date);
-    const onChange = (e) => {
-        console.log(e.target.value);
-    };
-    const onSubmit = async (data) => {
-        console.log("data: " + data);
-        try {
-            const newData = {
-                ...data,
-            };
-            console.log(newData);
-            await mutate(newData).unwrap();
-        } catch (err) {
-            console.log(err.message);
+
+    const handleDateChange = (dates) => {
+        if (dates) {
+            const formattedDates = dates.map(date => date.format(dateFormat));
+            dispatch(setDate(formattedDates));
+        } else {
+            dispatch(setDate([]));
         }
     };
-    const handleDateChange = (dates) => {
-        dispatch(setDate(dates));
-    };
+
     const handleDestinationChange = (value) => {
         dispatch(setDestination(value));
     };
-    const handleSearchChange = (value) => {
-        console.log("push");
-    }
+
+    const handleSearchChange = () => {
+        console.log("Search button clicked");
+    };
+
     return (
         <Row justify="center" align="middle" className="Home-layout">
             <Col xs={24} md={12} className="Card-container-home">
@@ -111,7 +117,8 @@ const Filter = () => {
                     disabledDate={disabledDate}
                     format={dateFormat}
                     onChange={handleDateChange}
-                    placeholder={["Check In", "CheckOut"]}
+                    value={dateObjects.length ? dateObjects : null} // Use the dateObjects array here
+                    placeholder={["Check In", "Check Out"]}
                 />
                 <Select
                     className="search-content-container"
@@ -144,8 +151,8 @@ const Filter = () => {
                     <Link to={`/view-hotels`}><SearchOutlined /></Link>
                 </Button>
             </div>
-        </Row >
-    )
-}
+        </Row>
+    );
+};
 
-export default Filter
+export default Filter;
