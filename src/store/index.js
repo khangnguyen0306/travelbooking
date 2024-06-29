@@ -8,7 +8,7 @@ import { roomApi } from "../services/roomAPI";
 import { authApi } from "../services/authAPI";
 import authReducer from "../slices/auth.slice";
 import { hotelApi } from "../services/hotelAPI";
-import hotelReducer from "../slices/hotelSlice";
+import hotelReducer from "../slices/bookingSlice";
 import { userApi } from "../services/userAPI";
 const persistConfig = {
   key: "root",

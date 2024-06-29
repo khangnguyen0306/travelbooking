@@ -1,14 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const hotelSlice = createSlice({
+const bookingSlice = createSlice({
     name: 'hotel',
     initialState: {
-        search: {
-            guests: 1,
-            rooms: 1,
-            date: [],
-            destination: ''
-        }
+        guests: 1,
+        rooms: 1,
+        date: [],
+        destination: '',
     },
     reducers: {
         setGuests: (state, action) => {
@@ -26,5 +24,5 @@ const hotelSlice = createSlice({
     }
 });
 
-export const { setGuests, setRooms, setDate, setDestination } = hotelSlice.actions;
-export default hotelSlice.reducer;
+export const { setGuests, setRooms, setDate, setDestination } = bookingSlice.actions;
+export default bookingSlice.reducer;

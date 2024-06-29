@@ -9,7 +9,7 @@ import { DatePicker } from 'antd';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import { Link } from 'react-router-dom';
-import { setGuests, setRooms, setDestination, setDate } from '../../../../../slices/hotelSlice';
+import { setGuests, setRooms, setDestination, setDate } from '../../../../../slices/bookingSlice';
 
 dayjs.extend(customParseFormat);
 const { RangePicker } = DatePicker;
@@ -35,11 +35,11 @@ const Filter = () => {
     const dateObjects = date.length ? date.map(dateString => dayjs(dateString, dateFormat)) : defaultDates;
 
     useEffect(() => {
-        if (date.length === 0) {
-            const formattedDates = defaultDates.map(date => date.format(dateFormat));
-            dispatch(setDate(formattedDates));
-        }
-    }, [dispatch, date]);
+        const defaultDates = [defaultStartDate.format(dateFormat), defaultEndDate.format(dateFormat)];
+        dispatch(setDate(defaultDates));
+        localStorage.setItem('hotelDates', JSON.stringify(defaultDates));
+    }, [dispatch]);
+
 
     const handleRoomsChange = (value) => {
         dispatch(setRooms(value));
@@ -83,15 +83,17 @@ const Filter = () => {
         </div>
     );
 
+
     const handleDateChange = (dates) => {
         if (dates) {
             const formattedDates = dates.map(date => date.format(dateFormat));
             dispatch(setDate(formattedDates));
+            localStorage.setItem('hotelDates', JSON.stringify(formattedDates));
         } else {
             dispatch(setDate([]));
+            localStorage.removeItem('hotelDates');
         }
     };
-
     const handleDestinationChange = (value) => {
         dispatch(setDestination(value));
     };
