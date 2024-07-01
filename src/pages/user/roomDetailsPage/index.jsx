@@ -6,6 +6,7 @@ import BookingForm from "./Components/BookingForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { useGetRoomDetailQuery } from "../../../services/roomAPI";
 import Carousel from "./Components/Carousel";
+import { icons } from '../../../utils/icons';
 
 function RoomDetailsPage() {
     const params = useParams();
@@ -58,6 +59,7 @@ function RoomDetailsPage() {
                                             .filter(([key, value]) => (key !== "id" && value !== false))
                                             .map(([key, value]) => (
                                                 <span key={key} className='item'>
+                                                    {icons[key]()}
                                                     {key.toUpperCase().slice(0, 1).concat(key.slice(1, key.length))}
                                                 </span>
                                             ))}

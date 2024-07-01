@@ -12,6 +12,7 @@ const CustomHeader = () => {
     const navigate = useNavigate();
     const selectedKey = location.pathname;
     const fullName = useSelector(state => state.auth.fullName);
+    const token = useSelector(state => state.auth.token);
 
     const handleLogout = () => {
         dispatch(logOut());
@@ -55,7 +56,7 @@ const CustomHeader = () => {
                 <Link className={`link-item ${selectedKey === "/view-hotels" && "isSelected"}`} to="/view-hotels">View Hotels</Link>
             </div>
             <div className="header-actions">
-                {fullName ? renderProfileDropdown() : (
+                {token ? renderProfileDropdown() : (
                     <Link to='/login' className="login-btn">
                         Login
                     </Link>

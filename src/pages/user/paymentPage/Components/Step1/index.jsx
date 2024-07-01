@@ -2,8 +2,9 @@ import "./Step1.scss";
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { setInfoBooking } from "../../../../../slices/auth.slice";
+import { useEffect } from "react";
 
 const schema = yup
     .object({
@@ -32,10 +33,22 @@ function daysBetween(date1, date2) {
 }
 
 function Step1({ nextStep }) {
-    const token = useSelector(state => state.auth.token);
+    const {
+        setValue,
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        resolver: yupResolver(schema),
+    })
+
+    const dispatch = useDispatch();
     const fullName = useSelector(state => state.auth.fullName);
     const email = useSelector(state => state.auth.email);
     const phoneNumber = useSelector(state => state.auth.phoneNumber);
+    setValue("fullname", fullName);
+    setValue("email", email);
+    setValue("phone", phoneNumber);
     const date = useSelector(state => state.booking.date);
     const rooms = useSelector(state => state.booking.rooms);
     const hotelName = useSelector(state => state.booking.hotelName);
@@ -43,21 +56,21 @@ function Step1({ nextStep }) {
     const roomPrice = useSelector(state => state.booking.roomPrice);
     const roomImage = useSelector(state => state.booking.roomImage);
 
-    const {
-        setValue,
-        getValues,
-        register,
-        handleSubmit,
-        formState: { errors },
-    } = useForm({
-        resolver: yupResolver(schema),
-    })
     const onSubmit = (data) => {
-        console.log(data);
+        dispatch(setInfoBooking({
+            fullName: data.fullname,
+            email: data.email,
+            phoneNumber: data.phone,
+        }))
         nextStep();
     }
 
-    const [type, setType] = useState(0);
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }, []);
 
     return (
         <div className="step-1">
@@ -65,7 +78,6 @@ function Step1({ nextStep }) {
                 className="info-for-guest"
                 onSubmit={handleSubmit(onSubmit)}
             >
-
                 <div className="contact-info">
                     <h3 className="title">Contact information</h3>
                     <div className="fullname">
@@ -74,8 +86,6 @@ function Step1({ nextStep }) {
                             {...register("fullname")}
                             className="input"
                             placeholder="As in Passport/ID card/CCCD (no names/special characters)"
-                            defaultValue={fullName}
-                            disabled={fullName && true}
                         />
                         <p className="error">{errors.fullname?.message}</p>
                     </div>
@@ -86,8 +96,6 @@ function Step1({ nextStep }) {
                                 {...register("email")}
                                 className="input"
                                 placeholder="We will send an e-voucher to this email."
-                                defaultValue={email}
-                                disabled={email && true}
                             />
                             <p className="error">{errors.email?.message}</p>
                         </div>
@@ -99,8 +107,6 @@ function Step1({ nextStep }) {
                                 type="tel"
                                 pattern="[0]{1}[0-9]{9}"
                                 placeholder="Ex: 0987654321"
-                                defaultValue={phoneNumber}
-                                disabled={phoneNumber && true}
                             />
                             <p className="error">{errors.phone?.message}</p>
                         </div>
@@ -141,7 +147,7 @@ function Step1({ nextStep }) {
                             <p className="time">From 14:00</p>
                         </div>
                         <div className="night">
-                            <p className="number">{daysBetween(date?.[1], date?.[0])} night</p>
+                            <p className="number">{daysBetween(date?.[1], date?.[0])} night(s)</p>
                             <p className="arrow">{"---------->"}</p>
                         </div>
                         <div className="check-out">

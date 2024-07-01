@@ -56,6 +56,7 @@ function LoginAdmin() {
             }).unwrap();
             if (result) {
                 dispatch(setInfo({
+                    userId: result?.data?.id,
                     fullName: result?.data?.fullName,
                     email: result?.data?.email,
                     phoneNumber: result?.data?.phoneNumber,
