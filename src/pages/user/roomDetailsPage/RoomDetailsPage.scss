@@ -88,6 +88,9 @@
               gap: 40px;
 
               .item {
+                display: flex;
+                align-items: center;
+                gap: 8px;
                 padding: 20px;
                 width: calc(30% - 20px);
                 min-width: 200px;

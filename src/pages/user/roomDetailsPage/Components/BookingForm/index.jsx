@@ -12,15 +12,15 @@ function BookingForm({ data }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleClickBooking = () => {
+        dispatch(setRoomInfo({
+            roomTypeId: data?.id,
+            roomTypeName: data?.room_type_name,
+            roomPrice: data?.room_price,
+            roomImage: data?.image_urls?.[0]?.image_url
+        }));
         if (!token) {
             setIsModalOpen(!isModalOpen)
         } else {
-            dispatch(setRoomInfo({
-                roomTypeId: data?.id,
-                roomTypeName: data?.room_type_name,
-                roomPrice: data?.room_price,
-                roomImage: data?.image_urls?.[0]?.image_url
-            }));
             navigate("/payment")
         }
     }

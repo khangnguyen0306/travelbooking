@@ -8,6 +8,7 @@ import bookingReducer from "../slices/bookingSlice";
 import { hotelApi } from "../services/hotelAPI";
 import { roomApi } from "../services/roomAPI";
 import { userApi } from "../services/userAPI";
+import { bookingApi } from "../services/bookingAPI";
 
 const persistConfig = {
   key: "root",
@@ -25,11 +26,11 @@ export const store = configureStore({
   reducer: {
     [authApi.reducerPath]: authApi.reducer,
     auth: authpersistedReducer,
+    [bookingApi.reducerPath]: bookingApi.reducer,
     booking: bookingpersistedReducer,
     [hotelApi.reducerPath]: hotelApi.reducer,
     [roomApi.reducerPath]: roomApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
-
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -37,6 +38,7 @@ export const store = configureStore({
       hotelApi.middleware,
       roomApi.middleware,
       userApi.middleware,
+      bookingApi.middleware,
     ),
 });
 

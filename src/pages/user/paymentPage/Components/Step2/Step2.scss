@@ -1,23 +1,19 @@
-$font-content: DM Sans, sans-serif;
-$font-title: DM Serif Display, sans-serif;
-$blue-main-color: #5c98f2;
-$black-color: #03121a;
-$gray-color: #687176;
-
 .step-2 {
   margin: 40px 0;
   display: flex;
+  justify-content: center;
   gap: 20px;
 
   .select-pay-method {
-    flex: 1;
+    width: 600px;
+    min-width: 400px;
 
     .pay-methods {
       margin: 0 0 20px 0;
       padding: 24px;
       background-color: white;
       border-radius: 8px;
-      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
 
       .title {
         margin: 0 0 16px 0;
@@ -30,7 +26,7 @@ $gray-color: #687176;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border: 1px solid $gray-color;
+        border: 1px solid gray;
         border-radius: 8px;
         cursor: pointer;
 
@@ -40,7 +36,7 @@ $gray-color: #687176;
           gap: 8px;
 
           span {
-            color: $black-color;
+            color: black;
             font-size: 20px;
             font-weight: 600;
           }
@@ -57,7 +53,7 @@ $gray-color: #687176;
       padding: 24px;
       background-color: white;
       border-radius: 8px;
-      box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+      box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
 
       .confirm-price {
         margin: 0 0 16px 0;
@@ -65,7 +61,7 @@ $gray-color: #687176;
         align-items: center;
         justify-content: space-between;
         font-size: 20px;
-        color: $black-color;
+        color: black;
         font-weight: 600;
       }
 
@@ -77,8 +73,8 @@ $gray-color: #687176;
         border: none;
         outline: none;
         border-radius: 8px;
-        border: 1px solid $blue-main-color;
-        background-color: rgba($color: $blue-main-color, $alpha: 0.84);
+        border: 1px solid var(--blue-main-color);
+        background-color: var(--blue-main-color);
         color: white;
         font-size: larger;
         font-weight: bold;
@@ -86,14 +82,14 @@ $gray-color: #687176;
         cursor: pointer;
 
         &:hover {
-          background-color: rgba($color: $blue-main-color, $alpha: 1);
+          transform: scale(1.02);
         }
       }
 
       .back-btn {
-        border: 1px solid $blue-main-color;
+        border: 1px solid var(--blue-main-color);
         background-color: white;
-        color: $blue-main-color;
+        color: var(--blue-main-color);
 
         &:hover {
           border: 1px solid red;
@@ -106,37 +102,35 @@ $gray-color: #687176;
 
   .summary {
     width: 400px;
+    min-width: 400px;
     height: fit-content;
     padding: 24px;
     background-color: white;
     border-radius: 8px;
-    box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 10px;
 
     .header {
       margin: 0 0 16px 0;
       padding: 8px 16px;
       border-radius: 8px;
-      background-color: $blue-main-color;
+      background-color: var(--blue-main-color);
       color: white;
 
       .title {
         margin: 0 0 4px 0;
         font-size: 20px;
-      }
-
-      .code {
-        font-size: 14px;
+        text-align: center;
       }
     }
 
     .info {
       margin: 0 0 16px 0;
-      border-bottom: 1px solid $gray-color;
+      border-bottom: 1px solid gray;
 
       .hotel-name {
         margin: 0 0 16px 0;
         font-size: 16px;
-        color: $black-color;
+        color: black;
       }
 
       .date-range {
@@ -150,35 +144,35 @@ $gray-color: #687176;
         .check-out {
           padding: 8px;
           width: 124px;
-          border: 1px solid $gray-color;
+          border: 1px solid gray;
           border-radius: 8px;
           box-shadow: rgba(0, 0, 0, 0.04) 0px 2px 4px;
 
           .title {
-            color: $gray-color;
+            color: gray;
             font-size: 11px;
           }
 
           .date {
-            color: $black-color;
+            color: black;
             font-size: 12px;
             font-weight: 700;
           }
 
           .time {
-            color: $gray-color;
+            color: gray;
             font-size: 11px;
           }
         }
 
         .night {
           .number {
-            color: $gray-color;
+            color: gray;
             font-size: 11px;
           }
 
           .arrow {
-            color: $gray-color;
+            color: gray;
           }
         }
       }
@@ -186,20 +180,7 @@ $gray-color: #687176;
       .room-name {
         margin: 0 0 16px 0;
         font-size: 14px;
-        color: $black-color;
-      }
-
-      .guest {
-        margin: 0 0 16px 0;
-
-        .title {
-          font-size: 14px;
-          color: $black-color;
-        }
-
-        .name {
-          color: $gray-color;
-        }
+        color: black;
       }
     }
 
@@ -217,13 +198,13 @@ $gray-color: #687176;
           .name {
             font-size: 14px;
             font-weight: 500;
-            color: $black-color;
+            color: black;
           }
 
           .phone,
           .email {
             font-size: 12px;
-            color: $gray-color;
+            color: gray;
           }
         }
       }
